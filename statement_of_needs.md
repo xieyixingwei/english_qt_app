@@ -14,12 +14,13 @@
 - 可以动态添加不同的搜索文件的路径/文件名，并且重启不丢失。
 - 词典以markdown文件的形式存储：
 
-- time \[taɪm\] <hot:10 timestamp:1902261819 tag:蔬菜,水果,副词,情态动词,疑问词>
+- time \[taɪm\]  
+<hot:10 timestamp:1902261819 tag:蔬菜,水果,副词,情态动词,疑问词>
     * n. 时间
-        + what's the time? <tag:疑问句>
+        + what's the time? <tag:疑问句,感叹句,时态,短语>
         + 几点了?
     * n. 次数
-        + He is late many times!<tag:感叹句>
+        + He is late many times!<tag:>
         + 他迟到很多次了。
 - 列出现有释义不全的单词，并编辑。
 - 具备通过gui界面添加单词到markdown词典的能力，如果添加的单词已经存在于markdown词典，则仅仅是编辑现有的单词。
