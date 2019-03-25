@@ -127,21 +127,17 @@ DialogEditWord::~DialogEditWord()
 
 void DialogEditWord::Init()
 {
-    QStringList tags;
-    tags << "a" << "b" << "c";
-    m_ui->comb_tags->addItems(tags);
+    const char* const KEY_WORD_TAGS = "Word Tags";
+    m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
 
-    QStringList sorts;
-    sorts << "animal" << "fruits" << "vegetables";
-    m_ui->comb_sorts->addItems(sorts);
+    const char* const KEY_WORD_SORTS = "Word Sorts";
+    m_ui->comb_sorts->addItems(SETS[KEY_WORD_SORTS].toString().split(","));
 
-    QStringList means;
-    means << "n" << "vi" << "vt" << "adj" << "adv";
-    m_ui->comb_means->addItems(means);
+    const char* const KEY_WORD_MEANS("Word Means");
+    m_ui->comb_means->addItems(SETS[KEY_WORD_MEANS].toString().split(","));
 
-    QStringList exptags;
-    exptags << "phrase" << "tongue" << "argot";
-    m_ui->comb_example_tags->addItems(exptags);
+    const char* const KEY_EXAMPLE_TAGS = "Word Example Tags";
+    m_ui->comb_example_tags->addItems(SETS[KEY_EXAMPLE_TAGS].toString().split(","));
 }
 
 void DialogEditWord::Layout()
@@ -334,6 +330,11 @@ void DialogEditWord::Add_Example_Btn_Slot()
 
 void DialogEditWord::RecordWord_Btn_Slot()
 {
+    if(m_ui->ledit_word->text().trimmed().isEmpty())
+    {
+        return;
+    }
+
     SnapshotWord();
     emit Apply_Signal(*m_wd);
 }
@@ -350,6 +351,11 @@ void DialogEditWord::Search_Btn_Slot()
     {
         return;
     }
+
+    m_ui->ledit_mean->clear();
+    m_ui->ledit_example_tag->clear();
+    m_ui->ledit_example_a->clear();
+    m_ui->ledit_example_b->clear();
 
     m_wd->Clear();
     m_wd->SetWord(searchstr);
