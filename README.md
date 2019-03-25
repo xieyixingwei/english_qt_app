@@ -1,2 +1,2 @@
 # WordNote
-It's a word search tool
+It's a word search tool that develop with Qt
