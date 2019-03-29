@@ -189,9 +189,9 @@ void Word::Parse(const QStringList &text)
 
 void Word::ParseWordInfor(QString text)
 {
-    QRegExp rex(QString("[a-zA-Z]+"));
+    QRegExp rex(QString("[a-z\\-A-Z]+"));
 
-    if(-1 != rex.indexIn(text, 0))
+    if(-1 != rex.indexIn(text.trimmed().remove(QRegExp("^-")), 0))
     {
         m_word = rex.cap(0);
     }

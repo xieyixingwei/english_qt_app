@@ -53,7 +53,7 @@ DialogExport::DialogExport()
 {
     m_ui = new struct ui;
 
-    m_ui->dialog = new QDialog(nullptr, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    m_ui->dialog = new QDialog(nullptr, Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
     m_ui->dialog->setWindowTitle(tr("Export"));
 
     m_ui->cbox_tag_export = new QCheckBox(tr("On Tag"));
