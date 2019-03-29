@@ -67,7 +67,7 @@ DialogEditWord::DialogEditWord() :
 {
     m_ui = new struct ui;
 
-    m_ui->dialog = new QDialog(nullptr, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    m_ui->dialog = new QDialog(nullptr, Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
     m_ui->dialog->setWindowTitle(tr("Editting Word"));
 
     m_ui->ledit_word = new QLineEdit;

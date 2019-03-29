@@ -50,7 +50,7 @@ DialogSet::DialogSet()
 {
     m_ui = new struct ui;
 
-    m_ui->dialog = new QDialog(nullptr, Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+    m_ui->dialog = new QDialog(nullptr, Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
     m_ui->dialog->setWindowTitle(tr("Settings"));
 
     m_ui->cbox_updatehot = new QCheckBox(tr("Update Hot"));
