@@ -318,8 +318,17 @@ void DialogEditWord::Add_Btn_Slot()
 
 void DialogEditWord::Add_Example_Btn_Slot()
 {
+    QString mean = m_ui->ledit_mean->text().section(".", 0, 0).trimmed();
+    for(int i = 0; i < m_ui->comb_means->count(); i++)
+    {
+        if(mean == m_ui->comb_means->itemText(i))
+        {
+             m_ui->comb_means->setCurrentIndex(i);
+        }
+    }
+
     QStringList textipt;
-    textipt << QString("+ %1. %2").arg(m_ui->comb_means->currentText()).arg(m_ui->ledit_mean->text());
+    textipt << QString("+ %1. %2").arg(m_ui->comb_means->currentText()).arg(m_ui->ledit_mean->text().remove(QRegExp("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",","));
     textipt << QString("    * %1 <tag:%2>").arg(m_ui->ledit_example_a->text().trimmed().remove("\n").remove("\r").remove("\t")).arg(m_ui->ledit_example_tag->text());
     textipt << QString("    * %1").arg(m_ui->ledit_example_b->text().trimmed().remove("\n").remove("\r").remove("\t"));
 
