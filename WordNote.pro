@@ -57,3 +57,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RC_FILE = \
     ./images/images.rc
+
+RESOURCES += \
+    ico.qrc

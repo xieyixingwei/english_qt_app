@@ -36,9 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     m_ui = new struct ui;
     m_ui->ledit_input = new QLineEdit();
-    m_ui->btn_search = new QPushButton(tr("search"));
-    m_ui->btn_play = new QPushButton(tr("play"));
-    m_ui->btn_add = new QPushButton(tr("add/edit"));
+    m_ui->btn_search = new QPushButton(QIcon(":/images/images/search1.ico"), tr("search"));
+    m_ui->btn_play = new QPushButton(QIcon(":/images/images/sound.ico"), tr("play"));
+    m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico") ,tr("add/edit"));
     m_ui->ledit_display = new QPlainTextEdit();
 
     SetupMenu();

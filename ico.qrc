@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/sound.ico</file>
+        <file>images/search1.ico</file>
+        <file>images/edit.ico</file>
+    </qresource>
+</RCC>
