@@ -20,9 +20,9 @@ Sentence::Sentence(const QStringList &str)
     }
 }
 
-void Sentence::Display(QPlainTextEdit *testedit)
+void Sentence::Display(QTextEdit *testedit)
 {
-    testedit->appendPlainText(ToDisplayString() + "\n");
+    testedit->append(ToDisplayString() + "\n");
 }
 
 void Sentence::Update()

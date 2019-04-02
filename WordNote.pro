@@ -36,7 +36,8 @@ SOURCES += \
     Word.cpp \
     Sentence.cpp \
     QListWidgetCm.cpp \
-    DialogExport.cpp
+    DialogExport.cpp \
+    TextHighLighter.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     Word.h \
     Sentence.h \
     QListWidgetCm.h \
-    DialogExport.h
+    DialogExport.h \
+    TextHighLighter.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -57,3 +59,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RC_FILE = \
     ./images/images.rc
+
+RESOURCES += \
+    ico.qrc

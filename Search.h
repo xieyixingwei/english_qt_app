@@ -14,7 +14,7 @@ public:
 
     virtual void SetType(const QString &type) = 0;
     virtual QString GetType() = 0;
-    virtual void Display(QPlainTextEdit *testedit) = 0;
+    virtual void Display(QTextEdit *testedit) = 0;
     virtual void Update() = 0;
     virtual void SetPathfile(const QString &pathfile) = 0;
     virtual QString GetPathfile() = 0;

@@ -349,9 +349,9 @@ bool Word::IsWordStr(const QString &str)
     return true;
 }
 
-void Word::Display(QPlainTextEdit *testedit)
+void Word::Display(QTextEdit *testedit)
 {
-    testedit->appendPlainText(ToDisplayString());
+    testedit->append(ToDisplayString());
 }
 
 void Word::Update()
@@ -376,7 +376,7 @@ void Word::Play(int volume)
         return;
     }
 
-    m_mediaplayer->setMedia(QUrl::fromLocalFile(SETS[DialogSet::KEY_SOUND_DIR].toString() + m_word + ".mp3"));
+    m_mediaplayer->setMedia(QUrl::fromLocalFile(SETS[DialogSet::KEY_SOUND_DIR].toString() + m_word + "_1.mp3"));
     m_mediaplayer->setVolume(volume);
     m_mediaplayer->play();
 }
