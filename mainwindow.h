@@ -6,6 +6,7 @@
 #include "DialogSet.h"
 #include "DialogEditWord.h"
 #include "DialogExport.h"
+#include "TextHighLighter.h"
 #include <QMainWindow>
 
 struct ui;
@@ -36,7 +37,7 @@ private:
     DialogEditWord *m_diaglogeditword;
     DialogExport *m_dialogexport;
     QList<SearchResult *> m_results;
-
+    TextHighLighter *m_highlighter;
 };
 
 #endif // MAINWINDOW_H

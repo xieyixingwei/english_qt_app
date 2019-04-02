@@ -26,7 +26,7 @@ struct ui {
     QPushButton *btn_search;
     QPushButton *btn_play;
     QPushButton *btn_add;
-    QPlainTextEdit *ledit_display;
+    QTextEdit *tedit_display;
 
     struct menu *menu;
 };
@@ -39,7 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->btn_search = new QPushButton(QIcon(":/images/images/search1.ico"), tr("search"));
     m_ui->btn_play = new QPushButton(QIcon(":/images/images/sound.ico"), tr("play"));
     m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico") ,tr("add/edit"));
-    m_ui->ledit_display = new QPlainTextEdit();
+    m_ui->tedit_display = new QTextEdit();
+
+    m_highlighter = new TextHighLighter(m_ui->tedit_display->document());
 
     SetupMenu();
 
@@ -72,11 +74,11 @@ void MainWindow::Layout()
     hlayout->addWidget(m_ui->btn_add, 0);
 
     QHBoxLayout *showlayout = new QHBoxLayout();
-    showlayout->addWidget(m_ui->ledit_display,0);
+    showlayout->addWidget(m_ui->tedit_display,0);
 
     QVBoxLayout *mainlayout = new QVBoxLayout();
     mainlayout->addLayout(hlayout);
-    mainlayout->addWidget(m_ui->ledit_display);
+    mainlayout->addWidget(m_ui->tedit_display);
 
     this->centralWidget()->setLayout(mainlayout);
 }
@@ -106,7 +108,7 @@ void MainWindow::MenuBarTrigger_Slot(QAction *act)
 
 void MainWindow::Search_Btn_Slot()
 {
-    m_ui->ledit_display->clear();
+    m_ui->tedit_display->clear();
 
     QString searchword = m_ui->ledit_input->text().trimmed();
     if(searchword.isEmpty())
@@ -115,12 +117,18 @@ void MainWindow::Search_Btn_Slot()
         return;
     }
 
+    QTextCharFormat fmt_word;
+    fmt_word.setFontWeight(QFont::Bold);
+    fmt_word.setForeground(Qt::red);
+    m_highlighter->Clear();
+    m_highlighter->AddRule(QRegularExpression(searchword), fmt_word);
+
     Search search;
     m_results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), searchword);
 
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
     {
-        (*it)->Display(m_ui->ledit_display);
+        (*it)->Display(m_ui->tedit_display);
         (*it)->Update();
     }
 

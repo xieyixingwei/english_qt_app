@@ -349,9 +349,9 @@ bool Word::IsWordStr(const QString &str)
     return true;
 }
 
-void Word::Display(QPlainTextEdit *testedit)
+void Word::Display(QTextEdit *testedit)
 {
-    testedit->appendPlainText(ToDisplayString());
+    testedit->append(ToDisplayString());
 }
 
 void Word::Update()

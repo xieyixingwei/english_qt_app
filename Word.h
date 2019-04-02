@@ -76,7 +76,7 @@ public:
 
     inline virtual void SetType(const QString &type) { m_type = type; }
     inline virtual QString GetType() { return m_type; }
-    virtual void Display(QPlainTextEdit *testedit);
+    virtual void Display(QTextEdit *testedit);
     virtual void Update();
     inline virtual void SetPathfile(const QString &pathfile) { m_pathfile = pathfile; }
     inline virtual QString GetPathfile() { return m_pathfile; }
