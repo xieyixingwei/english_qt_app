@@ -4,6 +4,7 @@
 #include "DialogSet.h"
 
 #include <QRegExp>
+#include <QRegularExpression>
 #include <QDebug>
 #include <QDateTime>
 
@@ -128,7 +129,7 @@ QList<WordInterpretation> WordInterpretation::ToWordInterpretationList(const QSt
 
     TextEdit edit(text);
 
-    QList<QStringList> itpstring = edit.FindAllBetween("^[ ]*\\+.*", "^[ ]*\\+.*");
+    QList<QStringList> itpstring = edit.FindAllBetween(QRegularExpression("^[ ]*\\+.*"), QRegularExpression("^[ ]*\\+.*"));
 
     for(int i = 0; i < itpstring.count(); i++)
     {
@@ -327,8 +328,8 @@ void Word::Record(const QString &pathfile)
 {
     TextEdit file(pathfile.isEmpty() ? m_pathfile : pathfile);
 
-    bool res = file.ReplaceBetween(QString("^[ ]*-[ ]*") + m_word + ".*"
-                        , "^[ ]*-[ ]*.*"
+    bool res = file.ReplaceBetween(QRegularExpression("^[ ]*-[ ]*" + m_word + ".*")
+                        , QRegularExpression("^[ ]*-[ ]*.*")
                         , ToRecordString());
     if(false == res)
     {

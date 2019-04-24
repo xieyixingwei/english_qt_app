@@ -20,6 +20,8 @@ public:
     virtual QString GetPathfile() = 0;
 };
 
+class Word;
+
 class Search
 {
 public:
@@ -28,6 +30,10 @@ public:
 
     virtual QList<SearchResult *> SearchTarget(const QStringList &filter, const QString &target);
     virtual QList<SearchResult *> SearchTarget(const QString &pathfile, const QString &target);
+    QStringList FindPathFileFromFilter(const QStringList &filter);
+
+    QList<Word *> GetWordsOnTimeStamp(const QStringList &filter, int count);
+    QList<Word *> GetWordsOnHot(const QStringList &filter, int count);
 };
 
 #endif // SEARCH_H

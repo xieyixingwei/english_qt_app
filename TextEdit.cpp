@@ -63,21 +63,11 @@ TextEdit::~TextEdit()
     }
 }
 
-bool TextEdit::Exist(const QString &a)
-{
-    return (-1 != m_textbuf->indexOf(QRegExp(a)) ? true : false);
-}
-
-QStringList TextEdit::Find(const QString &a)
-{
-    return m_textbuf->filter(QRegExp(a));
-}
-
-QStringList TextEdit::FindBetween(const QString &a, const QString &b, E_MODE mode)
+QStringList TextEdit::FindBetween(const QRegularExpression &a, const QRegularExpression &b, E_MODE mode)
 {
     QStringList found;
-    int ia = m_textbuf->indexOf(QRegExp(a));
-    int ib = m_textbuf->indexOf(QRegExp(b), ia + 1);
+    int ia = m_textbuf->indexOf(a);
+    int ib = m_textbuf->indexOf(b, ia + 1);
 
     if(-1 == ia)
     {
@@ -107,7 +97,7 @@ QStringList TextEdit::FindBetween(const QString &a, const QString &b, E_MODE mod
     return found;
 }
 
-QList<QStringList> TextEdit::FindAllBetween(const QString &a, const QString &b, TextEdit::E_MODE mode)
+QList<QStringList> TextEdit::FindAllBetween(const QRegularExpression &a, const QRegularExpression &b, TextEdit::E_MODE mode)
 {
     QList<QStringList> result;
 
@@ -115,8 +105,8 @@ QList<QStringList> TextEdit::FindAllBetween(const QString &a, const QString &b, 
     while(p < m_textbuf->count())
     {
         QStringList found;
-        int ia = m_textbuf->indexOf(QRegExp(a), p);
-        int ib = m_textbuf->indexOf(QRegExp(b), ia + 1);
+        int ia = m_textbuf->indexOf(a, p);
+        int ib = m_textbuf->indexOf(b, ia + 1);
 
         if(-1 == ia)
         {
@@ -150,9 +140,9 @@ QList<QStringList> TextEdit::FindAllBetween(const QString &a, const QString &b, 
     return result;
 }
 
-void TextEdit::InsertBehind(const QString &a, const QString &b)
+void TextEdit::InsertBehind(const QRegularExpression &a, const QString &b)
 {
-    int i = m_textbuf->indexOf(QRegExp(a));
+    int i = m_textbuf->indexOf(a);
 
     if(-1 != i)
     {
@@ -161,9 +151,9 @@ void TextEdit::InsertBehind(const QString &a, const QString &b)
     }
 }
 
-void TextEdit::InsertBefore(const QString &a, const QString &b)
+void TextEdit::InsertBefore(const QRegularExpression &a, const QString &b)
 {
-    int i = m_textbuf->indexOf(QRegExp(a));
+    int i = m_textbuf->indexOf(a);
 
     if(-1 != i)
     {
@@ -172,16 +162,10 @@ void TextEdit::InsertBefore(const QString &a, const QString &b)
     }
 }
 
-void TextEdit::Replace(const QString &a, const QString &b)
+bool TextEdit::ReplaceBetween(const QRegularExpression &a, const QRegularExpression &b, const QString &c, E_MODE mode)
 {
-    m_textbuf->replaceInStrings(QRegExp(a), b);
-    m_change = true;
-}
-
-bool TextEdit::ReplaceBetween(const QString &a, const QString &b, const QString &c, E_MODE mode)
-{
-    int ia = m_textbuf->indexOf(QRegExp(a));
-    int ib = m_textbuf->indexOf(QRegExp(b), ia + 1) ;
+    int ia = m_textbuf->indexOf(a);
+    int ib = m_textbuf->indexOf(b, ia + 1) ;
 
     if(-1 == ia)
     {
