@@ -1,4 +1,9 @@
 #include "DialogExport.h"
+#include "Search.h"
+#include "Setting.h"
+#include "TextEdit.h"
+#include "Word.h"
+#include "DialogSet.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -18,6 +23,11 @@
 #include <QCalendarWidget>
 #include <QDateTimeEdit>
 #include <QDateTime>
+#include <QDir>
+
+const QString DialogExport::GROUP_EXPORT = "export";
+const QString DialogExport::KEY_EXPORT_FILE_ON_HOT = GROUP_EXPORT + "/export_file_on_hot";
+const QString DialogExport::KEY_EXPORT_FILE_ON_TIMESTAMP = GROUP_EXPORT + "/export_file_on_timestamp";
 
 struct ui
 {
@@ -84,6 +94,7 @@ DialogExport::DialogExport()
 
     connect(m_ui->btn_export, SIGNAL(clicked()), this, SLOT(Export_Btn_Slot()));
     connect(m_ui->btn_cancel, SIGNAL(clicked()), m_ui->dialog, SLOT(close()));
+
     Init();
     Layout();
 }
@@ -141,6 +152,22 @@ void DialogExport::Init()
 
     m_ui->dtedit_timestamp_scope_a_export->setDateTime(QDateTime::currentDateTime());
     m_ui->dtedit_timestamp_scope_b_export->setDateTime(QDateTime::currentDateTime());
+
+    QDir curdir = QDir::current();
+    curdir.cdUp();
+
+    if(SETS[KEY_EXPORT_FILE_ON_HOT].isNull())
+    {
+        SETS.SetValue(KEY_EXPORT_FILE_ON_HOT, curdir.path() + "/thesaurus/exports/export_on_hot.md");
+    }
+
+    if(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP].isNull())
+    {
+        SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP, curdir.path() + "/thesaurus/exports/export_on_timestamp.md");
+    }
+
+    m_ui->ledit_hot_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_HOT].toString());
+    m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP].toString());
 }
 
 void DialogExport::Open()
@@ -175,4 +202,12 @@ void DialogExport::Export_Btn_Slot()
 
     }
 
+    if(m_ui->cbox_timestamp_scope_export->isChecked())
+    {
+
+    }
+
+    SETS.SetValue(KEY_EXPORT_FILE_ON_HOT, m_ui->ledit_hot_export_filename->text().trimmed());
+    SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP, m_ui->ledit_timestamp_export_filename->text().trimmed());
+    SETS.Sync();
 }

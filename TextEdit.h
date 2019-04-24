@@ -2,8 +2,10 @@
 #define TEXTEDIT_H
 
 #include <QString>
+#include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include <QRegularExpression>
 
 class TextEdit
 {
@@ -20,14 +22,18 @@ public:
     TextEdit(const QStringList &strlist);
     ~TextEdit();
 
-    bool Exist(const QString &a);
-    QStringList Find(const QString &a);
-    QStringList FindBetween(const QString &a, const QString &b, E_MODE mode);
-    QList<QStringList> FindAllBetween(const QString &a, const QString &b, E_MODE mode = E_HOLD_A);
-    void InsertBehind(const QString &a, const QString &b);
-    void InsertBefore(const QString &a, const QString &b);
-    void Replace(const QString &a, const QString &b);
-    bool ReplaceBetween(const QString &a, const QString &b, const QString &c, E_MODE mode = E_HOLD_B);
+    inline QStringList &Buf() { return *m_textbuf; }
+    inline void Clear() { m_textbuf->clear(); }
+
+    inline bool Exist(const QRegularExpression &re) { return (-1 != m_textbuf->indexOf(re)); }
+    inline QStringList Filter(const QRegularExpression &re) { return m_textbuf->filter(re); }
+    inline void Replace(const QRegularExpression &a, const QString &b) { m_textbuf->replaceInStrings(a, b); m_change = true; }
+
+    QStringList FindBetween(const QRegularExpression &a, const QRegularExpression &b, E_MODE mode);
+    QList<QStringList> FindAllBetween(const QRegularExpression &a, const QRegularExpression &b, E_MODE mode = E_HOLD_A);
+    void InsertBehind(const QRegularExpression &a, const QString &b);
+    void InsertBefore(const QRegularExpression &a, const QString &b);
+    bool ReplaceBetween(const QRegularExpression &a, const QRegularExpression &b, const QString &c, E_MODE mode = E_HOLD_B);
 
     TextEdit &operator<<(const QString &str);
 

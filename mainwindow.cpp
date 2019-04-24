@@ -110,7 +110,7 @@ void MainWindow::Search_Btn_Slot()
 {
     m_ui->tedit_display->clear();
 
-    QString searchword = m_ui->ledit_input->text().trimmed();
+    QString searchword = m_ui->ledit_input->text().trimmed().toLower();
     if(searchword.isEmpty())
     {
         m_results.clear();
@@ -118,7 +118,6 @@ void MainWindow::Search_Btn_Slot()
     }
 
     QTextCharFormat fmt_word;
-    fmt_word.setFontWeight(QFont::Bold);
     fmt_word.setForeground(Qt::red);
     m_highlighter->Clear();
     m_highlighter->AddRule(QRegularExpression(searchword), fmt_word);
@@ -129,7 +128,11 @@ void MainWindow::Search_Btn_Slot()
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
     {
         (*it)->Display(m_ui->tedit_display);
-        (*it)->Update();
+
+        if("word" == (*it)->GetType() && searchword == (dynamic_cast<Word *>(*it))->GetWord())
+        {
+            (*it)->Update();
+        }
     }
 
     if(nullptr == GetWordFromSearchResults() && Word::IsWordStr(searchword))
