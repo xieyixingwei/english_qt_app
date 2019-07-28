@@ -21,45 +21,41 @@
 #include <QPushButton>
 #include <QDialog>
 #include <QComboBox>
+#include <QGroupBox>
 
 struct ui {
     QDialog * dialog;
+
     QLineEdit *ledit_word;
     QLineEdit *ledit_soundmark;
     QLineEdit *ledit_hot;
     QLineEdit *ledit_timestamp;
-    QLineEdit *ledit_tag;
-    QLineEdit *ledit_sort;
+    QLineEdit *ledit_pattern;
+    QLineEdit *ledit_tense;
 
     QLineEdit *ledit_pathfile;
 
     QLineEdit *ledit_mean;
 
     QLineEdit *ledit_example_a;
-    QLineEdit *ledit_example_tag;
     QLineEdit *ledit_example_b;
 
-    QLineEdit *ledit_sentence_a;
-    QLineEdit *ledit_sentence_b;
-
-    QComboBox *comb_tags;
-    QComboBox *comb_sorts;
+    QComboBox *comb_pattern;
+    QComboBox *comb_tense;
 
     QComboBox *comb_means;
-    QComboBox *comb_example_tags;
 
     QPushButton *btn_search;
-    QPushButton *btn_addtag;
-    QPushButton *btn_addsort;
-    QPushButton *btn_addexampletag;
+    QPushButton *btn_addpattern;
+    QPushButton *btn_addtense;
     QPushButton *btn_addexample;
 
-    QPushButton *btn_recordsentence;
     QPushButton *btn_recordword;
-    QPushButton *btn_ok;
     QPushButton *btn_cancel;
 
     QListWidgetCm *lwdg_interpretation;
+
+    QGroupBox *groupbox_example;
 };
 
 DialogEditWord::DialogEditWord() :
@@ -74,45 +70,35 @@ DialogEditWord::DialogEditWord() :
     m_ui->ledit_soundmark = new QLineEdit;
     m_ui->ledit_hot = new QLineEdit;
     m_ui->ledit_timestamp = new QLineEdit;
-    m_ui->ledit_tag = new QLineEdit;
-    m_ui->ledit_sort = new QLineEdit;
+    m_ui->ledit_pattern = new QLineEdit;
+    m_ui->ledit_tense = new QLineEdit;
     m_ui->ledit_pathfile = new QLineEdit;
     m_ui->ledit_mean = new QLineEdit;
     m_ui->ledit_example_a = new QLineEdit;
-    m_ui->ledit_example_tag = new QLineEdit;
     m_ui->ledit_example_b = new QLineEdit;
 
-    m_ui->ledit_sentence_a = new QLineEdit;
-    m_ui->ledit_sentence_b = new QLineEdit;
-
-    m_ui->comb_tags = new QComboBox;
-    m_ui->comb_sorts = new QComboBox;
+    m_ui->comb_pattern = new QComboBox;
+    m_ui->comb_tense = new QComboBox;
     m_ui->comb_means = new QComboBox;
-    m_ui->comb_example_tags = new QComboBox;
 
     m_ui->btn_search = new QPushButton(tr("Search"));
-    m_ui->btn_addtag = new QPushButton(tr("Add Tag"));
-    m_ui->btn_addsort = new QPushButton(tr("Add Sort"));
-    m_ui->btn_addexampletag = new QPushButton(tr("Add"));
+    m_ui->btn_addpattern = new QPushButton(tr("Add Pattern"));
+    m_ui->btn_addtense = new QPushButton(tr("Add Tense"));
     m_ui->btn_addexample = new QPushButton(tr("Add Example"));
 
-    m_ui->btn_recordsentence = new QPushButton(tr("Record Sentence"));
     m_ui->btn_recordword = new QPushButton(tr("Record Word"));
-    m_ui->btn_ok = new QPushButton(tr("Ok"));
     m_ui->btn_cancel = new QPushButton(tr("Cancel"));
 
     m_ui->lwdg_interpretation = new QListWidgetCm;
+    m_ui->groupbox_example = new QGroupBox(tr("Example Sentence"));
 
-    connect(m_ui->btn_addtag, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
-    connect(m_ui->btn_addsort, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
-    connect(m_ui->btn_addexampletag, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
+    connect(m_ui->btn_addpattern, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
+    connect(m_ui->btn_addtense, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
     connect(m_ui->btn_addexample, SIGNAL(clicked()), this, SLOT(Add_Example_Btn_Slot()));
 
     connect(m_ui->btn_recordword, SIGNAL(clicked()), this, SLOT(RecordWord_Btn_Slot()));
-    connect(m_ui->btn_ok, SIGNAL(clicked()), this, SLOT(Ok_Btn_Slot()));
     connect(m_ui->btn_cancel, SIGNAL(clicked()), m_ui->dialog, SLOT(close()));
     connect(m_ui->btn_search, SIGNAL(clicked()), this, SLOT(Search_Btn_Slot()));
-    connect(m_ui->btn_recordsentence, SIGNAL(clicked()), this, SLOT(RecordSentence_Btn_Slot()));
 
     Init();
     Layout();
@@ -127,17 +113,14 @@ DialogEditWord::~DialogEditWord()
 
 void DialogEditWord::Init()
 {
-    const char* const KEY_WORD_TAGS = "Word Tags";
-    m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
+    const char* const KEY_SENTENCE_PATTERN = "Sentence_Pattern";
+    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
 
-    const char* const KEY_WORD_SORTS = "Word Sorts";
-    m_ui->comb_sorts->addItems(SETS[KEY_WORD_SORTS].toString().split(","));
+    const char* const KEY_SENTENCE_TENSE = "Sentence_Tense";
+    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
 
-    const char* const KEY_WORD_MEANS("Word Means");
+    const char* const KEY_WORD_MEANS("Part_Of_Speech");
     m_ui->comb_means->addItems(SETS[KEY_WORD_MEANS].toString().split(","));
-
-    const char* const KEY_EXAMPLE_TAGS = "Word Example Tags";
-    m_ui->comb_example_tags->addItems(SETS[KEY_EXAMPLE_TAGS].toString().split(","));
 }
 
 void DialogEditWord::Layout()
@@ -145,72 +128,56 @@ void DialogEditWord::Layout()
     QHBoxLayout *hlayout_a = new QHBoxLayout;
     hlayout_a->addWidget(new QLabel(tr("Word:")), 0);
     hlayout_a->addWidget(m_ui->ledit_word, 0);
-    hlayout_a->addWidget(new QLabel(tr("SoundMark:")), 0);
-    hlayout_a->addWidget(m_ui->ledit_soundmark, 0);
-    hlayout_a->addWidget(new QLabel(tr("Hot:")), 0);
-    hlayout_a->addWidget(m_ui->ledit_hot, 0);
-    hlayout_a->addWidget(new QLabel(tr("TimeStamp:")), 0);
-    hlayout_a->addWidget(m_ui->ledit_timestamp, 0);
+    hlayout_a->addWidget(m_ui->btn_search, 0);
+    hlayout_a->addWidget(m_ui->ledit_pathfile, 0);
 
     QHBoxLayout *hlayout_b = new QHBoxLayout;
-    hlayout_b->addWidget(new QLabel(tr("Tag:")), 0);
-    hlayout_b->addWidget(m_ui->ledit_tag, 0);
-    hlayout_b->addWidget(m_ui->comb_tags, 0);
-    hlayout_b->addWidget(m_ui->btn_addtag, 0);
+    hlayout_b->addWidget(new QLabel(tr("SoundMark:")), 0);
+    hlayout_b->addWidget(m_ui->ledit_soundmark, 0);
+    hlayout_b->addWidget(new QLabel(tr("Hot:")), 0);
+    hlayout_b->addWidget(m_ui->ledit_hot, 0);
+    hlayout_b->addWidget(new QLabel(tr("TimeStamp:")), 0);
+    hlayout_b->addWidget(m_ui->ledit_timestamp, 0);
 
     QHBoxLayout *hlayout_c = new QHBoxLayout;
-    hlayout_c->addWidget(new QLabel(tr("Sort:")), 0);
-    hlayout_c->addWidget(m_ui->ledit_sort, 0);
-    hlayout_c->addWidget(m_ui->comb_sorts, 0);
-    hlayout_c->addWidget(m_ui->btn_addsort, 0);
-
-    QVBoxLayout *vlayout_aa = new QVBoxLayout;
-    vlayout_aa->addWidget(m_ui->btn_search, 0);
-    vlayout_aa->addWidget(m_ui->ledit_pathfile, 0);
-
-    QVBoxLayout *vlayout_ab = new QVBoxLayout;
-    vlayout_ab->addLayout(hlayout_b, 0);
-    vlayout_ab->addLayout(hlayout_c, 0);
-
-    QHBoxLayout *hlayout_aa = new QHBoxLayout;
-    hlayout_aa->addLayout(vlayout_aa, 0);
-    hlayout_aa->addLayout(vlayout_ab, 0);
+    hlayout_c->addWidget(new QLabel(tr("Mean:")), 0);
+    hlayout_c->addWidget(m_ui->ledit_mean, 0);
+    hlayout_c->addWidget(m_ui->comb_means, 0);
 
     QHBoxLayout *hlayout_d = new QHBoxLayout;
-    hlayout_d->addWidget(new QLabel(tr("Mean:")), 0);
-    hlayout_d->addWidget(m_ui->ledit_mean, 0);
-    hlayout_d->addWidget(m_ui->comb_means, 0);
+    hlayout_d->addWidget(new QLabel(tr("Pattern:")), 0);
+    hlayout_d->addWidget(m_ui->ledit_pattern, 0);
+    hlayout_d->addWidget(m_ui->comb_pattern, 0);
+    hlayout_d->addWidget(m_ui->btn_addpattern, 0);
 
     QHBoxLayout *hlayout_e = new QHBoxLayout;
-    hlayout_e->addWidget(new QLabel(tr("Example Tag:")), 0);
-    hlayout_e->addWidget(m_ui->ledit_example_tag, 0);
-    hlayout_e->addWidget(m_ui->comb_example_tags, 0);
-    hlayout_e->addWidget(m_ui->btn_addexampletag, 0);
+    hlayout_e->addWidget(new QLabel(tr("Tense:")), 0);
+    hlayout_e->addWidget(m_ui->ledit_tense, 0);
+    hlayout_e->addWidget(m_ui->comb_tense, 0);
+    hlayout_e->addWidget(m_ui->btn_addtense, 0);
 
-    QHBoxLayout *hlayout_g = new QHBoxLayout;
-    hlayout_g->addWidget(m_ui->btn_recordword, 0);
-    hlayout_g->addWidget(m_ui->btn_recordsentence, 0);
-    hlayout_g->addWidget(m_ui->btn_ok, 0);
-    hlayout_g->addWidget(m_ui->btn_cancel, 0);
+    QHBoxLayout *hlayout_f = new QHBoxLayout;
+    hlayout_f->addWidget(m_ui->btn_recordword, 0);
+    hlayout_f->addWidget(m_ui->btn_cancel, 0);
 
-    QVBoxLayout *vlayout_a = new QVBoxLayout;
+    QVBoxLayout *vlayout_a= new QVBoxLayout;
     vlayout_a->addLayout(hlayout_d, 0);
     vlayout_a->addLayout(hlayout_e, 0);
     vlayout_a->addWidget(m_ui->ledit_example_a, 0);
     vlayout_a->addWidget(m_ui->ledit_example_b, 0);
-    vlayout_a->addWidget(m_ui->btn_addexample, 0);
 
-    QHBoxLayout *hlayout_h = new QHBoxLayout;
-    hlayout_h->addWidget(m_ui->lwdg_interpretation);
-    hlayout_h->addLayout(vlayout_a, 0);
+    m_ui->groupbox_example->setLayout(vlayout_a);
+
+    QHBoxLayout *hlayout_g = new QHBoxLayout;
+    hlayout_g->addWidget(m_ui->lwdg_interpretation, 0);
+    hlayout_g->addWidget(m_ui->groupbox_example, 0);
 
     QVBoxLayout *vlayout = new QVBoxLayout(m_ui->dialog);
     vlayout->addLayout(hlayout_a, 0);
-    vlayout->addLayout(hlayout_aa, 0);
-    vlayout->addLayout(hlayout_h, 0);
-    vlayout->addWidget(m_ui->ledit_sentence_a, 0);
-    vlayout->addWidget(m_ui->ledit_sentence_b, 0);
+    vlayout->addLayout(hlayout_b, 0);
+    vlayout->addLayout(hlayout_c, 0);
     vlayout->addLayout(hlayout_g, 0);
+    vlayout->addLayout(hlayout_f, 0);
 }
 
 void DialogEditWord::Open()
@@ -235,8 +202,6 @@ void DialogEditWord::DisplayWord()
     m_ui->ledit_soundmark->setText(m_wd->GetSoundMark());
     m_ui->ledit_hot->setText(m_wd->GetHot());
     m_ui->ledit_timestamp->setText(m_wd->GetTimeStamp());
-    m_ui->ledit_tag->setText(m_wd->GetTags().join(","));
-    m_ui->ledit_sort->setText(m_wd->GetSorts().join(","));
     m_ui->lwdg_interpretation->clear();
     m_ui->lwdg_interpretation->addItems(m_wd->ToInerpretionDisplayString().remove(QRegExp("\\n$")).split("\n"));
     m_ui->ledit_pathfile->setText(m_wd->GetPathfile());
@@ -248,8 +213,6 @@ void DialogEditWord::SnapshotWord()
     m_wd->SetSoundMark(m_ui->ledit_soundmark->text().trimmed().remove("/").remove("[").remove("]"));
     m_wd->SetHot(m_ui->ledit_hot->text().trimmed());
     m_wd->SetTimeStamp(m_ui->ledit_timestamp->text().trimmed());
-    m_wd->SetTags(m_ui->ledit_tag->text().trimmed().remove(" ").split(","));
-    m_wd->SetSorts(m_ui->ledit_sort->text().trimmed().remove(" ").split(","));
     m_wd->SetInerpretion(WordInterpretation::ToWordInterpretationList(ToInterpretationString()));
     m_wd->SetPathfile(m_ui->ledit_pathfile->text().trimmed());
 }
@@ -281,37 +244,26 @@ void DialogEditWord::Add_Btn_Slot()
 {
     QPushButton* btn = qobject_cast<QPushButton*>(sender());
 
-    if(m_ui->btn_addtag == btn)
+    if(m_ui->btn_addpattern == btn)
     {
-        if(m_ui->ledit_tag->text().trimmed().isEmpty())
+        if(m_ui->ledit_pattern->text().trimmed().isEmpty())
         {
-            m_ui->ledit_tag->setText(m_ui->comb_tags->currentText());
+            m_ui->ledit_pattern->setText(m_ui->comb_pattern->currentText());
         }
         else
         {
-            m_ui->ledit_tag->setText(m_ui->ledit_tag->text() + "," + m_ui->comb_tags->currentText());
+            m_ui->ledit_pattern->setText(m_ui->ledit_pattern->text() + "," + m_ui->comb_pattern->currentText());
         }
     }
-    else if(m_ui->btn_addsort == btn)
+    else if(m_ui->btn_addtense == btn)
     {
-        if(m_ui->ledit_sort->text().trimmed().isEmpty())
+        if(m_ui->ledit_tense->text().trimmed().isEmpty())
         {
-            m_ui->ledit_sort->setText(m_ui->comb_sorts->currentText());
+            m_ui->ledit_tense->setText(m_ui->comb_tense->currentText());
         }
         else
         {
-            m_ui->ledit_sort->setText(m_ui->ledit_sort->text() + "," + m_ui->comb_sorts->currentText());
-        }
-    }
-    else if(m_ui->btn_addexampletag == btn)
-    {
-        if(m_ui->ledit_example_tag->text().trimmed().isEmpty())
-        {
-            m_ui->ledit_example_tag->setText(m_ui->comb_example_tags->currentText());
-        }
-        else
-        {
-            m_ui->ledit_example_tag->setText(m_ui->ledit_example_tag->text() + "," + m_ui->comb_example_tags->currentText());
+            m_ui->ledit_tense->setText(m_ui->ledit_tense->text() + "," + m_ui->comb_tense->currentText());
         }
     }
 }
@@ -329,7 +281,6 @@ void DialogEditWord::Add_Example_Btn_Slot()
 
     QStringList textipt;
     textipt << QString("+ %1. %2").arg(m_ui->comb_means->currentText()).arg(m_ui->ledit_mean->text().remove(QRegExp("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",","));
-    textipt << QString("    * %1 <tag:%2>").arg(m_ui->ledit_example_a->text().trimmed().remove("\n").remove("\r").remove("\t")).arg(m_ui->ledit_example_tag->text());
     textipt << QString("    * %1").arg(m_ui->ledit_example_b->text().trimmed().remove("\n").remove("\r").remove("\t"));
 
     SnapshotWord();
@@ -362,7 +313,6 @@ void DialogEditWord::Search_Btn_Slot()
     }
 
     m_ui->ledit_mean->clear();
-    m_ui->ledit_example_tag->clear();
     m_ui->ledit_example_a->clear();
     m_ui->ledit_example_b->clear();
 
@@ -382,11 +332,4 @@ void DialogEditWord::Search_Btn_Slot()
             break;
         }
     }
-}
-
-void DialogEditWord::RecordSentence_Btn_Slot()
-{
-    Sentence stc(m_ui->ledit_sentence_a->text().trimmed().remove("\n").remove("\r").remove("\t")
-                 , m_ui->ledit_sentence_b->text().trimmed().remove("\n").remove("\r").remove("\t"));
-    stc.Record(SETS[DialogSet::KEY_SENTENCE_FILE].toString());
 }

@@ -148,8 +148,6 @@ Word::Word(const Word & obj) : m_mediaplayer(new QMediaPlayer)
     m_soundmark = obj.m_soundmark;
     m_hot = obj.m_hot;
     m_timestamp = obj.m_timestamp;
-    m_tags = obj.m_tags;
-    m_sorts = obj.m_sorts;
     m_interpretation = obj.m_interpretation;
     m_pathfile = obj.m_pathfile;
     m_type = obj.m_type;
@@ -161,8 +159,6 @@ Word &Word::operator=(const Word & obj)
     m_soundmark = obj.m_soundmark;
     m_hot = obj.m_hot;
     m_timestamp = obj.m_timestamp;
-    m_tags = obj.m_tags;
-    m_sorts = obj.m_sorts;
     m_interpretation = obj.m_interpretation;
     m_pathfile = obj.m_pathfile;
     m_type = obj.m_type;
@@ -175,8 +171,6 @@ void Word::Clear()
     m_soundmark.clear();
     m_hot.clear();
     m_timestamp.clear();
-    m_tags.clear();
-    m_sorts.clear();
     m_interpretation.clear();
     m_pathfile.clear();
     m_type.clear();

@@ -26,6 +26,7 @@ struct ui {
     QPushButton *btn_search;
     QPushButton *btn_play;
     QPushButton *btn_add;
+    QPushButton *btn_add_sentence;
     QTextEdit *tedit_display;
 
     struct menu *menu;
@@ -36,9 +37,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     m_ui = new struct ui;
     m_ui->ledit_input = new QLineEdit();
-    m_ui->btn_search = new QPushButton(QIcon(":/images/images/search1.ico"), tr("search"));
-    m_ui->btn_play = new QPushButton(QIcon(":/images/images/sound.ico"), tr("play"));
-    m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico") ,tr("add/edit"));
+    m_ui->btn_search = new QPushButton(QIcon(":/images/images/search1.ico"), tr("Search"));
+    m_ui->btn_play = new QPushButton(QIcon(":/images/images/sound.ico"), tr("Play"));
+    m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico") ,tr("Edit Word"));
+    m_ui->btn_add_sentence = new QPushButton(tr("Edit Sentence"));
     m_ui->tedit_display = new QTextEdit();
 
     m_highlighter = new TextHighLighter(m_ui->tedit_display->document());
@@ -47,11 +49,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_settings = new DialogSet;
     m_diaglogeditword = new DialogEditWord;
+    m_diaglogeditsentence = new DialogEditSentence;
     m_dialogexport = new DialogExport;
 
     connect(m_ui->btn_search, SIGNAL(clicked()), this, SLOT(Search_Btn_Slot()));
     connect(m_ui->btn_play, SIGNAL(clicked()), this, SLOT(Play_Btn_Slot()));
     connect(m_ui->btn_add, SIGNAL(clicked()), this, SLOT(Edit_Btn_Slot()));
+    connect(m_ui->btn_add_sentence, SIGNAL(clicked()), m_diaglogeditsentence, SLOT(Open()));
     connect(m_diaglogeditword, SIGNAL(Apply_Signal(Word)), this, SLOT(Record_Word_Edited_Slot(Word)));
 
     Layout();
@@ -72,6 +76,7 @@ void MainWindow::Layout()
     hlayout->addWidget(m_ui->btn_search, 0);
     hlayout->addWidget(m_ui->btn_play, 0);
     hlayout->addWidget(m_ui->btn_add, 0);
+    hlayout->addWidget(m_ui->btn_add_sentence, 0);
 
     QHBoxLayout *showlayout = new QHBoxLayout();
     showlayout->addWidget(m_ui->tedit_display,0);

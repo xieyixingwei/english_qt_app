@@ -89,12 +89,6 @@ public:
     inline void SetHot(const QString &hot) { m_hot = hot; }
     inline QString GetTimeStamp() const { return m_timestamp; }
     inline void SetTimeStamp(const QString &timestamp) { m_timestamp = timestamp; }
-    inline QStringList GetTags() const { return m_tags; }
-    inline void SetTags(const QStringList &tags) { m_tags = tags; }
-    inline void AddTag(const QString &tag) { m_tags << tag; }
-    inline QStringList GetSorts() const { return m_sorts; }
-    inline void SetSorts(const QStringList &sorts) { m_sorts = sorts; }
-    inline void AddSort(const QString &sort) { m_sorts << sort; }
 
     inline QList<WordInterpretation> GetInerpretion() { return m_interpretation; }
     inline void SetInerpretion(const QList<WordInterpretation> &itp) { m_interpretation = itp; }
@@ -123,8 +117,6 @@ private:
     QString m_soundmark;
     QString m_hot;
     QString m_timestamp;
-    QStringList m_tags;
-    QStringList m_sorts;
     QList<WordInterpretation> m_interpretation;
 
     QString m_pathfile;

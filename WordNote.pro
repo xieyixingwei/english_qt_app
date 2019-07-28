@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    DialogEditSentence.cpp \
         main.cpp \
         mainwindow.cpp \
     TextEdit.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
     TextHighLighter.cpp
 
 HEADERS += \
+    DialogEditSentence.h \
         mainwindow.h \
     TextEdit.h \
     DialogEditWord.h \

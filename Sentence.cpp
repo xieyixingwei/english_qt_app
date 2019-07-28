@@ -32,7 +32,7 @@ void Sentence::Update()
 
 QString Sentence::ToRecordString()
 {
-    return QString("%1\n%2\n").arg(m_sentence.first).arg(m_sentence.second);
+    return QString("* %1  \n* %2  \n").arg(m_sentence.first).arg(m_sentence.second);
 }
 
 QString Sentence::ToDisplayString()
