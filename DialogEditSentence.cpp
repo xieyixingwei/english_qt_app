@@ -135,8 +135,10 @@ void DialogEditSentence::Add_Tense_Btn_Slot()
 
 void DialogEditSentence::RecordSentence_Btn_Slot()
 {
-    Sentence stc(m_ui->ledit_sentence_a->text().trimmed().remove("\n").remove("\r").remove("\t")
-                 , m_ui->ledit_sentence_b->text().trimmed().remove("\n").remove("\r").remove("\t"));
+    QStringList text;
+    text << m_ui->ledit_sentence_a->text();
+    text << m_ui->ledit_sentence_b->text();
+    Sentence stc(text);
     stc.Record(SETS[DialogSet::KEY_SENTENCE_FILE].toString());
 }
 

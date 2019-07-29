@@ -8,69 +8,6 @@
 #include <QDebug>
 #include <QDateTime>
 
-void WordExample::Parse(const QStringList &text)
-{
-    QString a = ParseOneLineExample(text[0]);
-    QString b = text.count() > 1 ? ParseOneLineExample(text[1]) : "";
-    m_example = QPair<QString, QString>(a,b);
-}
-
-QString WordExample::ParseOneLineExample(const QString &line)
-{
-    QStringList tmp = line.split("<tag:");
-
-    if(tmp.count() > 1)
-    {
-        m_tag = tmp[1].trimmed().remove(QRegExp(">$")).remove(" ").split(",");
-    }
-
-    return tmp[0].trimmed().remove(QRegExp("^\\*")).trimmed();
-}
-
-QString WordExample::ToRecordString()
-{
-    QString record;
-
-    if(m_example.first.isEmpty())
-    {
-        return record;
-    }
-
-    record = QString("        * %1\n").arg(m_example.first);
-
-    if(!m_tag.isEmpty())
-    {
-        record += QString(" <tag:%1>\n").arg(m_tag.join(","));
-    }
-
-    if(!m_example.second.isEmpty())
-    {
-        record += QString("        * %1\n").arg(m_example.second);
-    }
-
-    return record;
-}
-
-QString WordExample::ToDisplayString(int index)
-{
-    QString display;
-
-    if(m_example.first.isEmpty())
-    {
-        return display;
-    }
-
-    display += QString("        (%1) %2\n").arg(index).arg(m_example.first);
-
-    if(!m_example.second.isEmpty())
-    {
-        display += QString("             %1\n").arg(m_example.second);
-    }
-
-    return display;
-}
-
-// WordInterpretation --------------------------------------
 
 void WordInterpretation::Parse(const QStringList &text)
 {
@@ -95,7 +32,7 @@ void WordInterpretation::Parse(const QStringList &text)
             expstr << text[i++];
         }
 
-        m_examples << WordExample(expstr);
+        m_examples << Sentence(expstr);
     }
 }
 
@@ -220,18 +157,6 @@ void Word::ParseWordInfor(QString text)
             m_timestamp = rex.cap(0);
         }
     }
-
-    rex.setPattern("tag:.*[ ]+");
-    if(-1 != rex.indexIn(text, 0))
-    {
-        m_tags = rex.cap(0).trimmed().remove(QRegExp("^tag:")).remove(" ").split(",");
-    }
-
-    rex.setPattern("sort:.*\\b");
-    if(-1 != rex.indexIn(text, 0))
-    {
-        m_sorts = rex.cap(0).trimmed().remove(QRegExp("^sort:")).remove(" ").split(",");
-    }
 }
 
 QString Word::ToRecordString()
@@ -248,16 +173,6 @@ QString Word::ToRecordString()
     record += QString(" <hot:%1").arg(m_hot.isEmpty() ? "1" : m_hot);
 
     record += QString(" timestamp:%1").arg(m_timestamp.isEmpty() ? QDateTime::currentDateTime().toString("yyMMddhhmm") : m_timestamp);
-
-    if(!m_tags.join(",").trimmed().isEmpty())
-    {
-        record += QString(" tag:%1").arg(m_tags.join(","));
-    }
-
-    if(!m_sorts.join(",").trimmed().isEmpty())
-    {
-        record += QString(" sort:%1").arg(m_sorts.join(","));
-    }
 
     record += ">\n";
 

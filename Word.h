@@ -2,38 +2,13 @@
 #define WORD_H
 
 #include "Search.h"
+#include "Sentence.h"
 
 #include <QString>
 #include <QStringList>
 #include <QList>
 #include <QPair>
 #include <QMediaPlayer>
-
-class WordExample
-{
-public:
-    WordExample(const QStringList &text) { Parse(text); }
-    WordExample() = default;
-    ~WordExample() = default;
-
-    inline QStringList GetTag() { return m_tag; }
-    inline void SetTag(const QStringList &tag) { m_tag = tag; }
-    inline void AddTag(const QString &tag) { m_tag << tag; }
-
-    inline QPair<QString, QString> GetExample() { return m_example; }
-    inline void SetExample(const QPair<QString, QString> &example) { m_example = example; }
-
-    QString ToRecordString();
-    QString ToDisplayString(int index);
-
-private:
-    void Parse(const QStringList &text);
-    QString ParseOneLineExample(const QString &line);
-
-public:
-    QStringList m_tag;
-    QPair<QString, QString> m_example;
-};
 
 class WordInterpretation
 {
@@ -49,9 +24,9 @@ public:
     inline void SetMean(const QStringList &mean) { m_mean = mean; }
     inline QStringList GetMean() const { return m_mean; }
 
-    inline void AddExample(const WordExample &exp) { m_examples << exp; }
-    inline void AddExample(const QList<WordExample> &exps) { m_examples << exps; }
-    inline QList<WordExample> GetExample() const { return m_examples; }
+    inline void AddExample(const Sentence &exp) { m_examples << exp; }
+    inline void AddExample(const QList<Sentence> &exps) { m_examples << exps; }
+    inline QList<Sentence> GetExample() const { return m_examples; }
 
     QString ToRecordString();
     QString ToDisplayString();
@@ -63,7 +38,7 @@ private:
 private:
     QString m_pos;
     QStringList m_mean;
-    QList<WordExample> m_examples;
+    QList<Sentence> m_examples;
 };
 
 class Word : public SearchResult

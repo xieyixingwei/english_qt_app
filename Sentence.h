@@ -8,7 +8,6 @@ class Sentence : public SearchResult
 {
 public:
     Sentence(const QStringList &str);
-    Sentence(const QString &a, const QString &b) { m_sentence = QPair<QString, QString>(a, b); }
     ~Sentence() = default;
 
     inline virtual void SetType(const QString &type) { m_type = type; }
@@ -18,14 +17,24 @@ public:
     inline virtual void SetPathfile(const QString &pathfile) { m_pathfile = pathfile; }
     inline virtual QString GetPathfile() { return m_pathfile; }
 
+    inline QPair<QString, QString> GetSentence() { return m_sentence; }
+    inline void SetIndent(qint32 indent) { m_indent = indent; }
+    inline void SetIndex(qint32 index) { m_index = index; }
     QString ToRecordString();
-    QString ToDisplayString();
+    QString ToDisplayString(qint32 index);
     void Record(const QString &pathfile = "");
+
+private:
+    QString ExtractPatternTense(const QString &line);
 
 private:
     QPair<QString, QString> m_sentence;
     QString m_pathfile;
     QString m_type;
+    QString m_pattern;
+    QString m_tense;
+    qint32 m_indent;
+    qint32 m_index;
 };
 
 #endif // SENTENCE_H
