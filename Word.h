@@ -33,7 +33,7 @@ public:
     static QList<WordInterpretation> ToWordInterpretationList(const QStringList &text);
 
 private:
-    void Parse(const QStringList &text);
+    void Parse(const QStringList &lines);
 
 private:
     QString m_pos;

@@ -1,5 +1,4 @@
 #include "DialogEditSentence.h"
-#include "Sentence.h"
 #include "Setting.h"
 #include "DialogSet.h"
 
@@ -39,10 +38,10 @@ struct ui {
     QPushButton *btn_cancel;
 };
 
-DialogEditSentence::DialogEditSentence()
+DialogEditSentence::DialogEditSentence() :
+    m_ui(new struct ui),
+    m_sentence(new Sentence)
 {
-    m_ui = new struct ui;
-
     m_ui->dialog = new QDialog(nullptr, Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
     m_ui->dialog->setWindowTitle(tr("Editting Sentence"));
 
@@ -59,13 +58,13 @@ DialogEditSentence::DialogEditSentence()
     m_ui->btn_add_tense = new QPushButton(tr("Add Tense"));
 
     m_ui->btn_recordsentence = new QPushButton(tr("Record Sentence"));
-    m_ui->btn_cancel = new QPushButton(tr("Cancel"));
+    m_ui->btn_cancel = new QPushButton(tr("Clear"));
 
-    connect(m_ui->btn_add_pattern, SIGNAL(clicked()), this, SLOT(Add_Pattern_Btn_Slot()));
-    connect(m_ui->btn_add_tense, SIGNAL(clicked()), this, SLOT(Add_Tense_Btn_Slot()));
+    connect(m_ui->btn_add_pattern, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
+    connect(m_ui->btn_add_tense, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
 
     connect(m_ui->btn_recordsentence, SIGNAL(clicked()), this, SLOT(RecordSentence_Btn_Slot()));
-    connect(m_ui->btn_cancel, SIGNAL(clicked()), m_ui->dialog, SLOT(close()));
+    connect(m_ui->btn_cancel, SIGNAL(clicked()), this, SLOT(Clear_Btn_Slot()));
 
     Init();
     Layout();
@@ -123,22 +122,38 @@ void DialogEditSentence::Close()
     m_ui->dialog->close();
 }
 
-void DialogEditSentence::Add_Pattern_Btn_Slot()
+void DialogEditSentence::Add_Btn_Slot()
 {
+    QPushButton* btn = qobject_cast<QPushButton*>(sender());
 
-}
+    if(m_ui->btn_add_pattern == btn)
+    {
+        m_sentence->AddPattern(m_ui->comb_pattern->currentText().trimmed());
+    }
+    else if(m_ui->btn_add_tense == btn)
+    {
+        m_sentence->AddTense(m_ui->comb_tense->currentText().trimmed());
+    }
 
-void DialogEditSentence::Add_Tense_Btn_Slot()
-{
-
+    Refresh();
 }
 
 void DialogEditSentence::RecordSentence_Btn_Slot()
 {
-    QStringList text;
-    text << m_ui->ledit_sentence_a->text();
-    text << m_ui->ledit_sentence_b->text();
-    Sentence stc(text);
-    stc.Record(SETS[DialogSet::KEY_SENTENCE_FILE].toString());
+    m_sentence->SetSentence(m_ui->ledit_sentence_a->text(),
+                            m_ui->ledit_sentence_b->text());
+
+    m_sentence->Record(SETS[DialogSet::KEY_SENTENCE_FILE].toString());
 }
 
+void DialogEditSentence::Clear_Btn_Slot()
+{
+    m_sentence->Clear();
+    Refresh();
+}
+
+void DialogEditSentence::Refresh()
+{
+    m_ui->ledit_pattern->setText(m_sentence->GetPattern().join(", "));
+    m_ui->ledit_tense->setText(m_sentence->GetTense().join(", "));
+}

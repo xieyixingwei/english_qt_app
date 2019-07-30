@@ -8,28 +8,34 @@
 #include <QDebug>
 #include <QDateTime>
 
-
-void WordInterpretation::Parse(const QStringList &text)
+void WordInterpretation::Parse(const QStringList &lines)
 {
-    QStringList tmp = text[0].split(".");
+    TextEdit text = TextEdit(lines);
+    text.RemoveSpaceLines();
 
-    m_pos = tmp[0].trimmed().remove(QRegExp("^\\+")).trimmed();
-
-    if(tmp.count() > 1)
+    if(text.Buf().count() == 0)
     {
-        m_mean = tmp[1].trimmed().remove(" ").split(",");
+        return;
+    }
+
+    QRegularExpression rex(QString("(?<=\\+)(\\w)+(?=\\.)(?<=\\+).*?(?=\\b)"));
+    QRegularExpressionMatch match = rex.match(text.Buf().at(0));
+    if(match.hasMatch())
+    {
+        m_pos = match.captured(0);
+        m_mean = match.captured(1).split(";");
     }
 
     int i = 1;
-    while(i < text.count())
+    while(i < text.Buf().count())
     {
         QStringList expstr;
         expstr.clear();
 
-        expstr << text[i++];
-        if(i < text.count())
+        expstr << text.Buf().at(i++);
+        if(i < text.Buf().count())
         {
-            expstr << text[i++];
+            expstr << text.Buf().at(i++);
         }
 
         m_examples << Sentence(expstr);

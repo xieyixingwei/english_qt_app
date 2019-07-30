@@ -6,37 +6,66 @@
 
 #include <QRegularExpression>
 
-Sentence::Sentence(const QStringList &str) :
+Sentence::Sentence(const QStringList &lines) :
     m_indent(0),
     m_index(0)
 {
-    QStringList src = str;
-    QStringList text;
-    for(int i = 0; i < src.count(); i++)
+    Parse(lines);
+}
+
+Sentence::Sentence(const QString &a, const QString &b) :
+    m_indent(0),
+    m_index(0)
+{
+    QStringList lines;
+    lines << a << b;
+    Parse(lines);
+}
+
+Sentence::Sentence() :
+    m_indent(0),
+    m_index(0)
+{
+
+}
+
+void Sentence::SetSentence(const QString &a, const QString &b)
+{
+    QStringList lines;
+    lines << a << b;
+    Parse(lines);
+}
+
+void Sentence::Parse(const QStringList &lines)
+{
+    TextEdit text = TextEdit(lines);
+    text.RemoveSpaceLines();
+
+    if(text.Buf().count() == 0)
     {
-        QString tmp = src[i].remove("*").trimmed();
-        if(!tmp.isEmpty())
+        return;
+    }
+
+    QStringList afterLines;
+    for(int i = 0; i < text.Buf().count(); i++)
+    {
+        QString line = text.Buf()[i].remove("*").remove("\n").remove("\r").remove("\t").trimmed();
+        if(!line.isEmpty())
         {
-            text << tmp;
+            if(Word::IsWordStr(line))
+            {
+                afterLines << ExtractPatternTense(line);
+            }
+            else
+            {
+                afterLines << line;
+            }
         }
     }
 
-    QString a;
-    QString b;
+    afterLines << "" << "";  // prevent afterLines.count() < 2
 
-    if(Word::IsWordStr(text[0]))
-    {
-        a = ExtractPatternTense(text[0]);
-        b = text[1];
-    }
-    else if(Word::IsWordStr(text[1]))
-    {
-        a = ExtractPatternTense(text[1]);
-        b = (text[0]);
-    }
-
-    m_sentence = QPair<QString, QString>(a.remove("\n").remove("\r").remove("\t").trimmed(),
-                                         b.remove("\n").remove("\r").remove("\t").trimmed());
+    m_sentence = QPair<QString, QString>(afterLines[0], afterLines[1]);
 }
 
 QString Sentence::ExtractPatternTense(const QString &line)
@@ -44,10 +73,11 @@ QString Sentence::ExtractPatternTense(const QString &line)
     QRegularExpression rex(QString("(?<=\\<).*?(?=\\>)"));
     QRegularExpressionMatch match = rex.match(line);
     QString result = line;
+    result.remove(rex);
 
     if(match.hasMatch())
     {
-        QStringList matchStrs = match.captured(0).split(",");
+        QStringList matchStrs = match.captured(0).split(";");
 
         for(int i = 0; i < matchStrs.count(); i++)
         {
@@ -55,7 +85,7 @@ QString Sentence::ExtractPatternTense(const QString &line)
             match = rex.match(matchStrs[i]);
             if(match.hasMatch())
             {
-                m_pattern = match.captured(0).trimmed();
+                m_pattern = match.captured(0).trimmed().split(",");
             }
             else
             {
@@ -63,12 +93,12 @@ QString Sentence::ExtractPatternTense(const QString &line)
                 match = rex.match(matchStrs[i]);
                 if(match.hasMatch())
                 {
-                    m_tense = match.captured(0).trimmed();
+                    m_tense = match.captured(0).trimmed().split(",");
                 }
             }
         }
-        return result.remove(rex);
     }
+
     return result;
 }
 
@@ -84,32 +114,46 @@ void Sentence::Update()
 
 QString Sentence::ToRecordString()
 {
-    QString record("");
-
-    if(m_sentence.first.isEmpty())
-    {
-        return record;
-    }
-
+    QString record;
+    QStringList tagList;
+    QString tag;
     QString indent(m_indent, ' ');
-
-    record = QString(indent + "* %1\n").arg(m_sentence.first);
 
     if(!m_pattern.isEmpty())
     {
-        record += QString(" <pattern: %1\n").arg(m_pattern);
+        tagList << QString("pattern: %1").arg(m_pattern.join(", "));
     }
-
     if(!m_tense.isEmpty())
     {
-        record += QString(", tense: %1").arg(m_tense);
+        tagList << QString("tense: %1").arg(m_tense.join(", "));
+    }
+    if(!tagList.isEmpty())
+    {
+        tag = "<" + tagList.join("; ") + ">";
     }
 
-    record += QString(">  \n");
+    if(!m_sentence.first.isEmpty())
+    {
+        if(Word::IsWordStr(m_sentence.first))
+        {
+            record += QString(indent + "* %1 %2  \n").arg(m_sentence.first).arg(tag);
+        }
+        else
+        {
+            record += QString(indent + "* %1  \n").arg(m_sentence.first);
+        }
+    }
 
     if(!m_sentence.second.isEmpty())
     {
-        record += QString(indent + "* %1  \n").arg(m_sentence.second);
+        if(Word::IsWordStr(m_sentence.second))
+        {
+            record += QString(indent + "* %1 %2  \n").arg(m_sentence.second).arg(tag);
+        }
+        else
+        {
+            record += QString(indent + "* %1  \n").arg(m_sentence.second);
+        }
     }
 
     return record;
@@ -118,29 +162,27 @@ QString Sentence::ToRecordString()
 QString Sentence::ToDisplayString(qint32 index = 0)
 {
     QString display;
-
-    if(m_sentence.first.isEmpty())
-    {
-        return display;
-    }
-
+    QStringList indexList;
     QString indent(m_indent, ' ');
 
-    if(0 == index)
+    if(index > 0)
     {
-        display += QString(indent + "%1\n").arg(m_sentence.first);
-        if(!m_sentence.second.isEmpty())
-        {
-            display += QString(indent + "%1\n").arg(m_sentence.second);
-        }
+        indexList << QString("(%1)").arg(index);
+        indexList << "   ";
     }
-    else
+
+    if(!m_sentence.first.isEmpty())
     {
-        display += QString(indent + "(%1) %2\n").arg(index).arg(m_sentence.first);
-        if(!m_sentence.second.isEmpty())
-        {
-            display += QString(indent + "    %1\n").arg(m_sentence.second);
-        }
+        display += QString(indent + "%1 %2\n").arg(indexList[0]).arg(m_sentence.first);
+    }
+
+    if(!m_sentence.first.isEmpty() && !m_sentence.second.isEmpty())
+    {
+        display += QString(indent + "%1 %2\n").arg(indexList[1]).arg(m_sentence.second);
+    }
+    else if(m_sentence.first.isEmpty() && !m_sentence.second.isEmpty())
+    {
+        display += QString(indent + "%1 %2\n").arg(indexList[0]).arg(m_sentence.second);
     }
 
     return display;
@@ -149,6 +191,17 @@ QString Sentence::ToDisplayString(qint32 index = 0)
 void Sentence::Record(const QString &pathfile)
 {
     TextEdit file(pathfile.isEmpty() ? m_pathfile : pathfile);
-
     file << ToRecordString();
 }
+
+void Sentence::Clear()
+{
+    m_sentence.first.clear();
+    m_sentence.second.clear();
+    m_pathfile.clear();
+    m_pattern.clear();
+    m_tense.clear();
+    m_indent = 0;
+    m_index = 0;
+}
+

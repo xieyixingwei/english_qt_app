@@ -31,8 +31,7 @@ TextEdit::TextEdit(const QString &pathfile) :
 TextEdit::TextEdit(const QStringList &strlist) :
     m_pathfile(""), m_change(false)
 {
-    m_textbuf = new QStringList;
-    *m_textbuf << strlist;
+    m_textbuf = new QStringList(strlist);
 }
 
 TextEdit::~TextEdit()
@@ -203,4 +202,15 @@ TextEdit &TextEdit::operator<<(const QString &str)
     *m_textbuf << str;
     m_change = true;
     return *this;
+}
+
+void TextEdit::RemoveSpaceLines()
+{
+    for(int i = 0; i < m_textbuf->count(); i++)
+    {
+        if(m_textbuf->at(i).trimmed().remove("\n").remove("\r").remove("\t").trimmed().isEmpty())
+        {
+            m_textbuf->removeAt(i);
+        }
+    }
 }

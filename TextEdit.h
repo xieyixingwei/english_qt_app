@@ -36,6 +36,7 @@ public:
     bool ReplaceBetween(const QRegularExpression &a, const QRegularExpression &b, const QString &c, E_MODE mode = E_HOLD_B);
 
     TextEdit &operator<<(const QString &str);
+    void RemoveSpaceLines();
 
 private:
     QString m_pathfile;
