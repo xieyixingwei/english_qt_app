@@ -13,6 +13,8 @@ public:
     QListWidgetCm(QWidget *parent = Q_NULLPTR);
     ~QListWidgetCm();
 
+    QStringList TextItems();
+
 protected:
     virtual void contextMenuEvent(QContextMenuEvent *event);
 

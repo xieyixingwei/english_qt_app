@@ -28,10 +28,10 @@ TextEdit::TextEdit(const QString &pathfile) :
     file.close();
 }
 
-TextEdit::TextEdit(const QStringList &strlist) :
+TextEdit::TextEdit(const QStringList &lines) :
     m_pathfile(""), m_change(false)
 {
-    m_textbuf = new QStringList(strlist);
+    m_textbuf = new QStringList(lines);
 }
 
 TextEdit::~TextEdit()

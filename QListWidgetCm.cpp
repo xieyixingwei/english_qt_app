@@ -36,6 +36,17 @@ QListWidgetCm::~QListWidgetCm()
 
 }
 
+QStringList QListWidgetCm::TextItems()
+{
+    QStringList lines;
+    for(int i = 0; i < this->count(); i++)
+    {
+        lines << this->item(i)->text();
+    }
+
+    return lines;
+}
+
 void QListWidgetCm::contextMenuEvent(QContextMenuEvent *event)
 {
     m_cursor_focuson_item = this->itemAt(this->mapFromGlobal(QCursor::pos()));

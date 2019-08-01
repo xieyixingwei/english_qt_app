@@ -19,7 +19,7 @@ public:
 
 public:
     TextEdit(const QString &pathfile);
-    TextEdit(const QStringList &strlist);
+    TextEdit(const QStringList &lines);
     ~TextEdit();
 
     inline QStringList &Buf() { return *m_textbuf; }

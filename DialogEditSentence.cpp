@@ -1,6 +1,7 @@
 #include "DialogEditSentence.h"
 #include "Setting.h"
 #include "DialogSet.h"
+#include "TextEdit.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -128,18 +129,26 @@ void DialogEditSentence::Add_Btn_Slot()
 
     if(m_ui->btn_add_pattern == btn)
     {
-        m_sentence->AddPattern(m_ui->comb_pattern->currentText().trimmed());
+        TextEdit text(m_ui->ledit_pattern->text().split(","));
+        text << m_ui->comb_pattern->currentText();
+        text.RemoveSpaceLines();
+        m_ui->ledit_pattern->setText(text.Buf().join(","));
     }
     else if(m_ui->btn_add_tense == btn)
     {
-        m_sentence->AddTense(m_ui->comb_tense->currentText().trimmed());
+        TextEdit text(m_ui->ledit_tense->text().split(","));
+        text << m_ui->comb_tense->currentText();
+        text.RemoveSpaceLines();
+        m_ui->ledit_tense->setText(text.Buf().join(","));
     }
-
-    Refresh();
 }
 
 void DialogEditSentence::RecordSentence_Btn_Slot()
 {
+    m_sentence->Clear();
+    m_sentence->AddTense(m_ui->ledit_tense->text().trimmed().split(","));
+    m_sentence->AddPattern(m_ui->ledit_pattern->text().trimmed().split(","));
+
     m_sentence->SetSentence(m_ui->ledit_sentence_a->text(),
                             m_ui->ledit_sentence_b->text());
 
@@ -148,12 +157,9 @@ void DialogEditSentence::RecordSentence_Btn_Slot()
 
 void DialogEditSentence::Clear_Btn_Slot()
 {
-    m_sentence->Clear();
-    Refresh();
+    m_ui->ledit_pattern->clear();
+    m_ui->ledit_tense->clear();
+    m_ui->ledit_sentence_a->clear();
+    m_ui->ledit_sentence_b->clear();
 }
 
-void DialogEditSentence::Refresh()
-{
-    m_ui->ledit_pattern->setText(m_sentence->GetPattern().join(", "));
-    m_ui->ledit_tense->setText(m_sentence->GetTense().join(", "));
-}

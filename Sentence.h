@@ -12,8 +12,7 @@ public:
     Sentence();
     ~Sentence() = default;
 
-    inline virtual void SetType(const QString &type) { m_type = type; }
-    inline virtual QString GetType() { return m_type; }
+    virtual E_ResultType Type() { return E_TYPE_SENTENCE; }
     virtual void Display(QTextEdit *testedit);
     virtual void Update();
     inline virtual void SetPathfile(const QString &pathfile) { m_pathfile = pathfile; }
@@ -34,6 +33,7 @@ public:
     void Record(const QString &pathfile = "");
     void Clear();
 
+    static bool IsEnglishSentence(const QString &str);
 private:
     QString ExtractPatternTense(const QString &line);
     void Parse(const QStringList &lines);

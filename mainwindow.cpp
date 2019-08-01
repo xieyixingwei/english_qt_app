@@ -134,13 +134,13 @@ void MainWindow::Search_Btn_Slot()
     {
         (*it)->Display(m_ui->tedit_display);
 
-        if("word" == (*it)->GetType() && searchword == (dynamic_cast<Word *>(*it))->GetWord())
+        if((*it)->Type() == SearchResult::E_TYPE_WORD && searchword == (dynamic_cast<Word *>(*it))->GetWord())
         {
             (*it)->Update();
         }
     }
 
-    if(nullptr == GetWordFromSearchResults() && Word::IsWordStr(searchword))
+    if(nullptr == GetWordFromSearchResults() && Word::IsEnglishWord(searchword))
     {
         Word wd;
         wd.SetWord(searchword);
@@ -181,7 +181,7 @@ void MainWindow::Record_Word_Edited_Slot(Word wd)
 
     for(QList<SearchResult *>::iterator it = results.begin(); it != results.end(); it++)
     {
-        if((*it)->GetType() == "word" && dynamic_cast<Word*>(*it)->GetWord() == wd.GetWord())
+        if((*it)->Type() == SearchResult::E_TYPE_WORD && dynamic_cast<Word*>(*it)->GetWord() == wd.GetWord())
         {
              wd.Record((*it)->GetPathfile());
              return;
@@ -195,7 +195,7 @@ Word *MainWindow::GetWordFromSearchResults()
 {
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
     {
-        if((*it)->GetType() == "word")
+        if((*it)->Type() == SearchResult::E_TYPE_WORD)
         {
             return dynamic_cast<Word*>(*it);
         }

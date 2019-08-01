@@ -67,7 +67,6 @@ QList<SearchResult *> Search::SearchTarget(const QString &pathfile, const QStrin
 
                 SearchResult *pwd = new Word(matchedlines);
                 pwd->SetPathfile(pathfile);
-                pwd->SetType("word");
                 searchresults.append(pwd);
             }
             else if(line.contains(QRegExp("^[ ]*\\+.*")) // it's in word dictionary
@@ -181,13 +180,11 @@ QList<Word *> Search::GetWordsOnTimeStamp(const QStringList &filter, int count)
             if(words.count() < count)
             {
                 pwd->SetPathfile(pathfiles[i]);
-                pwd->SetType("word");
                 words.append(pwd);
             }
             else
             {
                 pwd->SetPathfile(pathfiles[i]);
-                pwd->SetType("word");
                 words.append(pwd);
 
                 Word *earlier = words[0];

@@ -30,13 +30,12 @@ private slots:
     void RecordWord_Btn_Slot();
     void Ok_Btn_Slot();
     void Search_Btn_Slot();
+    void Clear_Btn_Slot();
 
 private:
     void Init();
     void Layout();
-    void DisplayWord();
-    void SnapshotWord();
-    QStringList ToInterpretationString();
+    void Refresh();
 
 private:
     struct ui *m_ui;

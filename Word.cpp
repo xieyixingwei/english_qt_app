@@ -18,69 +18,105 @@ void WordInterpretation::Parse(const QStringList &lines)
         return;
     }
 
-    QRegularExpression rex(QString("(?<=\\+)(\\w)+(?=\\.)(?<=\\+).*?(?=\\b)"));
-    QRegularExpressionMatch match = rex.match(text.Buf().at(0));
-    if(match.hasMatch())
+    QRegularExpression rex(QString("(?P<pos>.*?(?=\\.))"));
+    QRegularExpressionMatch matched = rex.match(text.Buf().at(0));
+    if(matched.hasMatch())
     {
-        m_pos = match.captured(0);
-        m_mean = match.captured(1).split(";");
+        m_pos = matched.captured("pos").remove("+").trimmed();
     }
 
+    rex.setPattern(QString("(?P<means>(?<=\\.).*)"));
+    matched = rex.match(text.Buf().at(0));
+    if(matched.hasMatch())
+    {
+        QString means = matched.captured("means").trimmed();
+        if(!means.isEmpty())
+        {
+            m_means = means.split(";");
+        }
+    }
+
+    QString a;
+    QString b;
     int i = 1;
     while(i < text.Buf().count())
     {
-        QStringList expstr;
-        expstr.clear();
+        a.clear();
+        b.clear();
 
-        expstr << text.Buf().at(i++);
-        if(i < text.Buf().count())
+        a = text.Buf()[i++].remove("*");
+
+        if(i < text.Buf().count() &&
+                Sentence::IsEnglishSentence(a) &&
+                !Sentence::IsEnglishSentence(text.Buf()[i].remove("*")))
         {
-            expstr << text.Buf().at(i++);
+            b = text.Buf()[i++];
         }
 
-        m_examples << Sentence(expstr);
+        m_examples << Sentence(a, b);
     }
 }
 
-QString WordInterpretation::ToRecordString()
+QString WordInterpretation::ToRecordString(qint32 indent)
 {
-    QString record = QString("    + %1. %2\n").arg(m_pos).arg(m_mean.join(","));
+    QString indentStr(indent, ' ');
+    QString record = QString(indentStr + "+ %1. %2\n").arg(m_pos).arg(m_means.join(";"));
 
     for(int i = 0; i < m_examples.count(); i++)
     {
+        m_examples[i].SetIndent((indent == 0) ? 4 : indent * 2);
         record += m_examples[i].ToRecordString();
     }
 
     return record;
 }
 
-QString WordInterpretation::ToDisplayString()
+QString WordInterpretation::ToDisplayString(qint32 indent)
 {
-    QString display = QString("    %1. %2\n").arg(m_pos).arg(m_mean.join(","));
+    QString indentStr(indent, ' ');
+    QString display = QString(indentStr + "%1. %2\n").arg(m_pos).arg(m_means.join(";"));
 
     for(int i = 0; i < m_examples.count(); i++)
     {
+        m_examples[i].SetIndent((indent == 0) ? 4 : indent * 2);
         display += m_examples[i].ToDisplayString(i + 1);
     }
 
     return display;
 }
 
-QList<WordInterpretation> WordInterpretation::ToWordInterpretationList(const QStringList &text)
+void WordInterpretation::Clear()
 {
-    QList<WordInterpretation> itps;
+    m_pos.clear();
+    m_means.clear();
+    m_examples.clear();
+}
 
-    TextEdit edit(text);
+QList<WordInterpretation> WordInterpretation::WordInterpretationList(const QStringList &lines)
+{
+    QList<WordInterpretation> interps;
+    TextEdit text = TextEdit(lines);
+    text.RemoveSpaceLines();
 
-    QList<QStringList> itpstring = edit.FindAllBetween(QRegularExpression("^[ ]*\\+.*"), QRegularExpression("^[ ]*\\+.*"));
-
-    for(int i = 0; i < itpstring.count(); i++)
+    QStringList strs;
+    for(int i = 0; i < text.Buf().count(); i++)
     {
-        WordInterpretation witp(itpstring[i]);
-        itps << witp;
+        if(!strs.isEmpty() && !text.Buf().at(i).startsWith("  "))
+        {
+            interps << WordInterpretation(strs);
+            strs.clear();
+        }
+        else if(!strs.isEmpty() && (i + 1) == text.Buf().count())
+        {
+            strs << text.Buf()[i].remove(QRegularExpression("\\(\\d+\\)"));
+            interps << WordInterpretation(strs);
+            strs.clear();
+        }
+
+        strs << text.Buf()[i].remove(QRegularExpression("\\(\\d+\\)"));
     }
 
-    return itps;
+    return interps;
 }
 
 // Word -------------------------------------------------------------------------
@@ -91,7 +127,8 @@ Word::Word(const Word & obj) : m_mediaplayer(new QMediaPlayer)
     m_soundmark = obj.m_soundmark;
     m_hot = obj.m_hot;
     m_timestamp = obj.m_timestamp;
-    m_interpretation = obj.m_interpretation;
+    m_tags = obj.m_tags;
+    m_interpretations = obj.m_interpretations;
     m_pathfile = obj.m_pathfile;
     m_type = obj.m_type;
 }
@@ -102,7 +139,8 @@ Word &Word::operator=(const Word & obj)
     m_soundmark = obj.m_soundmark;
     m_hot = obj.m_hot;
     m_timestamp = obj.m_timestamp;
-    m_interpretation = obj.m_interpretation;
+    m_tags = obj.m_tags;
+    m_interpretations = obj.m_interpretations;
     m_pathfile = obj.m_pathfile;
     m_type = obj.m_type;
     return *this;
@@ -114,86 +152,97 @@ void Word::Clear()
     m_soundmark.clear();
     m_hot.clear();
     m_timestamp.clear();
-    m_interpretation.clear();
+    m_tags.clear();
+    m_interpretations.clear();
     m_pathfile.clear();
     m_type.clear();
 }
 
-void Word::Parse(const QStringList &text)
+void Word::Parse(const QStringList &lines)
 {
-    ParseWordInfor(text[0]);
-    m_interpretation = WordInterpretation::ToWordInterpretationList(text);
-}
+    TextEdit text = TextEdit(lines);
+    text.RemoveSpaceLines();
 
-void Word::ParseWordInfor(QString text)
-{
-    QRegExp rex(QString("[a-z\\-A-Z]+"));
+    ParseWordInfo(text.Buf().takeFirst());
 
-    if(-1 != rex.indexIn(text.trimmed().remove(QRegExp("^-")), 0))
+    QList<QStringList> itpstring = text.FindAllBetween(QRegularExpression("^[ ]*\\+.*"), QRegularExpression("^[ ]*\\+.*"));
+
+    for(int i = 0; i < itpstring.count(); i++)
     {
-        m_word = rex.cap(0);
-    }
-
-    rex.setPattern("\\[.*\\]");
-    if(-1 != rex.indexIn(text, 0))
-    {
-        m_soundmark = rex.cap(0).remove("[").remove("]");
-    }
-
-    rex.setPattern("hot:\\d*");
-    if(-1 != rex.indexIn(text, 0))
-    {
-        QString hot = rex.cap(0);
-
-        rex.setPattern("\\d+");
-        if(-1 != rex.indexIn(hot, 0))
-        {
-            m_hot = rex.cap(0);
-        }
-    }
-
-    rex.setPattern("timestamp:\\d*");
-    if(-1 != rex.indexIn(text, 0))
-    {
-        QString timestamp = rex.cap(0);
-
-        rex.setPattern("\\d+");
-        if(-1 != rex.indexIn(timestamp, 0))
-        {
-            m_timestamp = rex.cap(0);
-        }
+        m_interpretations << WordInterpretation(itpstring[i]);
     }
 }
 
-QString Word::ToRecordString()
+void Word::ParseWordInfo(const QString &text)
 {
-    QString record;
+    QRegularExpression rex(QString("(?P<word>(?<=\\-)[ ]*\\w+)"));
+    QRegularExpressionMatch matched = rex.match(text);
+    if(matched.hasMatch())
+    {
+        m_word = matched.captured("word").trimmed().toLower();
+    }
 
-    record += QString("- %1").arg(m_word.toLower());
+    rex.setPattern("(?P<soundmark>(?<=\\[).*?(?=\\]))");
+    matched = rex.match(text);
+    if(matched.hasMatch())
+    {
+        m_soundmark = matched.captured("soundmark");
+    }
 
+    rex.setPattern("(?P<hot>(?<=hot:)\\d+)");
+    matched = rex.match(text);
+    if(matched.hasMatch())
+    {
+        m_hot = matched.captured("hot");
+    }
+
+    rex.setPattern("(?P<timestamp>(?<=timestamp:)\\d+)");
+    matched = rex.match(text);
+    if(matched.hasMatch())
+    {
+        m_timestamp = matched.captured("timestamp");
+    }
+
+    rex.setPattern("(?P<tag>(?<=tag:).*?(?=>))");
+    matched = rex.match(text);
+    if(matched.hasMatch())
+    {
+        m_tags = matched.captured("tag").split(",");
+    }
+}
+
+QString Word::ToRecordString(qint32 indent)
+{
+    QString wordInfo;
+    wordInfo += QString("hot:%1").arg(m_hot.isEmpty() ? "1" : m_hot);
+    wordInfo += QString(" timestamp:%1").arg(m_timestamp.isEmpty() ? QDateTime::currentDateTime().toString("yyMMddhhmm") : m_timestamp);
+    if(!m_tags.isEmpty())
+    {
+        wordInfo += QString(" tag:%1").arg(m_tags.join(","));
+    }
+
+    QString record = QString("- %1").arg(m_word);
     if(!m_soundmark.isEmpty())
     {
         record += QString(" [%1]").arg(m_soundmark);
     }
 
-    record += QString(" <hot:%1").arg(m_hot.isEmpty() ? "1" : m_hot);
-
-    record += QString(" timestamp:%1").arg(m_timestamp.isEmpty() ? QDateTime::currentDateTime().toString("yyMMddhhmm") : m_timestamp);
-
-    record += ">\n";
-
-    for(QList<WordInterpretation>::Iterator it = m_interpretation.begin(); it != m_interpretation.end(); it++)
+    if(!wordInfo.isEmpty())
     {
-        record += it->ToRecordString();
+        record += QString(" <%1>  \n").arg(wordInfo);
+    }
+
+    for(QList<WordInterpretation>::Iterator it = m_interpretations.begin(); it != m_interpretations.end(); it++)
+    {
+        record += it->ToRecordString(indent);
     }
 
     return record;
 }
 
-QString Word::ToDisplayString()
+QString Word::ToDisplayString(qint32 indent)
 {
     QString display = QString("%1").arg(m_word);
-
     if(!m_soundmark.isEmpty())
     {
         display += QString(" [%1]").arg(m_soundmark);
@@ -201,42 +250,12 @@ QString Word::ToDisplayString()
 
     display += "\n";
 
-    return display + QString("%1").arg(ToInerpretionDisplayString());
-}
-
-QString Word::ToInerpretionDisplayString()
-{
-    QString display;
-
-    for(int i = 0; i < m_interpretation.count(); i++)
+    for(int i = 0; i < m_interpretations.count(); i++)
     {
-        display += m_interpretation[i].ToDisplayString();
+        display += m_interpretations[i].ToDisplayString(indent);
     }
 
     return display;
-}
-
-void Word::MergeInerpretion(const QList<WordInterpretation> &itps)
-{
-    for(int i = 0; i < itps.count(); i++)
-    {
-        MergeInerpretion(itps[i]);
-    }
-}
-
-void Word::MergeInerpretion(const WordInterpretation &itps)
-{
-    for(int i = 0; i < m_interpretation.count(); i++)
-    {
-        if(itps.GetPos() == m_interpretation[i].GetPos())
-        {
-            m_interpretation[i].AddMean(itps.GetMean());
-            m_interpretation[i].AddExample(itps.GetExample());
-            return;
-        }
-    }
-
-    m_interpretation << itps;
 }
 
 void Word::Record(const QString &pathfile)
@@ -245,29 +264,28 @@ void Word::Record(const QString &pathfile)
 
     bool res = file.ReplaceBetween(QRegularExpression("^[ ]*-[ ]*" + m_word + ".*")
                         , QRegularExpression("^[ ]*-[ ]*.*")
-                        , ToRecordString());
+                        , ToRecordString(4));
     if(false == res)
     {
-        file << ToRecordString();
+        file << ToRecordString(4);
     }
 }
 
-bool Word::IsWordStr(const QString &str)
+bool Word::IsEnglishWord(const QString &str)
 {
-    for(int i = 0; i < str.count(); i++)
+    QRegularExpression rex(QString("(?P<word>[a-zA-Z\\- ]*)"));
+    QRegularExpressionMatch match = rex.match(str);
+    if(match.hasMatch() && str == match.captured("word"))
     {
-        if(!(('a' <= str[i] && 'z' >= str[i]) || ('A' <= str[i] && 'Z' >= str[i])))
-        {
-            return false;
-        }
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 void Word::Display(QTextEdit *testedit)
 {
-    testedit->append(ToDisplayString());
+    testedit->append(ToDisplayString(4));
 }
 
 void Word::Update()

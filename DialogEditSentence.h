@@ -24,7 +24,6 @@ private slots:
 private:
     void Init();
     void Layout();
-    void Refresh();
 
 private:
     struct ui *m_ui;

@@ -9,11 +9,16 @@
 class SearchResult
 {
 public:
+    using E_ResultType = enum {
+        E_TYPE_WORD = 0,
+        E_TYPE_SENTENCE,
+    };
+
+public:
     SearchResult() = default;
     virtual ~SearchResult() = default;
 
-    virtual void SetType(const QString &type) = 0;
-    virtual QString GetType() = 0;
+    virtual E_ResultType Type() = 0;
     virtual void Display(QTextEdit *testedit) = 0;
     virtual void Update() = 0;
     virtual void SetPathfile(const QString &pathfile) = 0;

@@ -52,7 +52,7 @@ void Sentence::Parse(const QStringList &lines)
         QString line = text.Buf()[i].remove("*").remove("\n").remove("\r").remove("\t").trimmed();
         if(!line.isEmpty())
         {
-            if(Word::IsWordStr(line))
+            if(Sentence::IsEnglishSentence(line))
             {
                 afterLines << ExtractPatternTense(line);
             }
@@ -64,42 +64,27 @@ void Sentence::Parse(const QStringList &lines)
     }
 
     afterLines << "" << "";  // prevent afterLines.count() < 2
-
     m_sentence = QPair<QString, QString>(afterLines[0], afterLines[1]);
 }
 
 QString Sentence::ExtractPatternTense(const QString &line)
 {
-    QRegularExpression rex(QString("(?<=\\<).*?(?=\\>)"));
-    QRegularExpressionMatch match = rex.match(line);
-    QString result = line;
-    result.remove(rex);
+    QRegularExpression rex(QString("(?P<pat>(?<=pattern:).*?(?=[;>]))"));
 
+    QRegularExpressionMatch match = rex.match(line);
     if(match.hasMatch())
     {
-        QStringList matchStrs = match.captured(0).split(";");
-
-        for(int i = 0; i < matchStrs.count(); i++)
-        {
-            rex.setPattern(QString("(?<=pattern:).*?(?=\\b)"));
-            match = rex.match(matchStrs[i]);
-            if(match.hasMatch())
-            {
-                m_pattern = match.captured(0).trimmed().split(",");
-            }
-            else
-            {
-                rex.setPattern(QString("(?<=tense:).*?(?=\\b)"));
-                match = rex.match(matchStrs[i]);
-                if(match.hasMatch())
-                {
-                    m_tense = match.captured(0).trimmed().split(",");
-                }
-            }
-        }
+        m_pattern <<  match.captured("pat").trimmed().split(",");
     }
 
-    return result;
+    rex.setPattern(QString("(?P<ten>(?<=tense:).*?(?=[;>]))"));
+    match = rex.match(line);
+    if(match.hasMatch())
+    {
+        m_tense <<  match.captured("ten").trimmed().split(",");
+    }
+
+    return line.split("<")[0].trimmed();
 }
 
 void Sentence::Display(QTextEdit *testedit)
@@ -134,7 +119,7 @@ QString Sentence::ToRecordString()
 
     if(!m_sentence.first.isEmpty())
     {
-        if(Word::IsWordStr(m_sentence.first))
+        if(Word::IsEnglishWord(m_sentence.first))
         {
             record += QString(indent + "* %1 %2  \n").arg(m_sentence.first).arg(tag);
         }
@@ -146,7 +131,7 @@ QString Sentence::ToRecordString()
 
     if(!m_sentence.second.isEmpty())
     {
-        if(Word::IsWordStr(m_sentence.second))
+        if(Word::IsEnglishWord(m_sentence.second))
         {
             record += QString(indent + "* %1 %2  \n").arg(m_sentence.second).arg(tag);
         }
@@ -205,3 +190,15 @@ void Sentence::Clear()
     m_index = 0;
 }
 
+bool Sentence::IsEnglishSentence(const QString &str)
+{
+    QRegularExpression rex(QString("(?P<sentence>[a-zA-Z\\-\\.\\?\\!, ]*)"));
+    QString line = str.split("<")[0];
+    QRegularExpressionMatch matched = rex.match(line);
+    if(matched.hasMatch() && line == matched.captured("sentence"))
+    {
+        return true;
+    }
+
+    return false;
+}
