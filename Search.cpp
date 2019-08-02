@@ -4,6 +4,7 @@
 #include "Sentence.h"
 #include "Setting.h"
 #include "DialogSet.h"
+#include "Sort.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -155,114 +156,113 @@ QStringList Search::FindPathFileFromFilter(const QStringList &filter)
     return pathfiles;
 }
 
-QList<Word *> Search::GetWordsOnTimeStamp(const QStringList &filter, int count)
+void Search::FilterWordsAccordingHot(const QStringList &wordfiles, const QString &savefile, int count)
 {
-    QStringList pathfiles = FindPathFileFromFilter(filter);
+    Sort<SortHot> sortvector;
 
-    QList<Word *> words;
-
-    for(int i = 0; i < pathfiles.count(); i++)
+    for(int k = 0; k < wordfiles.count(); k++)
     {
-        TextEdit tedit(pathfiles[i]);
+        TextEdit text(wordfiles[k]);
 
-        QList<QStringList> results = tedit.FindAllBetween(QRegularExpression("^[ ]*-[ ]*.*"),
-                                                          QRegularExpression("^[ ]*-[ ]*.*"));
-
-        for(int i = 0; i < results.count(); i++)
+        for(int i = 0; i < text.Buf().count(); i++)
         {
-            Word *pwd = new Word(results[i]);
-            if(pwd->GetHot().isEmpty())
+            QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+            if(!wordTexts.isEmpty())
             {
-                delete pwd;
-                continue;
-            }
-
-            if(words.count() < count)
-            {
-                pwd->SetPathfile(pathfiles[i]);
-                words.append(pwd);
+                sortvector.Append(SortHot(wordTexts.join("\n")));
             }
             else
             {
-                pwd->SetPathfile(pathfiles[i]);
-                words.append(pwd);
-
-                Word *earlier = words[0];
-                for(i = 1; i < words.count(); i++)
-                {
-                    if(QDateTime::fromString(words[i]->GetTimeStamp(), "yyMMddhhmm") < QDateTime::fromString(earlier->GetTimeStamp(), "yyMMddhhmm"))
-                    {
-                        earlier = words[i];
-                    }
-                }
-
-                words.removeOne(earlier);
-                //delete earlier;
+                break;
             }
         }
     }
 
-    return words;
+    TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
+    int i = 0;
+    QVector<SortHot> *vector = sortvector.SortItems();
+
+    for(QVector<SortHot>::iterator it = vector->begin();
+        it != vector->end(); it++)
+    {
+        text << (*it).Text();
+        if(++i == count)
+        {
+            break;
+        }
+    }
 }
 
-QList<Word *> Search::GetWordsOnHot(const QStringList &filter, int count)
+
+void Search::FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, int count)
 {
-    QStringList pathfiles = FindPathFileFromFilter(filter);
+    Sort<SortTimeStamp> sortvector;
 
-    QList<Word *> words;
-
-    for(int k = 0; k < pathfiles.count(); k++)
+    for(int k = 0; k < wordfiles.count(); k++)
     {
-        TextEdit tedit(pathfiles[k]);
+        TextEdit text(wordfiles[k]);
 
-        QList<QStringList> results = tedit.FindAllBetween(QRegularExpression("^[ ]*-[ ]*.*"),
-                                                          QRegularExpression("^[ ]*-[ ]*.*"));
-        QStringList t;
-        t << "- exercise ['ɛksɚsaɪz] <hot:10 timestamp:1901171729 tag:a,b,c sort:>";
-        t << "+ n. 运动、练习、运用、操练、礼拜、典礼 ";
-        t << "+ vt. 锻炼、练习、使用、使忙碌、使惊恐";
-        t << "* Work-break Exercises ";
-        t << "* 工间操 ";
-        //qDebug() << results.count();
-        quint64 len = sizeof(Word);
-        qDebug() << len;
-        for(int i = 0; i < 1000; i++)
+        while(1)
         {
-            /*
-            QTime dieTime = QTime::currentTime().addMSecs(10); //10ms
-            while( QTime::currentTime() < dieTime )
+            QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+            if(!wordTexts.isEmpty())
             {
-                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+                sortvector.Append(SortTimeStamp(wordTexts.join("\n")));
             }
-*/
-
-
-            //if(nullptr != pwd && pwd->GetHot().isEmpty())
-            //{
-                //delete pwd;
-            //    continue;
-            //}
-/*
-            pwd->SetPathfile(pathfiles[i]);
-            pwd->SetType("word");
-            words.append(pwd);
-
-            if(words.count() > count)
+            else
             {
-                Word *minhot = words[0];
-                for(i = 1; i < words.count(); i++)
-                {
-                    if(words[i]->GetHot().toULong() < minhot->GetHot().toULong())
-                    {
-                        minhot = words[i];
-                    }
-                }
-
-                words.removeOne(minhot);
-                //delete minhot;
-            } */
+                break;
+            }
         }
     }
 
-    return words;
+    TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
+    int i = 0;
+    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+
+    for(QVector<SortTimeStamp>::iterator it = vector->begin();
+        it != vector->end(); it++)
+    {
+        text << (*it).Text();
+        if(++i == count)
+        {
+            break;
+        }
+    }
+}
+
+void Search::FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, const QDateTime &begin, const QDateTime &end)
+{
+    Sort<SortTimeStamp> sortvector;
+
+    for(int k = 0; k < wordfiles.count(); k++)
+    {
+        TextEdit text(wordfiles[k]);
+
+        while(1)
+        {
+            QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+            if(!wordTexts.isEmpty())
+            {
+                sortvector.Append(SortTimeStamp(wordTexts.join("\n")));
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
+    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+
+    for(QVector<SortTimeStamp>::iterator it = vector->begin();
+        it != vector->end(); it++)
+    {
+        qDebug() << (*it).Value();
+        if((*it).Value() > begin.toSecsSinceEpoch() && (*it).Value() < end.toSecsSinceEpoch())
+        {
+            text << (*it).Text();
+        }
+    }
 }

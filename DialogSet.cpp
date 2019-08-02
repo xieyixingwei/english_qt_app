@@ -19,13 +19,13 @@
 #include <QLineEdit>
 
 const QString DialogSet::GROUP_SETTING = "sets";
-const QString DialogSet::KEY_UPDATE_HOT = GROUP_SETTING + "/Update Hot";
-const QString DialogSet::KEY_UPDATE_TIMESTAMP = GROUP_SETTING + "/Update Timestamp";
-const QString DialogSet::KEY_AUTO_ADD_WORD = GROUP_SETTING + "/Auto Add Word" ;
-const QString DialogSet::KEY_UNNOTE_WORD_FILE = GROUP_SETTING + "/Unnote Word Trace File";
-const QString DialogSet::KEY_SENTENCE_FILE = GROUP_SETTING + "/Sentence File";
-const QString DialogSet::KEY_SOUND_DIR = GROUP_SETTING + "/Sound Directory";
-const QString DialogSet::KEY_SOUND_VOLUME = GROUP_SETTING + "/Sound Volume";
+const QString DialogSet::KEY_UPDATE_HOT = GROUP_SETTING + "/Update_Hot";
+const QString DialogSet::KEY_UPDATE_TIMESTAMP = GROUP_SETTING + "/Update_Timestamp";
+const QString DialogSet::KEY_AUTO_ADD_WORD = GROUP_SETTING + "/Auto_Add_Word" ;
+const QString DialogSet::KEY_UNNOTE_WORD_FILE = GROUP_SETTING + "/Unnote_Word_Trace_File";
+const QString DialogSet::KEY_SENTENCE_FILE = GROUP_SETTING + "/Sentence_File";
+const QString DialogSet::KEY_SOUND_DIR = GROUP_SETTING + "/Sound_Directory";
+const QString DialogSet::KEY_SOUND_VOLUME = GROUP_SETTING + "/Sound_Volume";
 const QString DialogSet::GROUP_SEARCH_PATH_FILE = "searchfiles";
 
 struct ui

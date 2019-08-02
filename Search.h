@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QList>
 #include <QPlainTextEdit>
+#include <QDateTime>
 
 class SearchResult
 {
@@ -37,8 +38,9 @@ public:
     virtual QList<SearchResult *> SearchTarget(const QString &pathfile, const QString &target);
     QStringList FindPathFileFromFilter(const QStringList &filter);
 
-    QList<Word *> GetWordsOnTimeStamp(const QStringList &filter, int count);
-    QList<Word *> GetWordsOnHot(const QStringList &filter, int count);
+    void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, int count);
+    void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, const QDateTime &begin, const QDateTime &end);
+    void FilterWordsAccordingHot(const QStringList &wordfiles, const QString &savefile, int count);
 };
 
 #endif // SEARCH_H

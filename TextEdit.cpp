@@ -6,13 +6,16 @@
 #include <QTextCodec>
 #include <QDebug>
 
-TextEdit::TextEdit(const QString &pathfile) :
-    m_pathfile(pathfile), m_textbuf(new QStringList), m_change(false)
+TextEdit::TextEdit(const QString &pathfile,  QIODevice::OpenMode mode) :
+    m_pathfile(pathfile),
+    m_textbuf(new QStringList),
+    m_changed(false),
+    m_pc(0),
+    m_mode(mode)
 {
-    m_pathfile = pathfile;
     QFile file(m_pathfile);
 
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!file.open(m_mode))
     {
         return;
     }
@@ -29,19 +32,21 @@ TextEdit::TextEdit(const QString &pathfile) :
 }
 
 TextEdit::TextEdit(const QStringList &lines) :
-    m_pathfile(""), m_change(false)
+    m_pathfile(""),
+    m_changed(false),
+    m_pc(0)
 {
     m_textbuf = new QStringList(lines);
 }
 
 TextEdit::~TextEdit()
 {
-    if(nullptr != m_textbuf)
+    if(nullptr != m_textbuf )
     {
-        if(m_change && !m_pathfile.isEmpty())
+        if(m_changed && !m_pathfile.isEmpty())
         {
             QFile file(m_pathfile);
-            if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+            if(file.open(m_mode))
             {
                 QTextStream stream(&file);
                 stream.setCodec("UTF-8");
@@ -62,109 +67,10 @@ TextEdit::~TextEdit()
     }
 }
 
-QStringList TextEdit::FindBetween(const QRegularExpression &a, const QRegularExpression &b, E_MODE mode)
+bool TextEdit::Replace(const QRegularExpression &begin, const QRegularExpression &end, const QString &t)
 {
-    QStringList found;
-    int ia = m_textbuf->indexOf(a);
-    int ib = m_textbuf->indexOf(b, ia + 1);
-
-    if(-1 == ia)
-    {
-        return found;
-    }
-
-    if(-1 == ib)
-    {
-        ib = m_textbuf->count();
-    }
-
-    if(E_HOLD_A == mode || E_HOLD_AB == mode)
-    {
-        found << (*m_textbuf)[ia];
-    }
-
-    for(int i = ia + 1; i < ib; i++)
-    {
-        found << (*m_textbuf)[i];
-    }
-
-    if((m_textbuf->count() != ib) && (E_HOLD_B == mode || E_HOLD_AB == mode))
-    {
-        found << (*m_textbuf)[ib];
-    }
-
-    return found;
-}
-
-QList<QStringList> TextEdit::FindAllBetween(const QRegularExpression &a, const QRegularExpression &b, TextEdit::E_MODE mode)
-{
-    QList<QStringList> result;
-
-    int p = 0;
-    while(p < m_textbuf->count())
-    {
-        QStringList found;
-        int ia = m_textbuf->indexOf(a, p);
-        int ib = m_textbuf->indexOf(b, ia + 1);
-
-        if(-1 == ia)
-        {
-            return result;
-        }
-
-        if(-1 == ib)
-        {
-            ib = m_textbuf->count();
-        }
-
-        if(E_HOLD_A == mode || E_HOLD_AB == mode)
-        {
-            found << (*m_textbuf)[ia];
-        }
-
-        for(int i = ia + 1; i < ib; i++)
-        {
-            found << (*m_textbuf)[i];
-        }
-
-        if((m_textbuf->count() != ib) && (E_HOLD_B == mode || E_HOLD_AB == mode))
-        {
-            found << (*m_textbuf)[ib];
-        }
-
-        result << found;
-        p = ib;
-    }
-
-    return result;
-}
-
-void TextEdit::InsertBehind(const QRegularExpression &a, const QString &b)
-{
-    int i = m_textbuf->indexOf(a);
-
-    if(-1 != i)
-    {
-        m_textbuf->insert(i + 1, b);
-        m_change = true;
-    }
-}
-
-void TextEdit::InsertBefore(const QRegularExpression &a, const QString &b)
-{
-    int i = m_textbuf->indexOf(a);
-
-    if(-1 != i)
-    {
-        m_textbuf->insert(i, b);
-        m_change = true;
-    }
-}
-
-bool TextEdit::ReplaceBetween(const QRegularExpression &a, const QRegularExpression &b, const QString &c, E_MODE mode)
-{
-    int ia = m_textbuf->indexOf(a);
-    int ib = m_textbuf->indexOf(b, ia + 1) ;
+    int ia = m_textbuf->indexOf(begin);
+    int ib = m_textbuf->indexOf(end, ia + 1) ;
 
     if(-1 == ia)
     {
@@ -176,31 +82,50 @@ bool TextEdit::ReplaceBetween(const QRegularExpression &a, const QRegularExpress
         ib = m_textbuf->count();
     }
 
-    for(int i = 1; i < (ib - ia); i++)
-    {
-        m_textbuf->removeAt(ia + 1);
-    }
-
-    m_textbuf->insert(ia + 1, c);
-
-    if(E_HOLD_NO == mode || E_HOLD_B == mode)
+    for(int i = 0; i < (ib - ia); i++)
     {
         m_textbuf->removeAt(ia);
     }
 
-    if((m_textbuf->count() != ib) && (E_HOLD_NO == mode || E_HOLD_A == mode))
+    m_textbuf->insert(ia, t);
+    m_changed = true;
+    return true;
+}
+
+QStringList TextEdit::Find(const QRegularExpression &begin, const QRegularExpression &end)
+{
+    QStringList found;
+
+    if(m_pc > m_textbuf->count())
     {
-        m_textbuf->removeAt(ia + 2);
+        return found;
     }
 
-    m_change = true;
-    return true;
+    int pa = m_textbuf->indexOf(begin, m_pc);
+    if(-1 == pa)
+    {
+        return found;
+    }
+
+    int pb = m_textbuf->indexOf(end, pa + 1) ;
+    if(-1 == pb)
+    {
+        pb = m_textbuf->count();
+    }
+
+    for(int i = 0; i < (pb - pa); i++)
+    {
+        found << m_textbuf->at(pa + i);
+    }
+
+    m_pc = pb + 1;
+    return found;
 }
 
 TextEdit &TextEdit::operator<<(const QString &str)
 {
     *m_textbuf << str;
-    m_change = true;
+    m_changed = true;
     return *this;
 }
 

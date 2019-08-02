@@ -164,13 +164,7 @@ void Word::Parse(const QStringList &lines)
     text.RemoveSpaceLines();
 
     ParseWordInfo(text.Buf().takeFirst());
-
-    QList<QStringList> itpstring = text.FindAllBetween(QRegularExpression("^[ ]*\\+.*"), QRegularExpression("^[ ]*\\+.*"));
-
-    for(int i = 0; i < itpstring.count(); i++)
-    {
-        m_interpretations << WordInterpretation(itpstring[i]);
-    }
+    m_interpretations = WordInterpretation::WordInterpretationList(text.Buf());
 }
 
 void Word::ParseWordInfo(const QString &text)
@@ -262,7 +256,7 @@ void Word::Record(const QString &pathfile)
 {
     TextEdit file(pathfile.isEmpty() ? m_pathfile : pathfile);
 
-    bool res = file.ReplaceBetween(QRegularExpression("^[ ]*-[ ]*" + m_word + ".*")
+    bool res = file.Replace(QRegularExpression("^[ ]*-[ ]*" + m_word + ".*")
                         , QRegularExpression("^[ ]*-[ ]*.*")
                         , ToRecordString(4));
     if(false == res)

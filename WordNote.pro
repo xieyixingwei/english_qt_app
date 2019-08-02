@@ -38,7 +38,8 @@ SOURCES += \
     Sentence.cpp \
     QListWidgetCm.cpp \
     DialogExport.cpp \
-    TextHighLighter.cpp
+    TextHighLighter.cpp \
+    Sort.cpp
 
 HEADERS += \
     DialogEditSentence.h \
@@ -52,7 +53,8 @@ HEADERS += \
     Sentence.h \
     QListWidgetCm.h \
     DialogExport.h \
-    TextHighLighter.h
+    TextHighLighter.h \
+    Sort.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
