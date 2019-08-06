@@ -2,31 +2,66 @@
 #define SETTING_H
 
 #include <QSettings>
-#include <QMap>
+#include <QJsonDocument>
 
-class Setting
+class SettingsKey
 {
 public:
-    static Setting &Instance();
-    ~Setting();
+    using Key = enum {
+        KEY_UPDATE_HOT = 0,
+        KEY_UPDATE_TIMESTAMP,
+        KEY_AUTO_ADD_WORD,
+        KEY_UNNOTE_WORD_FILE,
+        KEY_SENTENCE_FILE,
+        KEY_SOUND_DIR,
+        KEY_SOUND_VOLUME,
+        KEY_SENTENCE_PATTERN,
+        KEY_SENTENCE_TENSE,
 
-    inline QVariant Value(const QString &key) { return m_sets[key]; }
-    inline void SetValue(const QString &key, const QVariant &value) { m_sets[key] = value; }
-    QVariant operator[](const QString &key) { return m_sets[key]; }
-    void RemoveValue(const QString &key);
-    QStringList GetGroupAllValue(const QString &group);
-    void RemoveGroupAllValue(const QString &group);
-    void Sync();
-
-private:
-    Setting();
-
-private:
-    static Setting *m_instance;
-    QSettings *m_settings;
-    QMap<QString, QVariant> m_sets;
+        KEY_WORD_MEANS,
+        KEY_WORD_TAGS
+    };
 };
 
-#define SETS  Setting::Instance()
+class SettingsGroup
+{
+public:
+    using Group = enum {
+        E_GROUP_SETTINGS = 0,
+        E_GROUP_SEARCH_FILES,
+        GROUP_EXPORT
+    };
+};
+
+
+
+class Settings
+{
+public:
+
+
+public:
+    static Settings &Instance();
+    ~Settings();
+
+    QVariant Value(const QString &key);
+    QVariant operator[](const QString &key);
+    QStringList GetGroupAllValue(const QString &group);
+    void RemoveGroupAllValue(const QString &group);
+    inline void Sync() { m_settings->sync(); }
+    QString FindKey(const QString &key);
+
+private:
+    Settings();
+
+
+private:
+    static Settings *m_instance;
+    static const QString m_default;
+    QSettings *m_settings;
+    QJsonDocument m_json;
+};
+
+#define SETS  Settings::Instance()
 
 #endif // SETTING_H

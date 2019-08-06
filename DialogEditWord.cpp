@@ -5,7 +5,7 @@
 #include "Setting.h"
 #include "DialogSet.h"
 #include "TextEdit.h"
-
+#include "DialogEditSentence.h"
 #include "QListWidgetCm.h"
 
 #include <QHBoxLayout>
@@ -121,17 +121,14 @@ DialogEditWord::~DialogEditWord()
 
 void DialogEditWord::Init()
 {
-    const char* const KEY_SENTENCE_PATTERN = "Sentence_Pattern";
-    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
-
-    const char* const KEY_SENTENCE_TENSE = "Sentence_Tense";
-    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
+    //m_ui->comb_pattern->addItems(SETS[DialogEditSentence::KEY_SENTENCE_PATTERN].toString().split(","));
+    //m_ui->comb_tense->addItems(SETS[DialogEditSentence::KEY_SENTENCE_TENSE].toString().split(","));
 
     const char* const KEY_WORD_MEANS("Part_Of_Speech");
-    m_ui->comb_means->addItems(SETS[KEY_WORD_MEANS].toString().split(","));
+    //m_ui->comb_means->addItems(SETS[KEY_WORD_MEANS].toString().split(","));
 
     const char* const KEY_WORD_TAGS("Word_Tags");
-    m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
+    //m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
 }
 
 void DialogEditWord::Layout()
@@ -360,7 +357,7 @@ void DialogEditWord::Search_Btn_Slot()
     m_ui->ledit_timestamp->clear();
     m_ui->ledit_tags->clear();
     m_ui->lwdg_interpretation->clear();
-
+/*
     Search search;
     QList<SearchResult *> results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), searchStr);
 
@@ -372,5 +369,5 @@ void DialogEditWord::Search_Btn_Slot()
             Refresh();
             break;
         }
-    }
+    }*/
 }

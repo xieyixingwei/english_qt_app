@@ -9,7 +9,7 @@ SortTimeStamp::SortTimeStamp(const QString &text) :
     QRegularExpressionMatch matched = rex.match(text);
     if(matched.hasMatch())
     {
-        m_timestamp = QDateTime::fromString(matched.captured("timestamp").trimmed(), "yyMMddhhmm").toSecsSinceEpoch();
+        m_timestamp = QDateTime::fromString("20" + matched.captured("timestamp").trimmed(), "yyyyMMddhhmm").toSecsSinceEpoch();
     }
     else
     {

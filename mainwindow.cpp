@@ -128,7 +128,7 @@ void MainWindow::Search_Btn_Slot()
     m_highlighter->AddRule(QRegularExpression(searchword), fmt_word);
 
     Search search;
-    m_results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), searchword);
+    //m_results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), searchword);
 
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
     {
@@ -144,7 +144,7 @@ void MainWindow::Search_Btn_Slot()
     {
         Word wd;
         wd.SetWord(searchword);
-        wd.Record(SETS[DialogSet::KEY_UNNOTE_WORD_FILE].toString());
+        //wd.Record(SETS[DialogSet::KEY_UNNOTE_WORD_FILE].toString());
     }
 }
 
@@ -175,7 +175,7 @@ void MainWindow::Record_Word_Edited_Slot(Word wd)
         wd.Record(pwd->GetPathfile());
         return;
     }
-
+/*
     Search search;
     QList<SearchResult *> results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), wd.GetWord());
 
@@ -187,8 +187,8 @@ void MainWindow::Record_Word_Edited_Slot(Word wd)
              return;
         }
     }
-
-    wd.Record(SETS[DialogSet::KEY_UNNOTE_WORD_FILE].toString());
+*/
+    //wd.Record(SETS[DialogSet::KEY_UNNOTE_WORD_FILE].toString());
 }
 
 Word *MainWindow::GetWordFromSearchResults()
@@ -210,6 +210,6 @@ void MainWindow::Play_Btn_Slot()
 
     if(nullptr != pwd)
     {
-        pwd->Play(SETS[DialogSet::KEY_SOUND_VOLUME].toInt());
+        //pwd->Play(SETS[DialogSet::KEY_SOUND_VOLUME].toInt());
     }
 }

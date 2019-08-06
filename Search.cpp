@@ -259,7 +259,6 @@ void Search::FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const Q
     for(QVector<SortTimeStamp>::iterator it = vector->begin();
         it != vector->end(); it++)
     {
-        qDebug() << (*it).Value();
         if((*it).Value() > begin.toSecsSinceEpoch() && (*it).Value() < end.toSecsSinceEpoch())
         {
             text << (*it).Text();

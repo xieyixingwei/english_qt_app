@@ -9,6 +9,10 @@ class DialogEditSentence : public QObject
     Q_OBJECT
 
 public:
+    static const char* const KEY_SENTENCE_PATTERN;
+    static const char* const KEY_SENTENCE_TENSE;
+
+public:
     DialogEditSentence();
     ~DialogEditSentence();
 

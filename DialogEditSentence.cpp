@@ -39,6 +39,9 @@ struct ui {
     QPushButton *btn_cancel;
 };
 
+const char* const DialogEditSentence::KEY_SENTENCE_PATTERN = "Sentence_Pattern";
+const char* const DialogEditSentence::KEY_SENTENCE_TENSE = "Sentence_Tense";
+
 DialogEditSentence::DialogEditSentence() :
     m_ui(new struct ui),
     m_sentence(new Sentence)
@@ -80,11 +83,8 @@ DialogEditSentence::~DialogEditSentence()
 
 void DialogEditSentence::Init()
 {
-    const char* const KEY_SENTENCE_PATTERN = "Sentence_Pattern";
-    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
-
-    const char* const KEY_SENTENCE_TENSE = "Sentence_Tense";
-    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
+    //m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    //m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
 }
 
 void DialogEditSentence::Layout()

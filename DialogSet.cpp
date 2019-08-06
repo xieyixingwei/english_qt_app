@@ -62,7 +62,7 @@ DialogSet::DialogSet()
     m_ui->ledit_sounddir = new QLineEdit;
     m_ui->spinbox_volume = new QSpinBox;
     m_ui->lwdg_searchfiles = new QListWidgetCm;
-    m_ui->lwdg_searchfiles->addItems(SETS.GetGroupAllValue(GROUP_SEARCH_PATH_FILE));
+    //m_ui->lwdg_searchfiles->addItems(SETS.GetGroupAllValue(GROUP_SEARCH_PATH_FILE));
 
     m_ui->btn_ok = new QPushButton(tr("Ok"));
     m_ui->btn_cancel = new QPushButton(tr("Cancel"));
@@ -85,7 +85,7 @@ void DialogSet::Init()
 {
     QDir curdir = QDir::current();
     curdir.cdUp();
-
+/*
     if(SETS[KEY_UNNOTE_WORD_FILE].isNull())
     {
         SETS.SetValue(KEY_UNNOTE_WORD_FILE, curdir.path() + "/thesaurus/words/word-unnote.md");
@@ -113,6 +113,7 @@ void DialogSet::Init()
     m_ui->cbox_updatehot->setCheckState(SETS[KEY_UPDATE_HOT].toBool() ? Qt::Checked : Qt::Unchecked);
     m_ui->cbox_updatetimestamp->setCheckState(SETS[KEY_UPDATE_TIMESTAMP].toBool() ?  Qt::Checked : Qt::Unchecked);
     m_ui->cbox_autoaddword->setCheckState(SETS[KEY_AUTO_ADD_WORD].toBool() ?  Qt::Checked : Qt::Unchecked);
+*/
 }
 
 void DialogSet::Layout()
@@ -160,7 +161,7 @@ void DialogSet::Close()
 }
 
 void DialogSet::Ok_Btn_Slot()
-{
+{/*
     SETS.SetValue(KEY_UPDATE_HOT, m_ui->cbox_updatehot->isChecked());
     SETS.SetValue(KEY_UPDATE_TIMESTAMP, m_ui->cbox_updatetimestamp->isChecked());
     SETS.SetValue(KEY_AUTO_ADD_WORD, m_ui->cbox_autoaddword->isChecked());
@@ -180,6 +181,6 @@ void DialogSet::Ok_Btn_Slot()
     }
 
     SETS.Sync();
-    m_ui->dialog->close();
+    m_ui->dialog->close();*/
 }
 
