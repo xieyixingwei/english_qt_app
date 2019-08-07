@@ -4,60 +4,55 @@
 #include <QSettings>
 #include <QJsonDocument>
 
-class SettingsKey
-{
-public:
-    using Key = enum {
-        KEY_UPDATE_HOT = 0,
-        KEY_UPDATE_TIMESTAMP,
-        KEY_AUTO_ADD_WORD,
-        KEY_UNNOTE_WORD_FILE,
-        KEY_SENTENCE_FILE,
-        KEY_SOUND_DIR,
-        KEY_SOUND_VOLUME,
-        KEY_SENTENCE_PATTERN,
-        KEY_SENTENCE_TENSE,
+#define GROUP_GENNERAL   "General"
+    #define KEY_SENTENCE_PATTERN   "Sentence_Pattern"
+    #define KEY_PART_OF_SPEECH     "Part_Of_Speech"
+    #define KEY_SENTENCE_TENSE     "Sentence_Tense"
+    #define KEY_WORD_TAGS          "Word_Tags"
 
-        KEY_WORD_MEANS,
-        KEY_WORD_TAGS
-    };
-};
+#define GROUP_SETTINGS   "Settings"
+    #define KEY_AUTO_ADD_WORD      "Auto_Add_Word"
+    #define KEY_SENTENCE_FILE      "Sentence_File"
+    #define KEY_SOUND_DIR          "Sound_Directory"
+    #define KEY_SOUND_VOLUME       "Sound_Volume"
+    #define KEY_UNNOTE_WORD_FILE   "Unnote_Word_Trace_File"
+    #define KEY_UPDATE_HOT         "Update_Hot"
+    #define KEY_UPDATE_TIMESTAMP   "Update_Timestamp"
 
-class SettingsGroup
-{
-public:
-    using Group = enum {
-        E_GROUP_SETTINGS = 0,
-        E_GROUP_SEARCH_FILES,
-        GROUP_EXPORT
-    };
-};
+#define GROUP_SEARCH_FILES   "SearchFiles"
 
-
+#define GROUP_EXPORT   "Export"
+    #define KEY_EXPORT_FILE_ON_HOT               "export_file_on_hot"
+    #define KEY_EXPORT_FILE_ON_TIMESTAMP         "export_file_on_timestamp"
+    #define KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE   "export_file_on_timestamp_scope"
 
 class Settings
 {
-public:
-
-
 public:
     static Settings &Instance();
     ~Settings();
 
     QVariant Value(const QString &key);
     QVariant operator[](const QString &key);
-    QStringList GetGroupAllValue(const QString &group);
-    void RemoveGroupAllValue(const QString &group);
+    QVariant DefaultValue(const QString &key);
+
+    void SetValue(const QString &key, const QVariant &value);
+    void Remove(const QString &key);
+
+    QList<QVariant> GetGroup(const QString &group);
+    QList<QVariant> DefaultGroup(const QString &group);
+    void RemoveGroup(const QString &group);
     inline void Sync() { m_settings->sync(); }
-    QString FindKey(const QString &key);
+    QString DefaultKey(const QString &key);
+
+    static QStringList ToStringList(const QList<QVariant> &vl);
 
 private:
     Settings();
 
-
 private:
     static Settings *m_instance;
-    static const QString m_default;
+    static const QString m_default_settings;
     QSettings *m_settings;
     QJsonDocument m_json;
 };

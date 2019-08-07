@@ -39,8 +39,7 @@ struct ui {
     QPushButton *btn_cancel;
 };
 
-const char* const DialogEditSentence::KEY_SENTENCE_PATTERN = "Sentence_Pattern";
-const char* const DialogEditSentence::KEY_SENTENCE_TENSE = "Sentence_Tense";
+
 
 DialogEditSentence::DialogEditSentence() :
     m_ui(new struct ui),
@@ -83,8 +82,8 @@ DialogEditSentence::~DialogEditSentence()
 
 void DialogEditSentence::Init()
 {
-    //m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
-    //m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
+    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
 }
 
 void DialogEditSentence::Layout()
@@ -152,7 +151,7 @@ void DialogEditSentence::RecordSentence_Btn_Slot()
     m_sentence->SetSentence(m_ui->ledit_sentence_a->text(),
                             m_ui->ledit_sentence_b->text());
 
-    m_sentence->Record(SETS[DialogSet::KEY_SENTENCE_FILE].toString());
+    m_sentence->Record(SETS[KEY_SENTENCE_FILE].toString());
 }
 
 void DialogEditSentence::Clear_Btn_Slot()

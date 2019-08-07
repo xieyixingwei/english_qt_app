@@ -6,29 +6,42 @@
 #include <QJsonValue>
 #include <QDebug>
 
-const QString Settings::m_default(
-        "{\
-                    \"Genneral\":{\
-                           \"Sentence_Pattern\": \"S + Vi,S + Vt + O,S + Vt + Io + Do,S + V + P\",\
-                           \"Part_Of_Speech\": \"n,adj,v,vi,vt,adv,prep\",\
-                           \"Sentence_Tense\": \"was/ware + Ving,am/is/are + Ving,will be + Ving,would be + Ving,had + Ved,have/has + Ved,will have + Ved\",\
-                           \"Word_Tags\": [\"highfreq,time\"]},\
-                    \"Settings\":{\
-                           \"Auto_Add_Word\": 1,\
-                            \"Sentence_File\": \"C:/GaoNian/Project/WordNote/WordNote/test/sentence.md\",\
-                            \"Sound_Directory\":\"D:/GaoNian/English/thesaurus/sounds/\",\
-                            \"Sound_Volume\": 30,\
-                            \"Unnote_Word_Trace_File\": \"C:/GaoNian/Project/WordNote/WordNote/test/word-unnote.md\",\
-                            \"Update_Hot\": 1,\
-                            \"Update_Timestamp\": 1},\
-                    \"SearchFiles\":{\
-                           \"0\": \"C:/GaoNian/Project/WordNote/WordNote/test/*.md\",\
-                           \"1\": \"1\"},\
-                    \"Export\":{\
-                           \"export_file_on_hot\": \"C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_hot.md\",\
-                           \"export_file_on_timestamp\": \"C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp.md\",\
-                           \"export_file_on_timestamp_scope\": \"C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp_scope.md\"}\
-                    }"
+#define JSON_OBJ(s)    "{" s "}"
+#define GV_END(k, v)   "\"" k "\":{" v "}"
+#define GV(k, v)       GV_END(k, v) ","
+
+#define KV_END(k,v)      "\"" k "\":" v
+#define KV(k,v)          KV_END(k,v) ","
+
+#define STR(s)   "\"" s "\""
+
+const QString Settings::m_default_settings(
+JSON_OBJ(
+    GV(GROUP_GENNERAL,
+        KV(KEY_PART_OF_SPEECH, STR("n,adj,v,vi,vt,adv,prep"))
+        KV(KEY_SENTENCE_TENSE, STR("was/ware + Ving,am/is/are + Ving,will be + Ving,would be + Ving,had + Ved,have/has + Ved,will have + Ved"))
+        KV(KEY_SENTENCE_PATTERN, STR("S + Vi,S + Vt + O,S + Vt + Io + Do,S + V + P"))
+        KV_END(KEY_WORD_TAGS, STR("highfreq"))
+        )
+    GV(GROUP_SETTINGS,
+        KV(KEY_AUTO_ADD_WORD, "true")
+        KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/sentence.md"))
+        KV(KEY_SOUND_DIR, STR("D:/GaoNian/English/thesaurus/sounds/"))
+        KV(KEY_SOUND_VOLUME, "true")
+        KV(KEY_UNNOTE_WORD_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/word-unnote.md"))
+        KV(KEY_UPDATE_HOT, "true")
+        KV_END(KEY_UPDATE_TIMESTAMP, "true")
+        )
+    GV(GROUP_SEARCH_FILES,
+        KV("0", STR("C:/GaoNian/Project/WordNote/WordNote/test/*.md"))
+        KV_END("1", "1")
+        )
+    GV_END(GROUP_EXPORT,
+        KV(KEY_EXPORT_FILE_ON_HOT, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_hot.md"))
+        KV(KEY_EXPORT_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp.md"))
+        KV_END(KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp_scope.md"))
+        )
+    )
 );
 
 Settings *Settings::m_instance = nullptr;
@@ -46,7 +59,9 @@ Settings &Settings::Instance()
 Settings::Settings()
 {
     m_settings = new QSettings("user.ini", QSettings::IniFormat);
-    m_json = QJsonDocument::fromJson(m_default.toUtf8());
+    QJsonParseError error;
+    m_json = QJsonDocument::fromJson(m_default_settings.toUtf8(), &error);
+    qDebug() << error.error;
 }
 
 Settings::~Settings()
@@ -58,61 +73,125 @@ Settings::~Settings()
     }
 }
 
-QString Settings::FindKey(const QString &key)
+QString Settings::DefaultKey(const QString &key)
 {
     if(!m_json[key].isUndefined())
     {
         return key;
     }
 
-    QString findKey;
+    for(QJsonObject::const_iterator it = m_json.object().begin();
+        it != m_json.object().end(); it++)
+    {
+        if(it->isObject() && it->toObject().contains(key))
+        {
+            return (it.key() + "/" + key);
+        }
+    }
+    return key;
+}
+
+QVariant Settings::DefaultValue(const QString &key)
+{
+    if(!m_json[key].isUndefined())
+    {
+        return m_json[key].toVariant();
+    }
 
     for(QJsonObject::const_iterator it = m_json.object().begin();
         it != m_json.object().end(); it++)
     {
         if(it->isObject() && it->toObject().contains(key))
         {
-            findKey = it.key() + "/" + key;
-            break;
+            return it->toObject().value(key).toVariant();
         }
     }
 
-    return findKey;
+    return QVariant(0);
+}
+
+QList<QVariant> Settings::DefaultGroup(const QString &group)
+{
+    QList<QVariant> res;
+
+    if(m_json[group].isObject())
+    {
+        QStringList keys = m_json[group].toObject().keys();
+        for(int i = 0; i < keys.count(); i++)
+        {
+            res << m_json[group].toObject().value(keys[i]).toVariant();
+        }
+    }
+
+    return res;
 }
 
 QVariant Settings::Value(const QString &key)
 {
-    return m_settings->value(FindKey(key));
+    QString newKey = DefaultKey(key);
+    if(m_settings->contains(newKey))
+    {
+        return m_settings->value(newKey);
+    }
+
+    return DefaultValue(key);
 }
 
 QVariant Settings::operator[](const QString &key)
 {
-
+    return Value(key);
 }
 
-QStringList Settings::GetGroupAllValue(const QString &group)
+QList<QVariant> Settings::GetGroup(const QString &group)
 {
-    QStringList res;
-/*
-    for(QSettings::Iterator it = m_settings.begin(); it != m_settings.end(); it++)
+    QList<QVariant> res;
+
+    if(m_settings->childGroups().contains(group))
     {
-        if(it.key().contains(QRegExp(group + "/.*")))
+        m_settings->beginGroup(group);
+        QStringList keys = m_settings->childKeys();
+        for(int i = 0; i < keys.count(); i++)
         {
-            res << it.value().toString();
+            res << m_settings->value(keys[i]);
         }
+        m_settings->endGroup();
+        return res;
     }
-*/
-    return res;
+
+    return DefaultGroup(group);
 }
 
-void Settings::RemoveGroupAllValue(const QString &group)
+void Settings::RemoveGroup(const QString &group)
 {
-    /*
-    for(QMap<QString, QVariant>::Iterator it = m_sets.begin(); it != m_sets.end(); it++)
+    if(m_settings->childGroups().contains(group))
     {
-        if(it.key().contains(QRegExp(group + "/.*")))
+        m_settings->beginGroup(group);
+        QStringList keys = m_settings->childKeys();
+        for(int i = 0; i < keys.count(); i++)
         {
-            RemoveValue(it.key());
+            m_settings->remove(keys[i]);
         }
-    }*/
+        m_settings->endGroup();
+    }
+}
+
+void Settings::SetValue(const QString &key, const QVariant &value)
+{
+    m_settings->setValue(DefaultKey(key), value);
+}
+
+void Settings::Remove(const QString &key)
+{
+    m_settings->remove(DefaultKey(key));
+}
+
+QStringList Settings::ToStringList(const QList<QVariant> &vl)
+{
+    QStringList sl;
+    for(int i = 0; i < vl.count(); i++)
+    {
+        sl << vl[i].toString();
+    }
+
+    return sl;
 }

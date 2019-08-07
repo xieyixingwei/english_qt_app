@@ -284,12 +284,12 @@ void Word::Display(QTextEdit *testedit)
 
 void Word::Update()
 {
-    if(SETS[DialogSet::KEY_UPDATE_HOT].toBool())
+    if(SETS[KEY_UPDATE_HOT].toBool())
     {
         m_hot = QString::number(m_hot.toULong() + 1);
     }
 
-    if(SETS[DialogSet::KEY_UPDATE_TIMESTAMP].toBool())
+    if(SETS[KEY_UPDATE_TIMESTAMP].toBool())
     {
         m_timestamp = QDateTime::currentDateTime().toString("yyMMddhhmm");
     }
@@ -304,7 +304,7 @@ void Word::Play(int volume)
         return;
     }
 
-    m_mediaplayer->setMedia(QUrl::fromLocalFile(SETS[DialogSet::KEY_SOUND_DIR].toString() + m_word + "_1.mp3"));
+    //m_mediaplayer->setMedia(QUrl::fromLocalFile(SETS[DialogSet::KEY_SOUND_DIR].toString() + m_word + "_1.mp3"));
     m_mediaplayer->setVolume(volume);
     m_mediaplayer->play();
 }

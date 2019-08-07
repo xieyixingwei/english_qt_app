@@ -25,11 +25,6 @@
 #include <QDateTime>
 #include <QDir>
 
-const QString DialogExport::GROUP_EXPORT = "export";
-const QString DialogExport::KEY_EXPORT_FILE_ON_HOT = GROUP_EXPORT + "/export_file_on_hot";
-const QString DialogExport::KEY_EXPORT_FILE_ON_TIMESTAMP = GROUP_EXPORT + "/export_file_on_timestamp";
-const QString DialogExport::KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE = GROUP_EXPORT + "/export_file_on_timestamp_scope";
-
 struct ui
 {
     QDialog *dialog;
@@ -130,8 +125,7 @@ void DialogExport::Layout()
 
 void DialogExport::Init()
 {
-    //m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
-
+    m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
     m_ui->spinbox_hot_export->setRange(1, 100000);
     m_ui->spinbox_hot_export->setValue(50);
 
@@ -143,22 +137,6 @@ void DialogExport::Init()
 
     QDir curdir = QDir::current();
     curdir.cdUp();
-/*
-    if(SETS[KEY_EXPORT_FILE_ON_HOT].isNull())
-    {
-        SETS.SetValue(KEY_EXPORT_FILE_ON_HOT, curdir.path() + "/thesaurus/exports/export_on_hot.md");
-    }
-
-    if(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP].isNull())
-    {
-        SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP, curdir.path() + "/thesaurus/exports/export_on_timestamp.md");
-    }
-
-    if(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE].isNull())
-    {
-        SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE, curdir.path() + "/thesaurus/exports/export_on_timestamp_scope.md");
-    }
-*/
 
     m_ui->ledit_hot_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_HOT].toString());
     m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP].toString());
@@ -178,7 +156,7 @@ void DialogExport::Close()
 void DialogExport::Export_Btn_Slot()
 {
     Search search;
-/*
+
     if(m_ui->cbox_tag_export->isChecked())
     {
 
@@ -186,21 +164,21 @@ void DialogExport::Export_Btn_Slot()
 
     if(m_ui->cbox_hot_export->isChecked())
     {
-        search.FilterWordsAccordingHot(search.FindPathFileFromFilter(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE)),
+        search.FilterWordsAccordingHot(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
                     m_ui->ledit_hot_export_filename->text().trimmed(),
                     m_ui->spinbox_hot_export->value());
     }
 
     if(m_ui->cbox_timestamp_export->isChecked())
     {
-        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE)),
+        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
                     m_ui->ledit_timestamp_export_filename->text().trimmed(),
                     m_ui->spinbox_timestamp_export->value());
     }
 
     if(m_ui->cbox_timestamp_scope_export->isChecked())
     {
-        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE)),
+        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
                     m_ui->ledit_timestamp_scope_export_filename->text().trimmed(),
                     m_ui->dtedit_timestamp_scope_a_export->dateTime(),
                     m_ui->dtedit_timestamp_scope_b_export->dateTime());
@@ -209,5 +187,5 @@ void DialogExport::Export_Btn_Slot()
     SETS.SetValue(KEY_EXPORT_FILE_ON_HOT, m_ui->ledit_hot_export_filename->text().trimmed());
     SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP, m_ui->ledit_timestamp_export_filename->text().trimmed());
     SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE, m_ui->ledit_timestamp_scope_export_filename->text().trimmed());
-    SETS.Sync();*/
+    SETS.Sync();
 }

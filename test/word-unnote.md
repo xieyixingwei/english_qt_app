@@ -195,9 +195,9 @@
         * python interpreter
         * python 解释器
 
-- snack [snæk] <hot:1 timestamp:1904101128>
+- snack [snæk] <hot:2 timestamp:1908071549>  
     + n. 小吃,快餐;一份,部分
-    + vi. 吃快餐,吃点心
+        * + vi. 吃快餐,吃点心  
 
 - repair [rɪ'pɛr] <hot:1 timestamp:1904021549>
     + vi. 修理;修复

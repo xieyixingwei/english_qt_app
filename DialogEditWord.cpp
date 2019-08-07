@@ -121,14 +121,10 @@ DialogEditWord::~DialogEditWord()
 
 void DialogEditWord::Init()
 {
-    //m_ui->comb_pattern->addItems(SETS[DialogEditSentence::KEY_SENTENCE_PATTERN].toString().split(","));
-    //m_ui->comb_tense->addItems(SETS[DialogEditSentence::KEY_SENTENCE_TENSE].toString().split(","));
-
-    const char* const KEY_WORD_MEANS("Part_Of_Speech");
-    //m_ui->comb_means->addItems(SETS[KEY_WORD_MEANS].toString().split(","));
-
-    const char* const KEY_WORD_TAGS("Word_Tags");
-    //m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
+    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
+    m_ui->comb_means->addItems(SETS[KEY_PART_OF_SPEECH].toString().split(","));
+    m_ui->comb_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
 }
 
 void DialogEditWord::Layout()
@@ -357,9 +353,9 @@ void DialogEditWord::Search_Btn_Slot()
     m_ui->ledit_timestamp->clear();
     m_ui->ledit_tags->clear();
     m_ui->lwdg_interpretation->clear();
-/*
+
     Search search;
-    QList<SearchResult *> results = search.SearchTarget(SETS.GetGroupAllValue(DialogSet::GROUP_SEARCH_PATH_FILE), searchStr);
+    QList<SearchResult *> results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), searchStr);
 
     for(QList<SearchResult *>::iterator it = results.begin(); it != results.end(); it++)
     {
@@ -369,5 +365,5 @@ void DialogEditWord::Search_Btn_Slot()
             Refresh();
             break;
         }
-    }*/
+    }
 }
