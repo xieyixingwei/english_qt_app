@@ -32,7 +32,7 @@ public:
     QString ToDisplayString(qint32 indent);
     void Clear();
     static QList<WordInterpretation> WordInterpretationList(const QStringList &lines);
-
+    static QList<WordInterpretation> WordInterpretationList(const QString &line);
 private:
     void Parse(const QStringList &lines);
 

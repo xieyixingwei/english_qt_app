@@ -37,6 +37,8 @@ public:
 private:
     QString ExtractPatternTense(const QString &line);
     void Parse(const QStringList &lines);
+    QString GetTags();
+    QString AttachTags(const QString &line, const QString &tags, const QString &suffix);
 
 private:
     QPair<QString, QString> m_sentence;

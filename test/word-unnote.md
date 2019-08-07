@@ -1,4 +1,4 @@
-- express [ɪk'sprɛs] <hot:3 timestamp:1903251805>
+- express [ɪk'sprɛs] <hot:5 timestamp:1908071942>  
     + vt. 表达,快递
 
 - compact ['kɑmpækt] <hot:1 timestamp:1903221554>
@@ -7,9 +7,9 @@
         * compact button
         * 简洁的按钮
 
-- lightweight ['laɪtwet] <hot:1 timestamp:1903221554>
+- lightweight ['laɪtwet] <hot:4 timestamp:1908071836>  
     + n. 轻量级选手,无足轻重的人
-    + adj. 重量轻的
+        * + adj. 重量轻的  
 
 - modem ['mo'dɛm] <hot:1 timestamp:1903221555>
     + n. 调制解调器
@@ -17,10 +17,10 @@
 - whilst [waɪlst] <hot:1 timestamp:1903221555>
     + adv. 同时
 
-- utility [ju'tɪləti] <hot:1 timestamp:1903221556>
+- utility [ju'tɪləti] <hot:2 timestamp:1908071941>  
     + n. 实用,公共设施,
-        * utilities
-        * [计] 实用程序
+        * utilities   
+        * [计] 实用程序  
     + adj. 实用的,通用的
 
 - escap <hot:6 timestamp:1903251804>
@@ -620,6 +620,6 @@
 - reflowed ['riːfləʊ] <hot:1 timestamp:1907091354>
     + vi. 流回;再涨
 
-- crontab <hot:1 timestamp:1907251341>
+- crontab <hot:2 timestamp:1908071942>  
     + n. 定时任务
 

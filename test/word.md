@@ -1,6 +1,66 @@
-- clarify ['klærɪfaɪ] <hot:2 timestamp:1907312041 tag:>  
-    + vt. 澄清;阐明,
-    + vi. 得到澄清;变得明晰;得到净化
-        * To clarify, are you asking about support for jumbo frames only on the PRU Ethernet? Or also on CPSW Ethernet?  
-        * 需要澄清的是，你是否只询问PRU以太网上对巨型帧的支持？还是CPSW以太网？  
+- abandon  [ə'bænd(ə)n]
+- classification
+- abbreviation  [əbriːvɪ'eɪʃ(ə)n]
+- ability
+    + n. 能力，能耐,才能
+        * have a strong ability of learning.
+- above  [ə'bʌv]
+- abrupt  [ə'brʌpt]
+- academy  [ə'kædəmɪ]
+    + n. 专科院校,学院,学会
+- access ['æksɛs] <hot:9 timestamp:1904240942>
+    + vt. 使用,访问,存取,接近
+    + n. 进入,使用权,通路
+        * most Internet access providers these days support PPP rather than SLIP.
+        * 如今，大多数互联网接入提供商都支持PPP而不是SLIP。
 
+- accessories <hot:8 timestamp:1904240942>
+    + n. 配件,附件,配饰
+
+- accidental  [æksɪ'dent(ə)l]
+- accomplish  [ə'kʌmplɪʃ; ə'kɒm-]
+    + v. 完成,达到,实现  
+- accumulation  [əkjuːmjʊ'leɪʃ(ə)n]
+- accuracy  ['ækjʊrəsɪ]
+- achieve  [ə'tʃiːv]
+- acquisition  [, ækwɪ'zɪʃ(ə)n]
+    + n. 收购,获得,购买
+- activity  [æk'tɪvɪtɪ]
+- actually ['æktʃuəli] <hot:1 timestamp:1903281328>
+    + adv. 实际上,事实上,竟然
+
+- adjacent  [ə'dʒeɪs(ə)nt] 
+    + adj. 相邻的
+        * adjacent layer
+        * 相邻层,邻层
+- adjective ['ædʒɪktɪv] <hot:1 timestamp:1908071943>  
+
+- admin ['ædmɪn] <hot:3 timestamp:1908072017 tag:>  
+    + n. 士大夫;速度
+        * aaa <pattern: S + Vi; tense: was/ware + Ving>  
+        * 不不不  
+        * bbb <pattern: S + Vi>  
+
+- administrate  [əd'mɪnɪstreɪt] 
+- administration  [ədmɪnɪ'streɪʃ(ə)n]
+    + n. 管理,行政
+        * administrative affairs
+        * 行政事务,行政管理事务,详细
+- administrave  
+- adopted [ə'dɒptɪd] <hot:3 timestamp:1908071948 tag:>  
+    + v. 采用;采用
+        * bbbb   
+        * 啵啵啵宝宝  
+
+- advance   
+- adventures
+    + n. 冒险,探险,最爱电影
+- advertisement  [əd'vɜːtɪzm(ə)nt; -tɪs-]
+- advertising  ['ædvətaɪzɪŋ]
+- affairs
+    + n. 事务,事件,政事
+- after-all
+    + adv. 毕竟,终究
+�事
+- after-all
+    + adv. 毕竟,终究

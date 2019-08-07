@@ -27,7 +27,7 @@ JSON_OBJ(
         KV(KEY_AUTO_ADD_WORD, "true")
         KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/sentence.md"))
         KV(KEY_SOUND_DIR, STR("D:/GaoNian/English/thesaurus/sounds/"))
-        KV(KEY_SOUND_VOLUME, "true")
+        KV(KEY_SOUND_VOLUME, "30")
         KV(KEY_UNNOTE_WORD_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/word-unnote.md"))
         KV(KEY_UPDATE_HOT, "true")
         KV_END(KEY_UPDATE_TIMESTAMP, "true")
@@ -80,14 +80,15 @@ QString Settings::DefaultKey(const QString &key)
         return key;
     }
 
-    for(QJsonObject::const_iterator it = m_json.object().begin();
-        it != m_json.object().end(); it++)
+    QStringList childKeys = m_json.object().keys();
+    for(int i = 0; i < childKeys.count(); i++)
     {
-        if(it->isObject() && it->toObject().contains(key))
+        if(m_json.object()[childKeys[i]].isObject() && m_json.object()[childKeys[i]].toObject().contains(key))
         {
-            return (it.key() + "/" + key);
+            return (childKeys[i] + "/" + key);
         }
     }
+
     return key;
 }
 

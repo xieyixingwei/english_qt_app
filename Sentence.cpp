@@ -97,12 +97,9 @@ void Sentence::Update()
 
 }
 
-QString Sentence::ToRecordString()
+QString Sentence::GetTags()
 {
-    QString record;
     QStringList tagList;
-    QString tag;
-    QString indent(m_indent, ' ');
 
     if(!m_pattern.isEmpty())
     {
@@ -112,33 +109,39 @@ QString Sentence::ToRecordString()
     {
         tagList << QString("tense: %1").arg(m_tense.join(", "));
     }
+
     if(!tagList.isEmpty())
     {
-        tag = "<" + tagList.join("; ") + ">";
+        return ("<" + tagList.join("; ") + ">");
     }
+
+    return "";
+}
+
+QString Sentence::AttachTags(const QString &line, const QString &tags, const QString &suffix)
+{
+    QString tmp = line;
+    if(Word::IsEnglishWord(tmp.remove("*").remove(QRegularExpression("\\(\\d+\\)"))) && !tags.isEmpty())
+    {
+        return line + " " + tags + suffix;
+    }
+
+    return line + suffix;
+}
+
+QString Sentence::ToRecordString()
+{
+    QString record;
+    QString indent(m_indent, ' ');
 
     if(!m_sentence.first.isEmpty())
     {
-        if(Word::IsEnglishWord(m_sentence.first))
-        {
-            record += QString(indent + "* %1 %2  \n").arg(m_sentence.first).arg(tag);
-        }
-        else
-        {
-            record += QString(indent + "* %1  \n").arg(m_sentence.first);
-        }
+        record += AttachTags(QString(indent + "* %1").arg(m_sentence.first), GetTags(), "  \n");
     }
 
     if(!m_sentence.second.isEmpty())
     {
-        if(Word::IsEnglishWord(m_sentence.second))
-        {
-            record += QString(indent + "* %1 %2  \n").arg(m_sentence.second).arg(tag);
-        }
-        else
-        {
-            record += QString(indent + "* %1  \n").arg(m_sentence.second);
-        }
+        record += AttachTags(QString(indent + "* %1").arg(m_sentence.second), GetTags(), "  \n");
     }
 
     return record;
@@ -158,16 +161,16 @@ QString Sentence::ToDisplayString(qint32 index = 0)
 
     if(!m_sentence.first.isEmpty())
     {
-        display += QString(indent + "%1 %2\n").arg(indexList[0]).arg(m_sentence.first);
+        display += AttachTags(QString(indent + "%1 %2").arg(indexList[0]).arg(m_sentence.first), GetTags(), "\n");
     }
 
     if(!m_sentence.first.isEmpty() && !m_sentence.second.isEmpty())
     {
-        display += QString(indent + "%1 %2\n").arg(indexList[1]).arg(m_sentence.second);
+        display += AttachTags(QString(indent + "%1 %2").arg(indexList[1]).arg(m_sentence.second), GetTags(), "\n");
     }
     else if(m_sentence.first.isEmpty() && !m_sentence.second.isEmpty())
     {
-        display += QString(indent + "%1 %2\n").arg(indexList[0]).arg(m_sentence.second);
+        display += AttachTags(QString(indent + "%1 %2").arg(indexList[0]).arg(m_sentence.second), GetTags(), "\n");
     }
 
     return display;

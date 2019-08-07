@@ -222,7 +222,7 @@ void DialogEditWord::Refresh()
     m_ui->ledit_tags->setText(m_wd->GetTags().join(","));
 
     m_ui->lwdg_interpretation->clear();
-    QStringList iters = m_wd->ToRecordString(0).remove(QRegularExpression("\\n$")).split("\n");
+    QStringList iters = m_wd->ToDisplayString(0).remove(QRegularExpression("\\n$")).split("\n");
     iters.removeFirst();
     m_ui->lwdg_interpretation->addItems(iters);
 }
@@ -277,7 +277,7 @@ void DialogEditWord::Add_Example_Btn_Slot()
     interp.SetMean(m_ui->ledit_mean->text().remove(QRegularExpression("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",",").split(";"));
     interp.AddExample(sent);
 
-    QList<WordInterpretation> interpretations = WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems());
+    QList<WordInterpretation> interpretations = WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems().join("\n"));
 
     int i = 0;
     for(i = 0; i < interpretations.count(); i++)
@@ -298,7 +298,7 @@ void DialogEditWord::Add_Example_Btn_Slot()
     QString display;
     for(i = 0; i < interpretations.count(); i++)
     {
-        display += interpretations[i].ToRecordString(0);
+        display += interpretations[i].ToDisplayString(0);
     }
 
     m_ui->lwdg_interpretation->clear();
@@ -319,7 +319,7 @@ void DialogEditWord::RecordWord_Btn_Slot()
     m_wd->SetHot(m_ui->ledit_hot->text().trimmed());
     m_wd->SetTimeStamp(m_ui->ledit_timestamp->text().trimmed());
     m_wd->SetTag(m_ui->ledit_tags->text().trimmed().split(","));
-    m_wd->SetInerpretion(WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems()));
+    m_wd->SetInerpretion(WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems().join("\n")));
 
     emit Apply_Signal(*m_wd);
 }

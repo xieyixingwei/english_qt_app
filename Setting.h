@@ -4,7 +4,7 @@
 #include <QSettings>
 #include <QJsonDocument>
 
-#define GROUP_GENNERAL   "General"
+#define GROUP_GENNERAL   "Genernal"
     #define KEY_SENTENCE_PATTERN   "Sentence_Pattern"
     #define KEY_PART_OF_SPEECH     "Part_Of_Speech"
     #define KEY_SENTENCE_TENSE     "Sentence_Tense"

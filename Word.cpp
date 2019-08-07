@@ -101,19 +101,46 @@ QList<WordInterpretation> WordInterpretation::WordInterpretationList(const QStri
     QStringList strs;
     for(int i = 0; i < text.Buf().count(); i++)
     {
+        if(!strs.isEmpty() && text.Buf().at(i).contains(QRegularExpression("^[ ]*\\+.*")))
+        {
+            interps << WordInterpretation(strs);
+            strs.clear();
+        }
+
+        strs << text.Buf()[i];
+
+        if(!strs.isEmpty() && (i + 1) == text.Buf().count())
+        {
+            interps << WordInterpretation(strs);
+            strs.clear();
+        }
+    }
+
+    return interps;
+}
+
+QList<WordInterpretation> WordInterpretation::WordInterpretationList(const QString &line)
+{
+    QList<WordInterpretation> interps;
+    TextEdit text = TextEdit(line.split("\n"));
+    text.RemoveSpaceLines();
+
+    QStringList strs;
+    for(int i = 0; i < text.Buf().count(); i++)
+    {
         if(!strs.isEmpty() && !text.Buf().at(i).startsWith("  "))
         {
             interps << WordInterpretation(strs);
             strs.clear();
         }
-        else if(!strs.isEmpty() && (i + 1) == text.Buf().count())
+
+        strs << text.Buf()[i].remove(QRegularExpression("\\(\\d+\\)"));
+
+        if(!strs.isEmpty() && (i + 1) == text.Buf().count())
         {
-            strs << text.Buf()[i].remove(QRegularExpression("\\(\\d+\\)"));
             interps << WordInterpretation(strs);
             strs.clear();
         }
-
-        strs << text.Buf()[i].remove(QRegularExpression("\\(\\d+\\)"));
     }
 
     return interps;
