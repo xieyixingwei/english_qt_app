@@ -41,6 +41,7 @@ public:
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, int count);
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, const QDateTime &begin, const QDateTime &end);
     void FilterWordsAccordingHot(const QStringList &wordfiles, const QString &savefile, int count);
+    //void FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag, int count);
 };
 
 #endif // SEARCH_H

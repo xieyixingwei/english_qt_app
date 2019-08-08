@@ -33,8 +33,7 @@ JSON_OBJ(
         KV_END(KEY_UPDATE_TIMESTAMP, "true")
         )
     GV(GROUP_SEARCH_FILES,
-        KV("0", STR("C:/GaoNian/Project/WordNote/WordNote/test/*.md"))
-        KV_END("1", "1")
+        KV_END("0", STR("C:/GaoNian/Project/WordNote/WordNote/test/*.md"))
         )
     GV_END(GROUP_EXPORT,
         KV(KEY_EXPORT_FILE_ON_HOT, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_hot.md"))
@@ -61,7 +60,7 @@ Settings::Settings()
     m_settings = new QSettings("user.ini", QSettings::IniFormat);
     QJsonParseError error;
     m_json = QJsonDocument::fromJson(m_default_settings.toUtf8(), &error);
-    qDebug() << error.error;
+    //qDebug() << error.error;
 }
 
 Settings::~Settings()
@@ -135,7 +134,14 @@ QVariant Settings::Value(const QString &key)
         return m_settings->value(newKey);
     }
 
-    return DefaultValue(key);
+    QVariant val = DefaultValue(key);
+    if(!val.isNull() && val.isValid())
+    {
+        m_settings->setValue(newKey, val);
+        m_settings->sync();
+    }
+
+    return val;
 }
 
 QVariant Settings::operator[](const QString &key)
@@ -157,6 +163,18 @@ QList<QVariant> Settings::GetGroup(const QString &group)
         }
         m_settings->endGroup();
         return res;
+    }
+
+    if(m_json[group].isObject())
+    {
+        m_settings->beginGroup(group);
+        QStringList keys = m_json[group].toObject().keys();
+        for(int i = 0; i < keys.count(); i++)
+        {
+             m_settings->setValue(keys[i], m_json[group].toObject().value(keys[i]).toVariant());
+        }
+        m_settings->endGroup();
+        m_settings->sync();
     }
 
     return DefaultGroup(group);

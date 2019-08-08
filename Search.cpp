@@ -265,3 +265,39 @@ void Search::FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const Q
         }
     }
 }
+#if 0
+void Search::FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag, int count)
+{
+    Sort<SortTimeStamp> sortvector;
+
+    for(int k = 0; k < wordfiles.count(); k++)
+    {
+        TextEdit text(wordfiles[k]);
+
+        while(1)
+        {
+            QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+            if(!wordTexts.isEmpty())
+            {
+                sortvector.Append(SortTimeStamp(wordTexts.join("\n")));
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
+    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+
+    for(QVector<SortTimeStamp>::iterator it = vector->begin();
+        it != vector->end(); it++)
+    {
+        if((*it).Value() > begin.toSecsSinceEpoch() && (*it).Value() < end.toSecsSinceEpoch())
+        {
+            text << (*it).Text();
+        }
+    }
+}
+#endif

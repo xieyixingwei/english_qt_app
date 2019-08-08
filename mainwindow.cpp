@@ -39,8 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->ledit_input = new QLineEdit();
     m_ui->btn_search = new QPushButton(QIcon(":/images/images/search1.ico"), tr("Search"));
     m_ui->btn_play = new QPushButton(QIcon(":/images/images/sound.ico"), tr("Play"));
-    m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico") ,tr("Edit Word"));
-    m_ui->btn_add_sentence = new QPushButton(tr("Edit Sentence"));
+    m_ui->btn_add = new QPushButton(QIcon(":/images/images/edit.ico"), tr("Edit Word"));
+    m_ui->btn_add_sentence = new QPushButton(QIcon(":/images/images/edit.ico"), tr("Edit Sentence"));
     m_ui->tedit_display = new QTextEdit();
 
     m_highlighter = new TextHighLighter(m_ui->tedit_display->document());

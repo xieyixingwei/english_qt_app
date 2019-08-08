@@ -126,6 +126,9 @@ void DialogExport::Layout()
 void DialogExport::Init()
 {
     m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
+    m_ui->combox_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
+
     m_ui->spinbox_hot_export->setRange(1, 100000);
     m_ui->spinbox_hot_export->setValue(50);
 
