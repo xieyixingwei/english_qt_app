@@ -115,8 +115,8 @@ void MainWindow::Search_Btn_Slot()
 {
     m_ui->tedit_display->clear();
 
-    QString searchword = m_ui->ledit_input->text().trimmed().toLower();
-    if(searchword.isEmpty())
+    QString keyWord = m_ui->ledit_input->text().trimmed().toLower();
+    if(keyWord.isEmpty())
     {
         m_results.clear();
         return;
@@ -125,25 +125,25 @@ void MainWindow::Search_Btn_Slot()
     QTextCharFormat fmt_word;
     fmt_word.setForeground(Qt::red);
     m_highlighter->Clear();
-    m_highlighter->AddRule(QRegularExpression(searchword), fmt_word);
+    m_highlighter->AddRule(QRegularExpression(keyWord), fmt_word);
 
     Search search;
-    m_results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), searchword);
+    m_results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), keyWord);
 
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
     {
         (*it)->Display(m_ui->tedit_display);
 
-        if((*it)->Type() == SearchResult::E_TYPE_WORD && searchword == (dynamic_cast<Word *>(*it))->GetWord())
+        if((*it)->Type() == SearchResult::E_TYPE_WORD && keyWord == (dynamic_cast<Word *>(*it))->GetWord())
         {
             (*it)->Update();
         }
     }
 
-    if(nullptr == GetWordFromSearchResults() && Word::IsEnglishWord(searchword))
+    if(nullptr == GetWordFromSearchResults() && Word::IsEnglishWord(keyWord))
     {
         Word wd;
-        wd.SetWord(searchword);
+        wd.SetWord(keyWord);
         wd.Record(SETS[KEY_UNNOTE_WORD_FILE].toString());
     }
 }
@@ -181,7 +181,7 @@ void MainWindow::Record_Word_Edited_Slot(Word wd)
 
     for(QList<SearchResult *>::iterator it = results.begin(); it != results.end(); it++)
     {
-        if((*it)->Type() == SearchResult::E_TYPE_WORD && dynamic_cast<Word*>(*it)->GetWord() == wd.GetWord())
+        if((*it)->Type() == SearchResult::E_TYPE_WORD && (dynamic_cast<Word*>(*it))->GetWord() == wd.GetWord())
         {
              wd.Record((*it)->GetPathfile());
              return;

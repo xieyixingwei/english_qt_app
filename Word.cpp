@@ -237,7 +237,7 @@ QString Word::ToRecordString(qint32 indent)
     QString wordInfo;
     wordInfo += QString("hot:%1").arg(m_hot.isEmpty() ? "1" : m_hot);
     wordInfo += QString(" timestamp:%1").arg(m_timestamp.isEmpty() ? QDateTime::currentDateTime().toString("yyMMddhhmm") : m_timestamp);
-    if(!m_tags.isEmpty())
+    if(!m_tags.join(" ").trimmed().isEmpty())
     {
         wordInfo += QString(" tag:%1").arg(m_tags.join(","));
     }

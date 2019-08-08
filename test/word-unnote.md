@@ -17,11 +17,7 @@
 - whilst [waɪlst] <hot:1 timestamp:1903221555>
     + adv. 同时
 
-- utility [ju'tɪləti] <hot:2 timestamp:1908071941>  
-    + n. 实用,公共设施,
-        * utilities   
-        * [计] 实用程序  
-    + adj. 实用的,通用的
+- utility <hot:1 timestamp:1908081905>  
 
 - escap <hot:6 timestamp:1903251804>
 
@@ -220,8 +216,7 @@
     + adj. 预期的;预料的
     + v. 预期;盼望（expect的过去分词）
 
-- investigation [ɪn,vɛstɪ'ɡeʃən] <hot:2 timestamp:1906101522>
-    + n. 调查;调查研究
+- investigation <hot:1 timestamp:1908081911>  
 
 - persistent [pə'zɪstənt] <hot:1 timestamp:1904121123>
     + adj. 固执的,坚持的;持久稳固的
@@ -599,7 +594,7 @@
     + adj. 溢出的;[计]换码
     + v. 逃（escape的现在分词）
 
-- routine [ruː'tiːn] <hot:1 timestamp:1907021111>
+- routine [ruː'tiːn] <hot:2 timestamp:1908081915>  
     + n. [计]程序;日常工作;例行公事
     + adj. 日常的;例行的
 
@@ -611,15 +606,31 @@
     + vi. 发誓,宣誓;诅咒
     + n. 宣誓;诅咒
 
-- decent ['diːs(ə)nt] <hot:1 timestamp:1907040946>
-    + adj. 正派的;得体的;相当好的
+- decent <hot:1 timestamp:1908081915>  
 
-- antiglare ['æntiglɛə] <hot:1 timestamp:1907040949>
+- antiglare ['æntiglɛə] <hot:3 timestamp:1908081914>  
     + adj. [光]防闪光的;遮光的
 
-- reflowed ['riːfləʊ] <hot:1 timestamp:1907091354>
-    + vi. 流回;再涨
+- reflowed <hot:1 timestamp:1908081912>  
 
 - crontab <hot:2 timestamp:1908071942>  
     + n. 定时任务
+
+- adjacent <hot:1 timestamp:1908081904>  
+
+- crontab <hot:2 timestamp:1908071942>  
+    + n. 定时任务
+
+- download <hot:1 timestamp:1908081939>  
+
+- retain <hot:1 timestamp:1908081940>  
+
+- hot <hot:1 timestamp:1908081947>  
+
+- emanate ['eməneɪt] <hot:1 timestamp:1908082015 tag:highfreq>  
+    + vt. 放射; 放射
+        * 过去式  
+        * emanated  
+        * 过去式  
+        * emanated <pattern:S + Vi>  
 

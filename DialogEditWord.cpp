@@ -263,14 +263,8 @@ void DialogEditWord::Add_Example_Btn_Slot()
     }
 
     Sentence sent(m_ui->ledit_example_a->text(), m_ui->ledit_example_b->text());
-    if(!m_ui->ledit_pattern->text().trimmed().isEmpty())
-    {
-        sent.AddPattern(m_ui->ledit_pattern->text().trimmed().split(","));
-    }
-    if(!m_ui->ledit_tense->text().trimmed().isEmpty())
-    {
-        sent.AddTense(m_ui->ledit_tense->text().trimmed().split(","));
-    }
+    sent.AddPattern(m_ui->ledit_pattern->text().trimmed().split(","));
+    sent.AddTense(m_ui->ledit_tense->text().trimmed().split(","));
 
     WordInterpretation interp;
     interp.SetPos(m_ui->comb_means->currentText().trimmed());

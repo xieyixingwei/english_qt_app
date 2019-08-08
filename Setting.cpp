@@ -19,13 +19,34 @@ const QString Settings::m_default_settings(
 JSON_OBJ(
     GV(GROUP_GENNERAL,
         KV(KEY_PART_OF_SPEECH, STR("n,adj,v,vi,vt,adv,prep"))
-        KV(KEY_SENTENCE_TENSE, STR("was/ware + Ving,am/is/are + Ving,will be + Ving,would be + Ving,had + Ved,have/has + Ved,will have + Ved"))
-        KV(KEY_SENTENCE_PATTERN, STR("S + Vi,S + Vt + O,S + Vt + Io + Do,S + V + P"))
+        KV(KEY_SENTENCE_TENSE, STR("was/ware + Ving,"
+                                   "am/is/are + Ving,"
+                                   "will be + Ving,"
+                                   "would be + Ving,"
+                                   "had + Ved,"
+                                   "have/has + Ved,"
+                                   "will have + Ved,"
+                                   "would have + Ved,"
+                                   "did + V,"
+                                   "does/do + V,"
+                                   "will + write,"
+                                   "would + write,"
+                                   "had + been Ving,"
+                                   "have/has + been Ving,"
+                                   "will have + been Ving,"
+                                   "would have + been Ving"))
+        KV(KEY_SENTENCE_PATTERN, STR("S + Vi,"
+                                     "S + Vt + O,"
+                                     "S + Vt + IO + DO,"
+                                     "S + V + P,"
+                                     "interrogative-sentence,"
+                                     "imperative-sentence,"
+                                     "exclamatory-sentences"))
         KV_END(KEY_WORD_TAGS, STR("highfreq"))
         )
     GV(GROUP_SETTINGS,
         KV(KEY_AUTO_ADD_WORD, "true")
-        KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/sentence.md"))
+        KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/sentences.md"))
         KV(KEY_SOUND_DIR, STR("D:/GaoNian/English/thesaurus/sounds/"))
         KV(KEY_SOUND_VOLUME, "30")
         KV(KEY_UNNOTE_WORD_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/word-unnote.md"))
@@ -98,12 +119,12 @@ QVariant Settings::DefaultValue(const QString &key)
         return m_json[key].toVariant();
     }
 
-    for(QJsonObject::const_iterator it = m_json.object().begin();
-        it != m_json.object().end(); it++)
+    QStringList keys = m_json.object().keys();
+    for(int i = 0; i < keys.count(); i++)
     {
-        if(it->isObject() && it->toObject().contains(key))
+        if(m_json[keys[i]].isObject() && m_json[keys[i]].toObject().contains(key))
         {
-            return it->toObject().value(key).toVariant();
+            return m_json[keys[i]].toObject().value(key).toVariant();
         }
     }
 
@@ -135,6 +156,7 @@ QVariant Settings::Value(const QString &key)
     }
 
     QVariant val = DefaultValue(key);
+
     if(!val.isNull() && val.isValid())
     {
         m_settings->setValue(newKey, val);

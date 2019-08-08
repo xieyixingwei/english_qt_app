@@ -54,7 +54,7 @@ void Sentence::Parse(const QStringList &lines)
         {
             if(Sentence::IsEnglishSentence(line))
             {
-                afterLines << ExtractPatternTense(line);
+                afterLines << ExtractTags(line);
             }
             else
             {
@@ -67,7 +67,7 @@ void Sentence::Parse(const QStringList &lines)
     m_sentence = QPair<QString, QString>(afterLines[0], afterLines[1]);
 }
 
-QString Sentence::ExtractPatternTense(const QString &line)
+QString Sentence::ExtractTags(const QString &line)
 {
     QRegularExpression rex(QString("(?P<pat>(?<=pattern:).*?(?=[;>]))"));
 
@@ -82,6 +82,13 @@ QString Sentence::ExtractPatternTense(const QString &line)
     if(match.hasMatch())
     {
         m_tense <<  match.captured("ten").trimmed().split(",");
+    }
+
+    rex.setPattern(QString("(?P<timestamp>(?<=timestamp:).*?(?=[;>]))"));
+    match = rex.match(line);
+    if(match.hasMatch())
+    {
+        m_timestamp = match.captured("timestamp").trimmed();
     }
 
     return line.split("<")[0].trimmed();
@@ -101,15 +108,18 @@ QString Sentence::GetTags()
 {
     QStringList tagList;
 
-    if(!m_pattern.isEmpty())
+    if(!m_pattern.join(" ").trimmed().isEmpty())
     {
-        tagList << QString("pattern: %1").arg(m_pattern.join(", "));
+        tagList << QString("pattern:%1").arg(m_pattern.join(", "));
     }
-    if(!m_tense.isEmpty())
+    if(!m_tense.join(" ").trimmed().isEmpty())
     {
-        tagList << QString("tense: %1").arg(m_tense.join(", "));
+        tagList << QString("tense:%1").arg(m_tense.join(", "));
     }
-
+    if(!m_timestamp.isEmpty())
+    {
+        tagList << QString("timestamp:%1").arg(m_timestamp);
+    }
     if(!tagList.isEmpty())
     {
         return ("<" + tagList.join("; ") + ">");
@@ -158,6 +168,11 @@ QString Sentence::ToDisplayString(qint32 index = 0)
         indexList << QString("(%1)").arg(index);
         indexList << "   ";
     }
+    else
+    {
+        indexList << " ";
+        indexList << " ";
+    }
 
     if(!m_sentence.first.isEmpty())
     {
@@ -178,6 +193,11 @@ QString Sentence::ToDisplayString(qint32 index = 0)
 
 void Sentence::Record(const QString &pathfile)
 {
+    if(m_timestamp.isEmpty())
+    {
+        m_timestamp = QDateTime::currentDateTime().toString("yyMMddhhmm");
+    }
+
     TextEdit file(pathfile.isEmpty() ? m_pathfile : pathfile);
     file << ToRecordString();
 }
@@ -189,6 +209,7 @@ void Sentence::Clear()
     m_pathfile.clear();
     m_pattern.clear();
     m_tense.clear();
+    m_timestamp.clear();
     m_indent = 0;
     m_index = 0;
 }

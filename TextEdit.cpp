@@ -118,7 +118,7 @@ QStringList TextEdit::Find(const QRegularExpression &begin, const QRegularExpres
         found << m_textbuf->at(pa + i);
     }
 
-    m_pc = pb + 1;
+    m_pc = pb;
     return found;
 }
 

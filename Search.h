@@ -34,14 +34,17 @@ public:
     Search() = default;
     virtual ~Search() = default;
 
-    virtual QList<SearchResult *> SearchTarget(const QStringList &filter, const QString &target);
-    virtual QList<SearchResult *> SearchTarget(const QString &pathfile, const QString &target);
+    virtual QList<SearchResult *> SearchTarget(const QStringList &filter, const QString &keyword);
     QStringList FindPathFileFromFilter(const QStringList &filter);
 
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, int count);
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, const QDateTime &begin, const QDateTime &end);
     void FilterWordsAccordingHot(const QStringList &wordfiles, const QString &savefile, int count);
-    //void FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag, int count);
+    void FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag, int count);
+
+    QList<SearchResult *> SearchInWords(const QString &wordfile, const QString &keyword);
+    QList<SearchResult *> SearchInSentences(const QString &sentencefile, const QString &keyword);
+    QList<SearchResult *> SearchInEssays(const QString &essayfile, const QString &keyword);
 };
 
 #endif // SEARCH_H

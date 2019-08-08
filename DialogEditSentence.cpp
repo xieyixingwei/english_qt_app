@@ -147,7 +147,6 @@ void DialogEditSentence::RecordSentence_Btn_Slot()
     m_sentence->Clear();
     m_sentence->AddTense(m_ui->ledit_tense->text().trimmed().split(","));
     m_sentence->AddPattern(m_ui->ledit_pattern->text().trimmed().split(","));
-
     m_sentence->SetSentence(m_ui->ledit_sentence_a->text(),
                             m_ui->ledit_sentence_b->text());
 

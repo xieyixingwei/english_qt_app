@@ -35,7 +35,7 @@ public:
 
     static bool IsEnglishSentence(const QString &str);
 private:
-    QString ExtractPatternTense(const QString &line);
+    QString ExtractTags(const QString &line);
     void Parse(const QStringList &lines);
     QString GetTags();
     QString AttachTags(const QString &line, const QString &tags, const QString &suffix);
@@ -48,6 +48,7 @@ private:
     QStringList m_tense;
     qint32 m_indent;
     qint32 m_index;
+    QString m_timestamp;
 };
 
 #endif // SENTENCE_H

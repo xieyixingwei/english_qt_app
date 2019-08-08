@@ -3,12 +3,14 @@
 #include "Setting.h"
 #include <QVariant>
 #include "Word.h"
+#include "Sort.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+
 /*
     QStringList lines;
     lines << "- utility [ju'tɪləti] <hot:1 timestamp:1903221556>";
