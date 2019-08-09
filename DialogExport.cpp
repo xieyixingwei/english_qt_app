@@ -24,6 +24,8 @@
 #include <QDateTimeEdit>
 #include <QDateTime>
 #include <QDir>
+#include <QRadioButton>
+#include <QButtonGroup>
 
 struct ui
 {
@@ -33,8 +35,17 @@ struct ui
     QCheckBox *cbox_hot_export;
     QCheckBox *cbox_timestamp_export;
     QCheckBox *cbox_timestamp_scope_export;
+    QRadioButton *rdbtn_a;
+    QRadioButton *rdbtn_b;
+    QRadioButton *rdbtn_c;
+    QRadioButton *rdbtn_d;
+    QRadioButton *rdbtn_e;
+    QRadioButton *rdbtn_f;
 
-    QLineEdit *ledit_tag_export;
+    QButtonGroup *btngp_a;
+    QButtonGroup *btngp_b;
+    QButtonGroup *btngp_c;
+
     QSpinBox *spinbox_hot_export;
     QSpinBox *spinbox_timestamp_export;
     QDateTimeEdit *dtedit_timestamp_scope_a_export;
@@ -63,7 +74,30 @@ DialogExport::DialogExport()
     m_ui->cbox_timestamp_export = new QCheckBox(tr("On Timestamp"));
     m_ui->cbox_timestamp_scope_export = new QCheckBox(tr("On Timestamp Scope"));
 
-    m_ui->ledit_tag_export = new QLineEdit;
+    m_ui->rdbtn_a = new QRadioButton("Word");
+    m_ui->rdbtn_a->setChecked(true);
+    m_ui->rdbtn_b = new QRadioButton("Sentence");
+
+    m_ui->btngp_a = new QButtonGroup();
+    m_ui->btngp_a->addButton(m_ui->rdbtn_a);
+    m_ui->btngp_a->addButton(m_ui->rdbtn_b);
+
+    m_ui->rdbtn_c = new QRadioButton("Word");
+    m_ui->rdbtn_c->setChecked(true);
+    m_ui->rdbtn_d = new QRadioButton("Sentence");
+
+    m_ui->btngp_b = new QButtonGroup();
+    m_ui->btngp_b->addButton(m_ui->rdbtn_c);
+    m_ui->btngp_b->addButton(m_ui->rdbtn_d);
+
+    m_ui->rdbtn_e = new QRadioButton("Word");
+    m_ui->rdbtn_e->setChecked(true);
+    m_ui->rdbtn_f = new QRadioButton("Sentence");
+
+    m_ui->btngp_c = new QButtonGroup();
+    m_ui->btngp_c->addButton(m_ui->rdbtn_e);
+    m_ui->btngp_c->addButton(m_ui->rdbtn_f);
+
     m_ui->spinbox_hot_export = new QSpinBox;
     m_ui->spinbox_timestamp_export = new QSpinBox;
 
@@ -83,6 +117,13 @@ DialogExport::DialogExport()
     connect(m_ui->btn_export, SIGNAL(clicked()), this, SLOT(Export_Btn_Slot()));
     connect(m_ui->btn_cancel, SIGNAL(clicked()), m_ui->dialog, SLOT(close()));
 
+    connect(m_ui->rdbtn_a, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+    connect(m_ui->rdbtn_b, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+    connect(m_ui->rdbtn_c, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+    connect(m_ui->rdbtn_d, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+    connect(m_ui->rdbtn_e, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+    connect(m_ui->rdbtn_f, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
+
     Init();
     Layout();
 }
@@ -91,7 +132,8 @@ void DialogExport::Layout()
 {
     QHBoxLayout *hlayout_a = new QHBoxLayout;
     hlayout_a->addWidget(m_ui->cbox_tag_export, 0);
-    hlayout_a->addWidget(m_ui->ledit_tag_export, 0);
+    hlayout_a->addWidget(m_ui->rdbtn_a, 0);
+    hlayout_a->addWidget(m_ui->rdbtn_b, 0);
     hlayout_a->addWidget(m_ui->combox_tags, 0);
     hlayout_a->addWidget(m_ui->ledit_tag_export_filename, 0);
 
@@ -102,11 +144,15 @@ void DialogExport::Layout()
 
     QHBoxLayout *hlayout_d = new QHBoxLayout;
     hlayout_d->addWidget(m_ui->cbox_timestamp_export, 0);
+    hlayout_d->addWidget(m_ui->rdbtn_c, 0);
+    hlayout_d->addWidget(m_ui->rdbtn_d, 0);
     hlayout_d->addWidget(m_ui->spinbox_timestamp_export, 0);
     hlayout_d->addWidget(m_ui->ledit_timestamp_export_filename, 0);
 
     QHBoxLayout *hlayout_e = new QHBoxLayout;
     hlayout_e->addWidget(m_ui->cbox_timestamp_scope_export, 0);
+    hlayout_e->addWidget(m_ui->rdbtn_e, 0);
+    hlayout_e->addWidget(m_ui->rdbtn_f, 0);
     hlayout_e->addWidget(m_ui->dtedit_timestamp_scope_a_export, 0);
     hlayout_e->addWidget(m_ui->dtedit_timestamp_scope_b_export, 0);
     hlayout_e->addWidget(m_ui->ledit_timestamp_scope_export_filename, 0);
@@ -141,9 +187,10 @@ void DialogExport::Init()
     QDir curdir = QDir::current();
     curdir.cdUp();
 
+    m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TAG].toString());
     m_ui->ledit_hot_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_HOT].toString());
-    m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP].toString());
-    m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE].toString());
+    m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP].toString());
+    m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE].toString());
 }
 
 void DialogExport::Open()
@@ -162,7 +209,18 @@ void DialogExport::Export_Btn_Slot()
 
     if(m_ui->cbox_tag_export->isChecked())
     {
-
+        if(m_ui->rdbtn_a->isChecked())
+        {
+            search.FilterWordsAccordingTag(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_tag_export_filename->text().trimmed(),
+                        m_ui->combox_tags->currentText());
+        }
+        else if(m_ui->rdbtn_b->isChecked())
+        {
+            search.FilterSentencesAccordingTag(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_tag_export_filename->text().trimmed(),
+                        m_ui->combox_tags->currentText());
+        }
     }
 
     if(m_ui->cbox_hot_export->isChecked())
@@ -174,21 +232,95 @@ void DialogExport::Export_Btn_Slot()
 
     if(m_ui->cbox_timestamp_export->isChecked())
     {
-        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
-                    m_ui->ledit_timestamp_export_filename->text().trimmed(),
-                    m_ui->spinbox_timestamp_export->value());
+        if(m_ui->rdbtn_c->isChecked())
+        {
+            search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_timestamp_export_filename->text().trimmed(),
+                        m_ui->spinbox_timestamp_export->value());
+        }
+        else if(m_ui->rdbtn_d->isChecked())
+        {
+            search.FilterSentencesAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_timestamp_export_filename->text().trimmed(),
+                        m_ui->spinbox_timestamp_export->value());
+        }
     }
 
     if(m_ui->cbox_timestamp_scope_export->isChecked())
     {
-        search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
-                    m_ui->ledit_timestamp_scope_export_filename->text().trimmed(),
-                    m_ui->dtedit_timestamp_scope_a_export->dateTime(),
-                    m_ui->dtedit_timestamp_scope_b_export->dateTime());
+        if(m_ui->rdbtn_e->isChecked())
+        {
+            search.FilterWordsAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_timestamp_scope_export_filename->text().trimmed(),
+                        m_ui->dtedit_timestamp_scope_a_export->dateTime(),
+                        m_ui->dtedit_timestamp_scope_b_export->dateTime());
+        }
+        else if(m_ui->rdbtn_f->isChecked())
+        {
+            search.FilterSentencesAccordingTimeStamp(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
+                        m_ui->ledit_timestamp_scope_export_filename->text().trimmed(),
+                        m_ui->dtedit_timestamp_scope_a_export->dateTime(),
+                        m_ui->dtedit_timestamp_scope_b_export->dateTime());
+        }
     }
 
     SETS.SetValue(KEY_EXPORT_FILE_ON_HOT, m_ui->ledit_hot_export_filename->text().trimmed());
-    SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP, m_ui->ledit_timestamp_export_filename->text().trimmed());
-    SETS.SetValue(KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE, m_ui->ledit_timestamp_scope_export_filename->text().trimmed());
+    if(m_ui->rdbtn_a->isChecked())
+    {
+        m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TAG].toString());
+    }
+    else if(m_ui->rdbtn_b->isChecked())
+    {
+        m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TAG].toString());
+    }
+
+    if(m_ui->rdbtn_c->isChecked())
+    {
+        m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP].toString());
+    }
+    else if(m_ui->rdbtn_d->isChecked())
+    {
+        m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP].toString());
+    }
+
+    if(m_ui->rdbtn_e->isChecked())
+    {
+        m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE].toString());
+    }
+    else if(m_ui->rdbtn_f->isChecked())
+    {
+        m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE].toString());
+    }
+
     SETS.Sync();
+}
+
+void DialogExport::Cliked_RdBtn_Slot()
+{
+    QRadioButton* rdBtn = qobject_cast<QRadioButton*>(sender());
+
+    if(m_ui->rdbtn_a == rdBtn)
+    {
+        m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TAG].toString());
+    }
+    else if(m_ui->rdbtn_b == rdBtn)
+    {
+        m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TAG].toString());
+    }
+    else if(m_ui->rdbtn_c == rdBtn)
+    {
+        m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP].toString());
+    }
+    else if(m_ui->rdbtn_d == rdBtn)
+    {
+        m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP].toString());
+    }
+    else if(m_ui->rdbtn_e == rdBtn)
+    {
+        m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE].toString());
+    }
+    else if(m_ui->rdbtn_f == rdBtn)
+    {
+        m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE].toString());
+    }
 }

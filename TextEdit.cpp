@@ -139,3 +139,42 @@ void TextEdit::RemoveSpaceLines()
         }
     }
 }
+
+QStringList TextEdit::FindSentences()
+{
+    QStringList found;
+
+    if(m_pc >= m_textbuf->count())
+    {
+        return found;
+    }
+
+    while(m_pc < m_textbuf->count())
+    {
+        if(!m_textbuf->at(m_pc).trimmed().isEmpty())
+        {
+            if(m_pc > 0 && !m_textbuf->at(m_pc - 1).trimmed().isEmpty())
+            {
+                found << m_textbuf->at(m_pc - 1) << m_textbuf->at(m_pc);
+                m_pc++;
+            }
+            else if((m_pc + 1) < m_textbuf->count() && !m_textbuf->at(m_pc + 1).trimmed().isEmpty())
+            {
+                found << m_textbuf->at(m_pc) << m_textbuf->at(m_pc + 1);
+                m_pc++;
+                m_pc++;
+            }
+            else
+            {
+                found << m_textbuf->at(m_pc);
+                m_pc++;
+            }
+
+            return found;
+        }
+
+        m_pc++;
+    }
+
+    return found;
+}

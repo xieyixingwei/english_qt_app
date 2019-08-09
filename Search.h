@@ -40,11 +40,18 @@ public:
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, int count);
     void FilterWordsAccordingTimeStamp(const QStringList &wordfiles, const QString &savefile, const QDateTime &begin, const QDateTime &end);
     void FilterWordsAccordingHot(const QStringList &wordfiles, const QString &savefile, int count);
-    void FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag, int count);
+    void FilterWordsAccordingTag(const QStringList &wordfiles, const QString &savefile, const QString &tag);
+
+    void FilterSentencesAccordingTimeStamp(const QStringList &files, const QString &savefile, int count);
+    void FilterSentencesAccordingTimeStamp(const QStringList &files, const QString &savefile, const QDateTime &begin, const QDateTime &end);
+    void FilterSentencesAccordingTag(const QStringList &files, const QString &savefile, const QString &tag);
 
     QList<SearchResult *> SearchInWords(const QString &wordfile, const QString &keyword);
     QList<SearchResult *> SearchInSentences(const QString &sentencefile, const QString &keyword);
     QList<SearchResult *> SearchInEssays(const QString &essayfile, const QString &keyword);
+
+private:
+    QStringList FindSentences();
 };
 
 #endif // SEARCH_H

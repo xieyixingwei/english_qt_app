@@ -17,6 +17,7 @@ public:
     inline QStringList &Buf() { return *m_textbuf; }
     bool Replace(const QRegularExpression &begin, const QRegularExpression &end, const QString &t);
     QStringList Find(const QRegularExpression &begin, const QRegularExpression &end);
+    QStringList FindSentences();
 
     TextEdit &operator<<(const QString &str);
     void RemoveSpaceLines();

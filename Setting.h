@@ -22,9 +22,13 @@
 #define GROUP_SEARCH_FILES   "SearchFiles"
 
 #define GROUP_EXPORT   "Export"
-    #define KEY_EXPORT_FILE_ON_HOT               "export_file_on_hot"
-    #define KEY_EXPORT_FILE_ON_TIMESTAMP         "export_file_on_timestamp"
-    #define KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE   "export_file_on_timestamp_scope"
+    #define KEY_EXPORT_WORD_FILE_ON_TAG                   "export_word_file_on_tag"
+    #define KEY_EXPORT_SENTENCE_FILE_ON_TAG               "export_sentence_file_on_tag"
+    #define KEY_EXPORT_FILE_ON_HOT                        "export_file_on_hot"
+    #define KEY_EXPORT_WORD_FILE_ON_TIMESTAMP             "export_word_file_on_timestamp"
+    #define KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP         "export_sentence_file_on_timestamp"
+    #define KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE       "export_word_file_on_timestamp_scope"
+    #define KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE   "export_sentence_file_on_timestamp_scope"
 
 class Settings
 {

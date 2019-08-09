@@ -57,9 +57,13 @@ JSON_OBJ(
         KV_END("0", STR("C:/GaoNian/Project/WordNote/WordNote/test/*.md"))
         )
     GV_END(GROUP_EXPORT,
+        KV(KEY_EXPORT_WORD_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_tag.md"))
+        KV(KEY_EXPORT_SENTENCE_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_tag.md"))
         KV(KEY_EXPORT_FILE_ON_HOT, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_hot.md"))
-        KV(KEY_EXPORT_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp.md"))
-        KV_END(KEY_EXPORT_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_timestamp_scope.md"))
+        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_timestamp.md"))
+        KV(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_timestamp.md"))
+        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_timestamp_scope.md"))
+        KV_END(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_timestamp_scope.md"))
         )
     )
 );
