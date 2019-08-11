@@ -18,7 +18,7 @@
 const QString Settings::m_default_settings(
 JSON_OBJ(
     GV(GROUP_GENNERAL,
-        KV(KEY_PART_OF_SPEECH, STR("n,adj,v,vi,vt,adv,prep"))
+        KV(KEY_PART_OF_SPEECH, STR("n,v,vi,vt,adj,adv,prepositions,pronouns,articles,conjunctions,numerals,quantifiers,interjections,interrogative-words"))
         KV(KEY_SENTENCE_TENSE, STR("was/ware + Ving,"
                                    "am/is/are + Ving,"
                                    "will be + Ving,"
@@ -35,13 +35,45 @@ JSON_OBJ(
                                    "have/has + been Ving,"
                                    "will have + been Ving,"
                                    "would have + been Ving"))
-        KV(KEY_SENTENCE_PATTERN, STR("S + Vi,"
-                                     "S + Vt + O,"
-                                     "S + Vt + IO + DO,"
-                                     "S + V + P,"
-                                     "interrogative-sentence,"
-                                     "imperative-sentence,"
-                                     "exclamatory-sentences"))
+        KV(KEY_SENTENCE_PATTERN, STR("simple-sentences: S + Vi,"
+                                     "simple-sentences: S + Vi + SC,"
+                                     "simple-sentences: S + Vt + O,"
+                                     "simple-sentences: S + Vt + IO + DO,"
+                                     "simple-sentences: S + Vt + O + O,"
+                                     "simple-sentences: S + V + P,"
+                                     "declarative-sentences: do,"
+                                     "declarative-sentences: don't,"
+                                     "interrogative-sentences: general,"
+                                     "interrogative-sentences: special,"
+                                     "interrogative-sentences: inverse,"
+                                     "interrogative-sentences: select,"
+                                     "imperative-sentences: form: do,"
+                                     "imperative-sentences: form: question,"
+                                     "imperative-sentences: form: special,"
+                                     "imperative-sentences: first person,"
+                                     "imperative-sentences: second persion,"
+                                     "imperative-sentences: third persion,"
+                                     "exclamatory-sentences: what,"
+                                     "exclamatory-sentences: how,"
+                                     "exclamatory-sentences: others,"
+                                     "noun-clauses: subject-clauses,"
+                                     "noun-clauses: it-form-subject,"
+                                     "noun-clauses: object-clauses,"
+                                     "noun-clauses: statement-clauses,"
+                                     "noun-clauses: apposition-clause,"
+                                     "atrributive-clauses: relative pronoun,"
+                                     "atrributive-clauses: relative adverb,"
+                                     "atrributive-clauses: limited and non-restrictive,"
+                                     "adverbial-clauses: time,"
+                                     "adverbial-clauses: location,"
+                                     "adverbial-clauses: method,"
+                                     "adverbial-clauses: concession,"
+                                     "adverbial-clauses: comparison,"
+                                     "adverbial-clauses: condition,"
+                                     "adverbial-clauses: reason,"
+                                     "adverbial-clauses: purpose,"
+                                     "adverbial-clauses: result,"
+                                     ))
         KV_END(KEY_WORD_TAGS, STR("highfreq"))
         )
     GV(GROUP_SETTINGS,
