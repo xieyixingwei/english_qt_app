@@ -26,9 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    main.cpp \
+    mainwindow.cpp \
     DialogEditSentence.cpp \
-        main.cpp \
-        mainwindow.cpp \
     TextEdit.cpp \
     DialogEditWord.cpp \
     DialogSet.cpp \
@@ -42,8 +42,8 @@ SOURCES += \
     Sort.cpp
 
 HEADERS += \
+    mainwindow.h \
     DialogEditSentence.h \
-        mainwindow.h \
     TextEdit.h \
     DialogEditWord.h \
     DialogSet.h \

@@ -36,6 +36,11 @@ JSON_OBJ(
                                    "will have + been Ving,"
                                    "would have + been Ving"))
         KV(KEY_SENTENCE_PATTERN, STR("simple-sentences: S + Vi,"
+                                     "simple-sentences: S + Vi: + adv,"
+                                     "simple-sentences: S + Vi: + to do,"
+                                     "simple-sentences: S + Vi: + prep-phrase,"
+                                     "simple-sentences: S + Vi: + adverbial-clause,"
+                                     "simple-sentences: S + Vi: There/Here + Vi + S,"
                                      "simple-sentences: S + Vi + SC,"
                                      "simple-sentences: S + Vt + O,"
                                      "simple-sentences: S + Vt + IO + DO,"
