@@ -381,25 +381,49 @@ void Search::FilterSentencesAccordingTag(const QStringList &files, const QString
 
     for(int k = 0; k < files.count(); k++)
     {
-        QFileInfo fileinfo(files[k]);
-        if(!fileinfo.fileName().contains("sentence"))
-        {
-            continue;
-        }
-
         TextEdit text(files[k]);
 
-        while(1)
+        QFileInfo fileinfo(files[k]);
+        if(fileinfo.fileName().contains("sentence"))
         {
-            QStringList sentenceTexts = text.FindSentences();
-            if(sentenceTexts.isEmpty())
+            while(1)
             {
-                break;
-            }
+                QStringList sentenceTexts = text.FindSentences();
+                if(sentenceTexts.isEmpty())
+                {
+                    break;
+                }
 
-            if(sentenceTexts.join("\n").contains(tag))
+                if(sentenceTexts.join("\n").contains(tag))
+                {
+                    sortvector.Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+                }
+            }
+        }
+        else if(fileinfo.fileName().contains("word"))
+        {
+            while(1)
             {
-                sortvector.Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+                QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+                if(wordTexts.isEmpty())
+                {
+                    break;
+                }
+
+                Word wd(wordTexts);
+
+                const QList<WordInterpretation> inters = wd.GetInerpretions();
+                for(int i = 0; i < inters.count(); i++)
+                {
+                    QList<Sentence> sentences = inters[i].GetExample();
+                    for(int k = 0; k < sentences.count(); k++)
+                    {
+                        if(sentences[k].ToRecordString().contains(tag))
+                        {
+                            sortvector.Append(SortTimeStamp(sentences[k].ToRecordString()));
+                        }
+                    }
+                }
             }
         }
     }

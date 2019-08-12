@@ -60,7 +60,15 @@ void WordInterpretation::Parse(const QStringList &lines)
 QString WordInterpretation::ToRecordString(qint32 indent)
 {
     QString indentStr(indent, ' ');
-    QString record = QString(indentStr + "+ %1. %2\n").arg(m_pos).arg(m_means.join(";"));
+    QString record = QString(indentStr + "+ %1.").arg(m_pos);
+
+    TextEdit means(m_means);
+    means.RemoveSpaceLines();
+    if(!means.Buf().join(" ").trimmed().isEmpty())
+    {
+        record += QString(" %1").arg(means.Buf().join(";"));
+    }
+    record += "  \n";
 
     for(int i = 0; i < m_examples.count(); i++)
     {
@@ -74,7 +82,15 @@ QString WordInterpretation::ToRecordString(qint32 indent)
 QString WordInterpretation::ToDisplayString(qint32 indent)
 {
     QString indentStr(indent, ' ');
-    QString display = QString(indentStr + "%1. %2\n").arg(m_pos).arg(m_means.join(";"));
+    QString display = QString(indentStr + "%1.").arg(m_pos);
+
+    TextEdit means(m_means);
+    means.RemoveSpaceLines();
+    if(!means.Buf().join(" ").trimmed().isEmpty())
+    {
+        display += QString(" %1").arg(means.Buf().join(";"));
+    }
+    display += "\n";
 
     for(int i = 0; i < m_examples.count(); i++)
     {
@@ -196,7 +212,7 @@ void Word::Parse(const QStringList &lines)
 
 void Word::ParseWordInfo(const QString &text)
 {
-    QRegularExpression rex(QString("(?P<word>(?<=\\-)[ ]*\\w+)"));
+    QRegularExpression rex(QString("(?P<word>(?<=\\-)[ ]*[a-zA-Z\\-]+)"));
     QRegularExpressionMatch matched = rex.match(text);
     if(matched.hasMatch())
     {

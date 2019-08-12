@@ -26,7 +26,7 @@ public:
 
     inline void AddExample(const Sentence &exp) { m_examples << exp; }
     inline void AddExample(const QList<Sentence> &exps) { m_examples << exps; }
-    inline QList<Sentence> GetExample() const { return m_examples; }
+    inline const QList<Sentence> &GetExample() const { return m_examples; }
 
     QString ToRecordString(qint32 indent);
     QString ToDisplayString(qint32 indent);
@@ -73,7 +73,7 @@ public:
     inline void AddTag(const QString &tag) { m_tags << tag; }
     inline void AddTag(const QStringList &tags) { m_tags << tags; }
 
-    inline QList<WordInterpretation> GetInerpretion() { return m_interpretations; }
+    inline const QList<WordInterpretation> &GetInerpretions() { return m_interpretations; }
     inline void SetInerpretion(const QList<WordInterpretation> &itps) { m_interpretations = itps; }
     inline void AddInerpretion(const WordInterpretation &itp) { m_interpretations << itp; }
 

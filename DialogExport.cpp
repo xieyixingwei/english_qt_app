@@ -190,7 +190,7 @@ void DialogExport::Init()
     m_ui->ledit_tag_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TAG].toString());
     m_ui->ledit_hot_export_filename->setText(SETS[KEY_EXPORT_FILE_ON_HOT].toString());
     m_ui->ledit_timestamp_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP].toString());
-    m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE].toString());
+    m_ui->ledit_timestamp_scope_export_filename->setText(SETS[KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE].toString());
 }
 
 void DialogExport::Open()

@@ -29,8 +29,8 @@ JSON_OBJ(
                                    "would have + Ved,"
                                    "did + V,"
                                    "does/do + V,"
-                                   "will + write,"
-                                   "would + write,"
+                                   "will + V,"
+                                   "would + V,"
                                    "had + been Ving,"
                                    "have/has + been Ving,"
                                    "will have + been Ving,"
@@ -79,7 +79,10 @@ JSON_OBJ(
                                      "adverbial-clauses: purpose,"
                                      "adverbial-clauses: result,"
                                      ))
-        KV_END(KEY_WORD_TAGS, STR("highfreq"))
+        KV_END(KEY_WORD_TAGS, STR("contact-verb: change or result,"
+                                  "contact-verb: status,"
+                                  "vt: double-object: to,"
+                                  "vt: double-object: for,"))
         )
     GV(GROUP_SETTINGS,
         KV(KEY_AUTO_ADD_WORD, "true")

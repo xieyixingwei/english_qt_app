@@ -131,7 +131,7 @@ QString Sentence::GetTags()
 QString Sentence::AttachTags(const QString &line, const QString &tags, const QString &suffix)
 {
     QString tmp = line;
-    if(Word::IsEnglishWord(tmp.remove("*").remove(QRegularExpression("\\(\\d+\\)"))) && !tags.isEmpty())
+    if(Sentence::IsEnglishSentence(tmp.remove("*").remove(QRegularExpression("\\(\\d+\\)"))) && !tags.isEmpty())
     {
         return line + " " + tags + suffix;
     }

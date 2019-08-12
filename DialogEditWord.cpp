@@ -257,7 +257,7 @@ void DialogEditWord::Add_Btn_Slot()
 void DialogEditWord::Add_Example_Btn_Slot()
 {
     QString pos = m_ui->ledit_mean->text().section(".", 0, 0).trimmed();
-    if(-1 != m_ui->comb_means->findText(pos))
+    if(!pos.isEmpty() && (-1 != m_ui->comb_means->findText(pos)))
     {
          m_ui->comb_means->setCurrentText(pos);
     }
@@ -268,7 +268,7 @@ void DialogEditWord::Add_Example_Btn_Slot()
 
     WordInterpretation interp;
     interp.SetPos(m_ui->comb_means->currentText().trimmed());
-    interp.SetMean(m_ui->ledit_mean->text().remove(QRegularExpression("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",",").split(";"));
+    interp.SetMean(m_ui->ledit_mean->text().remove(QRegularExpression("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",",").trimmed().split(";"));
     interp.AddExample(sent);
 
     QList<WordInterpretation> interpretations = WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems().join("\n"));
@@ -334,8 +334,8 @@ void DialogEditWord::Clear_Btn_Slot()
 
 void DialogEditWord::Search_Btn_Slot()
 {
-    QString searchStr = m_ui->ledit_word->text().trimmed();
-    if(searchStr.isEmpty())
+    QString keyWord = m_ui->ledit_word->text().trimmed();
+    if(keyWord.isEmpty())
     {
         return;
     }
@@ -349,11 +349,11 @@ void DialogEditWord::Search_Btn_Slot()
     m_ui->lwdg_interpretation->clear();
 
     Search search;
-    QList<SearchResult *> results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), searchStr);
+    QList<SearchResult *> results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), keyWord);
 
     for(QList<SearchResult *>::iterator it = results.begin(); it != results.end(); it++)
     {
-        if((*it)->Type() == SearchResult::E_TYPE_WORD)
+        if((*it)->Type() == SearchResult::E_TYPE_WORD && keyWord == (dynamic_cast<Word *>(*it))->GetWord())
         {
             *m_wd = *(dynamic_cast<Word*>(*it));
             Refresh();
