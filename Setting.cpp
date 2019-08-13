@@ -18,24 +18,37 @@
 const QString Settings::m_default_settings(
 JSON_OBJ(
     GV(GROUP_GENNERAL,
-        KV(KEY_PART_OF_SPEECH, STR("n,v,vi,vt,adj,adv,prepositions,pronouns,articles,conjunctions,numerals,quantifiers,interjections,interrogative-words"))
-        KV(KEY_SENTENCE_TENSE, STR("was/ware + Ving,"
-                                   "am/is/are + Ving,"
-                                   "will be + Ving,"
-                                   "would be + Ving,"
-                                   "had + Ved,"
-                                   "have/has + Ved,"
-                                   "will have + Ved,"
-                                   "would have + Ved,"
-                                   "did + V,"
-                                   "does/do + V,"
-                                   "will + V,"
-                                   "would + V,"
-                                   "had + been Ving,"
-                                   "have/has + been Ving,"
-                                   "will have + been Ving,"
-                                   "would have + been Ving"))
-        KV(KEY_SENTENCE_PATTERN, STR("simple-sentences: S + Vi,"
+        KV(KEY_PART_OF_SPEECH, STR("n,v,vi,vt,adj,adv,"
+                                   "prepositions,pronouns,articles,conjunctions,numerals,"
+                                   "quantifiers,interjections,interrogative-words"))
+        KV_END(KEY_SENTENCE_TENSE, STR("was/ware + Ving,"
+                                       "am/is/are + Ving,"
+                                       "will be + Ving,"
+                                       "would be + Ving,"
+                                       "had + Ved,"
+                                       "have/has + Ved,"
+                                       "will have + Ved,"
+                                       "would have + Ved,"
+                                       "did + V,"
+                                       "does/do + V,"
+                                       "will + V,"
+                                       "would + V,"
+                                       "had + been Ving,"
+                                       "have/has + been Ving,"
+                                       "will have + been Ving,"
+                                       "would have + been Ving"))
+        )
+    GV(GROUP_WORD_TAGS,
+        KV(KEY_VERBS_CONTACT, STR("contact-verb: change or result,"
+                                  "contact-verb: status"))
+        KV_END(KEY_VERBS_VT, STR("vt: double-object,"
+                                 "vt: double-object: to,"
+                                 "vt: double-object: for,"
+                                 "vt: oc,"
+                                 "vt: oc : (to)"))
+       )
+    GV(GROUP_SENTENCE_PATTERN,
+        KV(KEY_SIMPLE_SENTENCES, STR("simple-sentences: S + Vi,"
                                      "simple-sentences: S + Vi: + adv,"
                                      "simple-sentences: S + Vi: + to do,"
                                      "simple-sentences: S + Vi: + prep-phrase,"
@@ -44,66 +57,75 @@ JSON_OBJ(
                                      "simple-sentences: S + Vi + SC,"
                                      "simple-sentences: S + Vt + O,"
                                      "simple-sentences: S + Vt + IO + DO,"
-                                     "simple-sentences: S + Vt + O + O,"
-                                     "simple-sentences: S + V + P,"
-                                     "declarative-sentences: do,"
-                                     "declarative-sentences: don't,"
-                                     "interrogative-sentences: general,"
-                                     "interrogative-sentences: special,"
-                                     "interrogative-sentences: inverse,"
-                                     "interrogative-sentences: select,"
-                                     "imperative-sentences: form: do,"
-                                     "imperative-sentences: form: question,"
-                                     "imperative-sentences: form: special,"
-                                     "imperative-sentences: first person,"
-                                     "imperative-sentences: second persion,"
-                                     "imperative-sentences: third persion,"
-                                     "exclamatory-sentences: what,"
-                                     "exclamatory-sentences: how,"
-                                     "exclamatory-sentences: others,"
-                                     "noun-clauses: subject-clauses,"
-                                     "noun-clauses: it-form-subject,"
-                                     "noun-clauses: object-clauses,"
-                                     "noun-clauses: statement-clauses,"
-                                     "noun-clauses: apposition-clause,"
-                                     "atrributive-clauses: relative pronoun,"
-                                     "atrributive-clauses: relative adverb,"
-                                     "atrributive-clauses: limited and non-restrictive,"
-                                     "adverbial-clauses: time,"
-                                     "adverbial-clauses: location,"
-                                     "adverbial-clauses: method,"
-                                     "adverbial-clauses: concession,"
-                                     "adverbial-clauses: comparison,"
-                                     "adverbial-clauses: condition,"
-                                     "adverbial-clauses: reason,"
-                                     "adverbial-clauses: purpose,"
-                                     "adverbial-clauses: result,"
-                                     ))
-        KV_END(KEY_WORD_TAGS, STR("contact-verb: change or result,"
-                                  "contact-verb: status,"
-                                  "vt: double-object: to,"
-                                  "vt: double-object: for,"))
-        )
+                                     "simple-sentences: S + Vt + IO + DO: passive-voice,"
+                                     "simple-sentences: S + Vt + O + OC,"
+                                     "simple-sentences: S + V + P"))
+        KV(KEY_DECLARATIVE_SENTENCES, STR("declarative-sentences: do,"
+                                          "declarative-sentences: don't"))
+        KV(KEY_INTERROGATIVE_SENTENCES, STR("interrogative-sentences: general,"
+                                            "interrogative-sentences: special,"
+                                            "interrogative-sentences: inverse,"
+                                            "interrogative-sentences: select"))
+        KV(KEY_IMPERATIVE_SENTENCES, STR("imperative-sentences: form: do,"
+                                         "imperative-sentences: form: question,"
+                                         "imperative-sentences: form: special,"
+                                         "imperative-sentences: first person,"
+                                         "imperative-sentences: second persion,"
+                                         "imperative-sentences: third persion"))
+        KV(KEY_EXCLAMATORY_SENTENCES, STR("exclamatory-sentences: what,"
+                                          "exclamatory-sentences: how,"
+                                          "exclamatory-sentences: others"))
+        KV(KEY_NOUN_CLAUSES, STR("noun-clauses: subject-clauses: that,"
+                                 "noun-clauses: subject-clauses: whether,"
+                                 "noun-clauses: subject-clauses: whatever,"
+                                 "noun-clauses: subject-clauses: whichever,"
+                                 "noun-clauses: subject-clauses: how,"
+                                 "noun-clauses: subject-clauses: why,"
+                                 "noun-clauses: subject-clauses: what,"
+                                 "noun-clauses: subject-clauses: imperative-sentences,"
+                                 "noun-clauses: subject-clauses: it form subject,"
+                                 "noun-clauses: subject-clauses: it form subject: it + be + n. + that,"
+                                 "noun-clauses: subject-clauses: it form subject: it + be + adj. + that,"
+                                 "noun-clauses: subject-clauses: it form subject: it + be + vi. + that,"
+                                 "noun-clauses: subject-clauses: it form subject: it + be + -ed + that,"
+                                 "noun-clauses: object-clauses,"
+                                 "noun-clauses: statement-clauses,"
+                                 "noun-clauses: apposition-clause"))
+       KV(KEY_ATRRIBUTIVE_CLAUSES, STR("atrributive-clauses: relative pronoun,"
+                                       "atrributive-clauses: relative adverb,"
+                                       "atrributive-clauses: limited and non-restrictive"))
+       KV_END(KEY_ADVERBIAL_SENTENCES, STR("adverbial-clauses: time,"
+                                           "adverbial-clauses: location,"
+                                           "adverbial-clauses: method,"
+                                           "adverbial-clauses: concession,"
+                                           "adverbial-clauses: comparison,"
+                                           "adverbial-clauses: condition,"
+                                           "adverbial-clauses: reason,"
+                                           "adverbial-clauses: purpose,"
+                                           "adverbial-clauses: result"))
+       )
     GV(GROUP_SETTINGS,
         KV(KEY_AUTO_ADD_WORD, "true")
-        KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/sentences.md"))
-        KV(KEY_SOUND_DIR, STR("D:/GaoNian/English/thesaurus/sounds/"))
+        KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/sentences/sentences.md"))
+        KV(KEY_SOUND_DIR, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/sounds/"))
         KV(KEY_SOUND_VOLUME, "30")
-        KV(KEY_UNNOTE_WORD_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/test/word-unnote.md"))
+        KV(KEY_UNNOTE_WORD_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/words/word-unnote.md"))
         KV(KEY_UPDATE_HOT, "true")
         KV_END(KEY_UPDATE_TIMESTAMP, "true")
         )
     GV(GROUP_SEARCH_FILES,
-        KV_END("0", STR("C:/GaoNian/Project/WordNote/WordNote/test/*.md"))
+        KV("0", STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/words/*.md"))
+        KV("1", STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/sentences/*.md"))
+        KV_END("2", STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/essays/*.md"))
         )
     GV_END(GROUP_EXPORT,
-        KV(KEY_EXPORT_WORD_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_tag.md"))
-        KV(KEY_EXPORT_SENTENCE_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_tag.md"))
-        KV(KEY_EXPORT_FILE_ON_HOT, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_on_hot.md"))
-        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_timestamp.md"))
-        KV(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_timestamp.md"))
-        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_word_on_timestamp_scope.md"))
-        KV_END(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/test/export/export_sentence_on_timestamp_scope.md"))
+        KV(KEY_EXPORT_WORD_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_word_on_tag.md"))
+        KV(KEY_EXPORT_SENTENCE_FILE_ON_TAG, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_sentence_on_tag.md"))
+        KV(KEY_EXPORT_FILE_ON_HOT, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_on_hot.md"))
+        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_word_on_timestamp.md"))
+        KV(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_sentence_on_timestamp.md"))
+        KV(KEY_EXPORT_WORD_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_word_on_timestamp_scope.md"))
+        KV_END(KEY_EXPORT_SENTENCE_FILE_ON_TIMESTAMP_SCOPE, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/exports/export_sentence_on_timestamp_scope.md"))
         )
     )
 );
@@ -147,7 +169,8 @@ QString Settings::DefaultKey(const QString &key)
     QStringList childKeys = m_json.object().keys();
     for(int i = 0; i < childKeys.count(); i++)
     {
-        if(m_json.object()[childKeys[i]].isObject() && m_json.object()[childKeys[i]].toObject().contains(key))
+        if(m_json.object()[childKeys[i]].isObject()
+                && m_json.object()[childKeys[i]].toObject().contains(key))
         {
             return (childKeys[i] + "/" + key);
         }

@@ -82,7 +82,14 @@ DialogEditSentence::~DialogEditSentence()
 
 void DialogEditSentence::Init()
 {
-    m_ui->comb_pattern->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    QStringList patterns = Settings::ToStringList(SETS.GetGroup(GROUP_SENTENCE_PATTERN));
+    QStringList items;
+    for(int i = 0; i < patterns.count(); i++)
+    {
+         items.append(patterns[i].split(","));
+    }
+
+    m_ui->comb_pattern->addItems(items);
     m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
 }
 

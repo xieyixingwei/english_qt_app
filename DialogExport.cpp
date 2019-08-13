@@ -171,9 +171,23 @@ void DialogExport::Layout()
 
 void DialogExport::Init()
 {
-    m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_PATTERN].toString().split(","));
+    QStringList patterns = Settings::ToStringList(SETS.GetGroup(GROUP_SENTENCE_PATTERN));
+    QStringList items;
+    for(int i = 0; i < patterns.count(); i++)
+    {
+         items.append(patterns[i].split(","));
+    }
+
+    m_ui->combox_tags->addItems(items);
     m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
-    m_ui->combox_tags->addItems(SETS[KEY_WORD_TAGS].toString().split(","));
+
+    QStringList tags = Settings::ToStringList(SETS.GetGroup(GROUP_WORD_TAGS));
+    items.clear();
+    for(int i = 0; i < patterns.count(); i++)
+    {
+         items.append(patterns[i].split(","));
+    }
+    m_ui->combox_tags->addItems(items);
 
     m_ui->spinbox_hot_export->setRange(1, 100000);
     m_ui->spinbox_hot_export->setValue(50);

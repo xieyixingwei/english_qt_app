@@ -216,7 +216,7 @@ void Sentence::Clear()
 
 bool Sentence::IsEnglishSentence(const QString &str)
 {
-    QRegularExpression rex(QString("(?P<sentence>[a-zA-Z\\-\\.\\?\\!, ]*)"));
+    QRegularExpression rex(QString("(?P<sentence>[a-zA-Z\\-\\.\\?\\!,'=>\\(\\) ]*)"));
     QString line = str.split("<")[0];
     QRegularExpressionMatch matched = rex.match(line);
     if(matched.hasMatch() && line == matched.captured("sentence"))
