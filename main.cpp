@@ -4,6 +4,8 @@
 #include <QVariant>
 #include "Word.h"
 #include "Sort.h"
+#include "Classification.h"
+#include "TextEdit.h"
 
 int main(int argc, char *argv[])
 {
