@@ -6,21 +6,6 @@
 
 #define GROUP_GENNERAL   "Genernal"
     #define KEY_PART_OF_SPEECH     "Part_Of_Speech"
-    #define KEY_SENTENCE_TENSE     "Sentence_Tense"
-
-#define GROUP_SENTENCE_PATTERN   "Sentence_Pattern"
-    #define KEY_SIMPLE_SENTENCES          "Simple_Sentences"
-    #define KEY_DECLARATIVE_SENTENCES     "Declarative_Sentences"
-    #define KEY_INTERROGATIVE_SENTENCES   "Interrogative_Sentences"
-    #define KEY_IMPERATIVE_SENTENCES      "Imperative_Sentences"
-    #define KEY_EXCLAMATORY_SENTENCES     "Exclamatory_Sentences"
-    #define KEY_NOUN_CLAUSES              "Noun_Clauses"
-    #define KEY_ATRRIBUTIVE_CLAUSES       "Atrributive_Clauses"
-    #define KEY_ADVERBIAL_SENTENCES       "Adverbial_Clauses"
-
-#define GROUP_WORD_TAGS          "Word_Tags"
-    #define KEY_VERBS_VT        "Vt"
-    #define KEY_VERBS_CONTACT   "Contact_Verb"
 
 #define GROUP_SETTINGS   "Settings"
     #define KEY_AUTO_ADD_WORD      "Auto_Add_Word"

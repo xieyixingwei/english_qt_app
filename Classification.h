@@ -4,6 +4,9 @@
 #include <QTextStream>
 #include <QTreeWidget>
 #include <QVector>
+#include <QPushButton>
+#include <QDialog>
+#include <QObject>
 
 class Item
 {
@@ -28,25 +31,43 @@ private:
     QVector<Item *> m_children;
 };
 
-class Classification
-{
-public:
-    ~Classification() = default;
-    static Classification *&Instance();
 
-protected:
+class Classification : public QObject
+{
+    Q_OBJECT
+
+public:
+    ~Classification();
+    static Classification *&Instance();
+    inline QTreeWidget *&TreeWidget() { return m_treeWdg; }
+    QString CurrentContent();
+    inline void SetFlag(int flag) { m_flag = flag; }
+    inline int Flag() { return m_flag; }
+
     Classification();
+
+signals:
+    void Ok_Signal();
 
 public slots:
     void Open();
     void Close();
+    void Ok_Btn_Slot();
+
+private:
+    void Init();
+    void Layout();
 
 private:
     static Classification *m_instance;
     QTreeWidget *m_treeWdg;
     Item *m_rootItem;
+    QDialog * m_dialog;
+    QPushButton *m_btn_ok;
+    QPushButton *m_btn_cancel;
+    int m_flag;
 };
 
-#define CLASSIFICATION
+#define CLASSIFICATION   Classification::Instance()
 
 #endif // CLASSIFICATION_H

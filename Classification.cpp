@@ -4,6 +4,8 @@
 #include <QRegularExpression>
 #include <QFile>
 #include <QDebug>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 Item::Item(Item *parent, QStringList *lines) :
     m_parent(parent)
@@ -85,22 +87,74 @@ Classification *&Classification::Instance()
     return m_instance;
 }
 
-Classification::Classification()
+Classification::Classification() :
+    m_flag(0)
 {
-    m_treeWdg = new QTreeWidget();
+    m_dialog = new QDialog(nullptr, Qt::WindowCloseButtonHint | Qt::WindowMinMaxButtonsHint);
+    m_dialog->setWindowTitle(tr("Select Classification"));
+
+    m_btn_ok = new QPushButton(tr("Ok"));
+    m_btn_cancel = new QPushButton(tr("Cancel"));
+
+    m_treeWdg = new QTreeWidget(nullptr);
+    m_treeWdg->setWindowTitle(tr("Classification"));
     m_treeWdg->setColumnCount(1);
 
+    connect(m_btn_ok, SIGNAL(clicked()), this, SLOT(Ok_Btn_Slot()));
+    connect(m_btn_cancel, SIGNAL(clicked()), this, SLOT(Close()));
+
+    Init();
+    Layout();
+
+    m_dialog->close();
+}
+
+Classification::~Classification()
+{
+
+}
+
+void Classification::Init()
+{
     TextEdit text("classification.txt");
+    text.RemoveSpaceLines();
     m_rootItem = new Item(nullptr, &text.Buf());
     m_rootItem->Unfold(m_treeWdg, nullptr);
 }
 
+void Classification::Layout()
+{
+    QHBoxLayout *hlayout_a = new QHBoxLayout;
+    hlayout_a->addWidget(m_btn_ok, 0);
+    hlayout_a->addWidget(m_btn_cancel, 0);
+
+    QVBoxLayout *vlayout_a = new QVBoxLayout(m_dialog);
+    vlayout_a->addWidget(m_treeWdg, 0);
+    vlayout_a->addLayout(hlayout_a, 0);
+}
+
+QString Classification::CurrentContent()
+{
+    QRegularExpression rex(QString("(?P<pattern>(?<=\\().*?(?=\\)))"));
+    QRegularExpressionMatch matched = rex.match(m_treeWdg->currentItem()->text(0).trimmed());
+    if(matched.hasMatch())
+    {
+        return matched.captured("pattern").trimmed();
+    }
+    return "";
+}
+
 void Classification::Open()
 {
-    m_treeWdg->show();
+    m_dialog->open();
 }
 
 void Classification::Close()
 {
-    m_treeWdg->hide();
+    m_dialog->close();
+}
+
+void Classification::Ok_Btn_Slot()
+{
+    emit Ok_Signal();
 }

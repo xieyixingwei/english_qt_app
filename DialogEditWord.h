@@ -31,6 +31,7 @@ private slots:
     void Ok_Btn_Slot();
     void Search_Btn_Slot();
     void Clear_Btn_Slot();
+    void Ok_Slot();
 
 private:
     void Init();

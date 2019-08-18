@@ -4,6 +4,7 @@
 #include "TextEdit.h"
 #include "Word.h"
 #include "DialogSet.h"
+#include "Classification.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -51,13 +52,13 @@ struct ui
     QDateTimeEdit *dtedit_timestamp_scope_a_export;
     QDateTimeEdit *dtedit_timestamp_scope_b_export;
 
-    QComboBox *combox_tags;
-
+    QLineEdit *ledit_tag;
     QLineEdit *ledit_tag_export_filename;
     QLineEdit *ledit_hot_export_filename;
     QLineEdit *ledit_timestamp_export_filename;
     QLineEdit *ledit_timestamp_scope_export_filename;
 
+    QPushButton *btn_select_tag;
     QPushButton *btn_export;
     QPushButton *btn_cancel;
 };
@@ -104,18 +105,21 @@ DialogExport::DialogExport()
     m_ui->dtedit_timestamp_scope_a_export = new QDateTimeEdit;
     m_ui->dtedit_timestamp_scope_b_export = new QDateTimeEdit;
 
-    m_ui->combox_tags = new QComboBox;
-
+    m_ui->ledit_tag = new QLineEdit;
     m_ui->ledit_tag_export_filename = new QLineEdit;
     m_ui->ledit_hot_export_filename = new QLineEdit;
     m_ui->ledit_timestamp_export_filename = new QLineEdit;
     m_ui->ledit_timestamp_scope_export_filename = new QLineEdit;
 
+    m_ui->btn_select_tag = new QPushButton(tr("Tags"));
     m_ui->btn_export = new QPushButton(tr("Export"));
     m_ui->btn_cancel = new QPushButton(tr("Cancel"));
 
     connect(m_ui->btn_export, SIGNAL(clicked()), this, SLOT(Export_Btn_Slot()));
     connect(m_ui->btn_cancel, SIGNAL(clicked()), m_ui->dialog, SLOT(close()));
+
+    connect(m_ui->btn_select_tag, SIGNAL(clicked()), CLASSIFICATION, SLOT(Open()));
+    connect(CLASSIFICATION, SIGNAL(Ok_Signal()), this, SLOT(Ok_Slot()));
 
     connect(m_ui->rdbtn_a, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
     connect(m_ui->rdbtn_b, SIGNAL(clicked()), this, SLOT(Cliked_RdBtn_Slot()));
@@ -134,7 +138,8 @@ void DialogExport::Layout()
     hlayout_a->addWidget(m_ui->cbox_tag_export, 0);
     hlayout_a->addWidget(m_ui->rdbtn_a, 0);
     hlayout_a->addWidget(m_ui->rdbtn_b, 0);
-    hlayout_a->addWidget(m_ui->combox_tags, 0);
+    hlayout_a->addWidget(m_ui->ledit_tag, 0);
+    hlayout_a->addWidget(m_ui->btn_select_tag, 0);
     hlayout_a->addWidget(m_ui->ledit_tag_export_filename, 0);
 
     QHBoxLayout *hlayout_c = new QHBoxLayout;
@@ -171,24 +176,6 @@ void DialogExport::Layout()
 
 void DialogExport::Init()
 {
-    QStringList patterns = Settings::ToStringList(SETS.GetGroup(GROUP_SENTENCE_PATTERN));
-    QStringList items;
-    for(int i = 0; i < patterns.count(); i++)
-    {
-         items.append(patterns[i].split(","));
-    }
-
-    m_ui->combox_tags->addItems(items);
-    m_ui->combox_tags->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
-
-    QStringList tags = Settings::ToStringList(SETS.GetGroup(GROUP_WORD_TAGS));
-    items.clear();
-    for(int i = 0; i < patterns.count(); i++)
-    {
-         items.append(patterns[i].split(","));
-    }
-    m_ui->combox_tags->addItems(items);
-
     m_ui->spinbox_hot_export->setRange(1, 100000);
     m_ui->spinbox_hot_export->setValue(50);
 
@@ -227,13 +214,13 @@ void DialogExport::Export_Btn_Slot()
         {
             search.FilterWordsAccordingTag(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
                         m_ui->ledit_tag_export_filename->text().trimmed(),
-                        m_ui->combox_tags->currentText());
+                        m_ui->ledit_tag->text().trimmed());
         }
         else if(m_ui->rdbtn_b->isChecked())
         {
             search.FilterSentencesAccordingTag(search.FindPathFileFromFilter(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES))),
                         m_ui->ledit_tag_export_filename->text().trimmed(),
-                        m_ui->combox_tags->currentText());
+                        m_ui->ledit_tag->text().trimmed());
         }
     }
 
@@ -307,6 +294,14 @@ void DialogExport::Export_Btn_Slot()
     }
 
     SETS.Sync();
+}
+
+void DialogExport::Ok_Slot()
+{
+    TextEdit text(m_ui->ledit_tag->text().split(","));
+    text << CLASSIFICATION->CurrentContent();
+    text.RemoveSpaceLines();
+    m_ui->ledit_tag->setText(text.Buf().join(","));
 }
 
 void DialogExport::Cliked_RdBtn_Slot()

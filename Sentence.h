@@ -31,6 +31,7 @@ public:
     QString ToRecordString();
     QString ToDisplayString(qint32 index);
     void Record(const QString &pathfile = "");
+    inline void SetTimestamp(const QString &timestamp) { m_timestamp = timestamp; }
     void Clear();
 
     static bool IsEnglishSentence(const QString &str);

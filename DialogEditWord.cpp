@@ -7,6 +7,7 @@
 #include "TextEdit.h"
 #include "DialogEditSentence.h"
 #include "QListWidgetCm.h"
+#include "Classification.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -40,10 +41,7 @@ struct ui {
     QLineEdit *ledit_example_a;
     QLineEdit *ledit_example_b;
 
-    QComboBox *comb_tags;
     QComboBox *comb_means;
-    QComboBox *comb_pattern;
-    QComboBox *comb_tense;
 
     QPushButton *btn_search;
     QPushButton *btn_addtag;
@@ -81,9 +79,6 @@ DialogEditWord::DialogEditWord() :
     m_ui->ledit_example_a = new QLineEdit;
     m_ui->ledit_example_b = new QLineEdit;
 
-    m_ui->comb_tags = new QComboBox;
-    m_ui->comb_pattern = new QComboBox;
-    m_ui->comb_tense = new QComboBox;
     m_ui->comb_means = new QComboBox;
 
     m_ui->btn_search = new QPushButton(tr("Search"));
@@ -101,6 +96,8 @@ DialogEditWord::DialogEditWord() :
     connect(m_ui->btn_addtag, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
     connect(m_ui->btn_addpattern, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
     connect(m_ui->btn_addtense, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
+    connect(CLASSIFICATION, SIGNAL(Ok_Signal()), this, SLOT(Ok_Slot()));
+
     connect(m_ui->btn_addexample, SIGNAL(clicked()), this, SLOT(Add_Example_Btn_Slot()));
     connect(m_ui->btn_clear, SIGNAL(clicked()), this, SLOT(Clear_Btn_Slot()));
 
@@ -121,24 +118,7 @@ DialogEditWord::~DialogEditWord()
 
 void DialogEditWord::Init()
 {
-    QStringList patterns = Settings::ToStringList(SETS.GetGroup(GROUP_SENTENCE_PATTERN));
-    QStringList items;
-    for(int i = 0; i < patterns.count(); i++)
-    {
-         items.append(patterns[i].split(","));
-    }
-
-    m_ui->comb_pattern->addItems(items);
-    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
     m_ui->comb_means->addItems(SETS[KEY_PART_OF_SPEECH].toString().split(","));
-
-    QStringList tags = Settings::ToStringList(SETS.GetGroup(GROUP_WORD_TAGS));
-    items.clear();
-    for(int i = 0; i < patterns.count(); i++)
-    {
-         items.append(patterns[i].split(","));
-    }
-    m_ui->comb_tags->addItems(items);
 }
 
 void DialogEditWord::Layout()
@@ -160,7 +140,6 @@ void DialogEditWord::Layout()
     QHBoxLayout *hlayout_c = new QHBoxLayout;
     hlayout_c->addWidget(new QLabel(tr("Tags:")), 0);
     hlayout_c->addWidget(m_ui->ledit_tags, 0);
-    hlayout_c->addWidget(m_ui->comb_tags, 0);
     hlayout_c->addWidget(m_ui->btn_addtag, 0);
 
     QHBoxLayout *hlayout_d = new QHBoxLayout;
@@ -171,13 +150,11 @@ void DialogEditWord::Layout()
     QHBoxLayout *hlayout_e = new QHBoxLayout;
     hlayout_e->addWidget(new QLabel(tr("Pattern:")), 0);
     hlayout_e->addWidget(m_ui->ledit_pattern, 0);
-    hlayout_e->addWidget(m_ui->comb_pattern, 0);
     hlayout_e->addWidget(m_ui->btn_addpattern, 0);
 
     QHBoxLayout *hlayout_f = new QHBoxLayout;
     hlayout_f->addWidget(new QLabel(tr("Tense:")), 0);
     hlayout_f->addWidget(m_ui->ledit_tense, 0);
-    hlayout_f->addWidget(m_ui->comb_tense, 0);
     hlayout_f->addWidget(m_ui->btn_addtense, 0);
 
     QHBoxLayout *hlayout_g = new QHBoxLayout;
@@ -247,23 +224,40 @@ void DialogEditWord::Add_Btn_Slot()
 
     if(m_ui->btn_addpattern == btn)
     {
-        TextEdit text(m_ui->ledit_pattern->text().split(","));
-        text.RemoveSpaceLines();
-        text << m_ui->comb_pattern->currentText();
-        m_ui->ledit_pattern->setText(text.Buf().join(","));
+        CLASSIFICATION->SetFlag(1);
     }
     else if(m_ui->btn_addtense == btn)
     {
-        TextEdit text(m_ui->ledit_tense->text().split(","));
-        text.RemoveSpaceLines();
-        text << m_ui->comb_tense->currentText();
-        m_ui->ledit_tense->setText(text.Buf().join(","));
+        CLASSIFICATION->SetFlag(2);
     }
     else if(m_ui->btn_addtag == btn)
     {
+        CLASSIFICATION->SetFlag(3);
+    }
+    CLASSIFICATION->Open();
+}
+
+void DialogEditWord::Ok_Slot()
+{
+    if(CLASSIFICATION->Flag() == 1)
+    {
+        TextEdit text(m_ui->ledit_pattern->text().split(","));
+        text.RemoveSpaceLines();
+        text << CLASSIFICATION->CurrentContent();
+        m_ui->ledit_pattern->setText(text.Buf().join(","));
+    }
+    else if(CLASSIFICATION->Flag() == 2)
+    {
+        TextEdit text(m_ui->ledit_tense->text().split(","));
+        text.RemoveSpaceLines();
+        text << CLASSIFICATION->CurrentContent();
+        m_ui->ledit_tense->setText(text.Buf().join(","));
+    }
+    else if(CLASSIFICATION->Flag() == 3)
+    {
         TextEdit text(m_ui->ledit_tags->text().split(","));
         text.RemoveSpaceLines();
-        text << m_ui->comb_tags->currentText();
+        text << CLASSIFICATION->CurrentContent();
         m_ui->ledit_tags->setText(text.Buf().join(","));
     }
 }
@@ -279,6 +273,7 @@ void DialogEditWord::Add_Example_Btn_Slot()
     Sentence sent(m_ui->ledit_example_a->text(), m_ui->ledit_example_b->text());
     sent.AddPattern(m_ui->ledit_pattern->text().trimmed().split(","));
     sent.AddTense(m_ui->ledit_tense->text().trimmed().split(","));
+    sent.SetTimestamp(QDateTime::currentDateTime().toString("yyMMddhhmm"));
 
     WordInterpretation interp;
     interp.SetPos(m_ui->comb_means->currentText().trimmed());

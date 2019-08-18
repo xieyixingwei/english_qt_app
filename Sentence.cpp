@@ -70,7 +70,6 @@ void Sentence::Parse(const QStringList &lines)
 QString Sentence::ExtractTags(const QString &line)
 {
     QRegularExpression rex(QString("(?P<pat>(?<=pattern:).*?(?=[;>]))"));
-
     QRegularExpressionMatch match = rex.match(line);
     if(match.hasMatch())
     {

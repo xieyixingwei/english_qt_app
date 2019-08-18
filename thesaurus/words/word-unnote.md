@@ -7,9 +7,11 @@
         * compact button
         * 简洁的按钮
 
-- lightweight ['laɪtwet] <hot:4 timestamp:1908071836>  
-    + n. 轻量级选手,无足轻重的人
-        * + adj. 重量轻的  
+- lightweight ['laɪtwet] <hot:5 timestamp:1908181837>  
+    + n. 轻量级选手,无足轻重的人  
+        * aaaa <pattern:Ving>  
+        * 啊啊啊啊  
+    + adj. 重量轻的  
 
 - modem ['mo'dɛm] <hot:1 timestamp:1903221555>
     + n. 调制解调器

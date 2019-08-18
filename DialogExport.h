@@ -23,6 +23,7 @@ private:
 private slots:
     void Export_Btn_Slot();
     void Cliked_RdBtn_Slot();
+    void Ok_Slot();
 
 private:
     struct ui *m_ui;

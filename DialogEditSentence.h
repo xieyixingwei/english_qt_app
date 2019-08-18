@@ -20,6 +20,7 @@ private slots:
     void Add_Btn_Slot();
     void RecordSentence_Btn_Slot();
     void Clear_Btn_Slot();
+    void Ok_Slot();
 
 private:
     void Init();

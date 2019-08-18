@@ -2,6 +2,7 @@
 #include "Setting.h"
 #include "DialogSet.h"
 #include "TextEdit.h"
+#include "Classification.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -28,10 +29,6 @@ struct ui {
     QLineEdit *ledit_sentence_a;
     QLineEdit *ledit_sentence_b;
 
-    QComboBox *comb_pattern;
-    QComboBox *comb_tense;
-
-    QPushButton *btn_search;
     QPushButton *btn_add_pattern;
     QPushButton *btn_add_tense;
 
@@ -54,9 +51,6 @@ DialogEditSentence::DialogEditSentence() :
     m_ui->ledit_sentence_a = new QLineEdit;
     m_ui->ledit_sentence_b = new QLineEdit;
 
-    m_ui->comb_pattern = new QComboBox;
-    m_ui->comb_tense = new QComboBox;
-
     m_ui->btn_add_pattern = new QPushButton(tr("Add Pattern"));
     m_ui->btn_add_tense = new QPushButton(tr("Add Tense"));
 
@@ -65,6 +59,8 @@ DialogEditSentence::DialogEditSentence() :
 
     connect(m_ui->btn_add_pattern, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
     connect(m_ui->btn_add_tense, SIGNAL(clicked()), this, SLOT(Add_Btn_Slot()));
+
+    connect(CLASSIFICATION, SIGNAL(Ok_Signal()), this, SLOT(Ok_Slot()));
 
     connect(m_ui->btn_recordsentence, SIGNAL(clicked()), this, SLOT(RecordSentence_Btn_Slot()));
     connect(m_ui->btn_cancel, SIGNAL(clicked()), this, SLOT(Clear_Btn_Slot()));
@@ -82,15 +78,7 @@ DialogEditSentence::~DialogEditSentence()
 
 void DialogEditSentence::Init()
 {
-    QStringList patterns = Settings::ToStringList(SETS.GetGroup(GROUP_SENTENCE_PATTERN));
-    QStringList items;
-    for(int i = 0; i < patterns.count(); i++)
-    {
-         items.append(patterns[i].split(","));
-    }
 
-    m_ui->comb_pattern->addItems(items);
-    m_ui->comb_tense->addItems(SETS[KEY_SENTENCE_TENSE].toString().split(","));
 }
 
 void DialogEditSentence::Layout()
@@ -98,13 +86,11 @@ void DialogEditSentence::Layout()
     QHBoxLayout *hlayout_a = new QHBoxLayout;
     hlayout_a->addWidget(new QLabel(tr("Pattern:")), 0);
     hlayout_a->addWidget(m_ui->ledit_pattern, 0);
-    hlayout_a->addWidget(m_ui->comb_pattern, 0);
     hlayout_a->addWidget(m_ui->btn_add_pattern, 0);
 
     QHBoxLayout *hlayout_b = new QHBoxLayout;
     hlayout_b->addWidget(new QLabel(tr("Tense:")), 0);
     hlayout_b->addWidget(m_ui->ledit_tense, 0);
-    hlayout_b->addWidget(m_ui->comb_tense, 0);
     hlayout_b->addWidget(m_ui->btn_add_tense, 0);
 
     QHBoxLayout *hlayout_c = new QHBoxLayout;
@@ -135,15 +121,29 @@ void DialogEditSentence::Add_Btn_Slot()
 
     if(m_ui->btn_add_pattern == btn)
     {
-        TextEdit text(m_ui->ledit_pattern->text().split(","));
-        text << m_ui->comb_pattern->currentText();
-        text.RemoveSpaceLines();
-        m_ui->ledit_pattern->setText(text.Buf().join(","));
+        CLASSIFICATION->SetFlag(1);
     }
     else if(m_ui->btn_add_tense == btn)
     {
+        CLASSIFICATION->SetFlag(2);
+    }
+
+    CLASSIFICATION->Open();
+}
+
+void DialogEditSentence::Ok_Slot()
+{
+    if(CLASSIFICATION->Flag() == 1)
+    {
+        TextEdit text(m_ui->ledit_pattern->text().split(","));
+        text << CLASSIFICATION->CurrentContent();
+        text.RemoveSpaceLines();
+        m_ui->ledit_pattern->setText(text.Buf().join(","));
+    }
+    else if(CLASSIFICATION->Flag() == 2)
+    {
         TextEdit text(m_ui->ledit_tense->text().split(","));
-        text << m_ui->comb_tense->currentText();
+        text << CLASSIFICATION->CurrentContent();
         text.RemoveSpaceLines();
         m_ui->ledit_tense->setText(text.Buf().join(","));
     }

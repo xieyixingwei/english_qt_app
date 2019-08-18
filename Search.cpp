@@ -295,8 +295,6 @@ QList<SearchResult *> Search::SearchInEssays(const QString &essayfile, const QSt
     return results;
 }
 
-
-
 void Search::FilterSentencesAccordingTimeStamp(const QStringList &files, const QString &savefile, int count)
 {
     Sort<SortTimeStamp> sortvector;

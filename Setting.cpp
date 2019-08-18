@@ -18,92 +18,10 @@
 const QString Settings::m_default_settings(
 JSON_OBJ(
     GV(GROUP_GENNERAL,
-        KV(KEY_PART_OF_SPEECH, STR("n,v,vi,vt,adj,adv,"
+        KV_END(KEY_PART_OF_SPEECH, STR("n,v,vi,vt,adj,adv,"
                                    "prepositions,pronouns,articles,conjunctions,numerals,"
                                    "quantifiers,interjections,interrogative-words"))
-        KV_END(KEY_SENTENCE_TENSE, STR("was/ware + Ving,"
-                                       "am/is/are + Ving,"
-                                       "will be + Ving,"
-                                       "would be + Ving,"
-                                       "had + Ved,"
-                                       "have/has + Ved,"
-                                       "will have + Ved,"
-                                       "would have + Ved,"
-                                       "did + V,"
-                                       "does/do + V,"
-                                       "will + V,"
-                                       "would + V,"
-                                       "had + been Ving,"
-                                       "have/has + been Ving,"
-                                       "will have + been Ving,"
-                                       "would have + been Ving"))
         )
-    GV(GROUP_WORD_TAGS,
-        KV(KEY_VERBS_CONTACT, STR("contact-verb: change or result,"
-                                  "contact-verb: status"))
-        KV_END(KEY_VERBS_VT, STR("vt: double-object,"
-                                 "vt: double-object: to,"
-                                 "vt: double-object: for,"
-                                 "vt: oc,"
-                                 "vt: oc : (to)"))
-       )
-    GV(GROUP_SENTENCE_PATTERN,
-        KV(KEY_SIMPLE_SENTENCES, STR("simple-sentences: S + Vi,"
-                                     "simple-sentences: S + Vi: + adv,"
-                                     "simple-sentences: S + Vi: + to do,"
-                                     "simple-sentences: S + Vi: + prep-phrase,"
-                                     "simple-sentences: S + Vi: + adverbial-clause,"
-                                     "simple-sentences: S + Vi: There/Here + Vi + S,"
-                                     "simple-sentences: S + Vi + SC,"
-                                     "simple-sentences: S + Vt + O,"
-                                     "simple-sentences: S + Vt + IO + DO,"
-                                     "simple-sentences: S + Vt + IO + DO: passive-voice,"
-                                     "simple-sentences: S + Vt + O + OC,"
-                                     "simple-sentences: S + V + P"))
-        KV(KEY_DECLARATIVE_SENTENCES, STR("declarative-sentences: do,"
-                                          "declarative-sentences: don't"))
-        KV(KEY_INTERROGATIVE_SENTENCES, STR("interrogative-sentences: general,"
-                                            "interrogative-sentences: special,"
-                                            "interrogative-sentences: inverse,"
-                                            "interrogative-sentences: select"))
-        KV(KEY_IMPERATIVE_SENTENCES, STR("imperative-sentences: form: do,"
-                                         "imperative-sentences: form: question,"
-                                         "imperative-sentences: form: special,"
-                                         "imperative-sentences: first person,"
-                                         "imperative-sentences: second persion,"
-                                         "imperative-sentences: third persion"))
-        KV(KEY_EXCLAMATORY_SENTENCES, STR("exclamatory-sentences: what,"
-                                          "exclamatory-sentences: how,"
-                                          "exclamatory-sentences: others"))
-        KV(KEY_NOUN_CLAUSES, STR("noun-clauses: subject-clauses: that,"
-                                 "noun-clauses: subject-clauses: whether,"
-                                 "noun-clauses: subject-clauses: whatever,"
-                                 "noun-clauses: subject-clauses: whichever,"
-                                 "noun-clauses: subject-clauses: how,"
-                                 "noun-clauses: subject-clauses: why,"
-                                 "noun-clauses: subject-clauses: what,"
-                                 "noun-clauses: subject-clauses: imperative-sentences,"
-                                 "noun-clauses: subject-clauses: it form subject,"
-                                 "noun-clauses: subject-clauses: it form subject: it + be + n. + that,"
-                                 "noun-clauses: subject-clauses: it form subject: it + be + adj. + that,"
-                                 "noun-clauses: subject-clauses: it form subject: it + be + vi. + that,"
-                                 "noun-clauses: subject-clauses: it form subject: it + be + -ed + that,"
-                                 "noun-clauses: object-clauses,"
-                                 "noun-clauses: statement-clauses,"
-                                 "noun-clauses: apposition-clause"))
-       KV(KEY_ATRRIBUTIVE_CLAUSES, STR("atrributive-clauses: relative pronoun,"
-                                       "atrributive-clauses: relative adverb,"
-                                       "atrributive-clauses: limited and non-restrictive"))
-       KV_END(KEY_ADVERBIAL_SENTENCES, STR("adverbial-clauses: time,"
-                                           "adverbial-clauses: location,"
-                                           "adverbial-clauses: method,"
-                                           "adverbial-clauses: concession,"
-                                           "adverbial-clauses: comparison,"
-                                           "adverbial-clauses: condition,"
-                                           "adverbial-clauses: reason,"
-                                           "adverbial-clauses: purpose,"
-                                           "adverbial-clauses: result"))
-       )
     GV(GROUP_SETTINGS,
         KV(KEY_AUTO_ADD_WORD, "true")
         KV(KEY_SENTENCE_FILE, STR("C:/GaoNian/Project/WordNote/WordNote/thesaurus/sentences/sentences.md"))
