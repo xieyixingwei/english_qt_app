@@ -318,7 +318,7 @@ void DialogEditWord::RecordWord_Btn_Slot()
 
     m_wd->Clear();
     m_wd->SetWord(word);
-    m_wd->SetSoundMark(m_ui->ledit_soundmark->text().trimmed().remove('/'));
+    m_wd->SetSoundMark(m_ui->ledit_soundmark->text().remove('/').remove('[').remove(']').trimmed());
     m_wd->SetHot(m_ui->ledit_hot->text().trimmed());
     m_wd->SetTimeStamp(m_ui->ledit_timestamp->text().trimmed());
     m_wd->SetTag(m_ui->ledit_tags->text().trimmed().split(","));

@@ -135,7 +135,7 @@ void Classification::Layout()
 
 QString Classification::CurrentContent()
 {
-    QRegularExpression rex(QString("(?P<pattern>(?<=\\().*?(?=\\)))"));
+    QRegularExpression rex(QString("(?P<pattern>(?<=\\().*(?=\\)))"));
     QRegularExpressionMatch matched = rex.match(m_treeWdg->currentItem()->text(0).trimmed());
     if(matched.hasMatch())
     {
