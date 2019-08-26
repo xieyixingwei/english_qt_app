@@ -176,6 +176,15 @@ Word::Word(const Word & obj) : m_mediaplayer(new QMediaPlayer)
     m_type = obj.m_type;
 }
 
+Word::~Word()
+{
+    if(m_mediaplayer != nullptr)
+    {
+        delete m_mediaplayer;
+        m_mediaplayer = nullptr;
+    }
+}
+
 Word &Word::operator=(const Word & obj)
 {
     m_word = obj.m_word;
@@ -212,7 +221,7 @@ void Word::Parse(const QStringList &lines)
 
 void Word::ParseWordInfo(const QString &text)
 {
-    QRegularExpression rex(QString("(?P<word>(?<=\\-)[ ]*[a-zA-Z\\-]+)"));
+    QRegularExpression rex(QString("(?P<word>(?<=\\-)[ ]*[a-zA-Z\\- ]+)"));
     QRegularExpressionMatch matched = rex.match(text);
     if(matched.hasMatch())
     {

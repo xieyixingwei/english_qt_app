@@ -1,4 +1,4 @@
-- express [ɪk'sprɛs] <hot:5 timestamp:1908071942>  
+- express [ɪk'sprɛs] <hot:4 timestamp:1908082138>  
     + vt. 表达,快递
 
 - compact ['kɑmpækt] <hot:1 timestamp:1903221554>
@@ -7,11 +7,9 @@
         * compact button
         * 简洁的按钮
 
-- lightweight ['laɪtwet] <hot:5 timestamp:1908181837>  
-    + n. 轻量级选手,无足轻重的人  
-        * aaaa <pattern:Ving>  
-        * 啊啊啊啊  
-    + adj. 重量轻的  
+- lightweight ['laɪtwet] <hot:1 timestamp:1903221554>
+    + n. 轻量级选手,无足轻重的人
+    + adj. 重量轻的
 
 - modem ['mo'dɛm] <hot:1 timestamp:1903221555>
     + n. 调制解调器
@@ -19,7 +17,11 @@
 - whilst [waɪlst] <hot:1 timestamp:1903221555>
     + adv. 同时
 
-- utility <hot:1 timestamp:1908081905>  
+- utility [ju'tɪləti] <hot:1 timestamp:1903221556>
+    + n. 实用,公共设施,
+        * utilities
+        * [计] 实用程序
+    + adj. 实用的,通用的
 
 - escap <hot:6 timestamp:1903251804>
 
@@ -30,15 +32,19 @@
     + adv. 极好地
     + n. 初期,青年
 
-- reference <hot:5 timestamp:1906031319>
-    + n. 参考,涉及
-        * AT Command Reference
-        * AT指令参考手册
+- reference ['ref(ə)r(ə)ns] <hot:5 timestamp:1906031319>  
+    + n. 参考; 涉及,提及; 参考书目; 介绍信; 证明书  
+        * AT Command Reference  
+        * AT指令参考手册  
+        * Object reference count <timestamp:1908201459>  
+        * 对象的引用计数  
+    + vi. 引用  
+    + vt. 引用  
 
 - clipboard ['klɪpbɔrd] <hot:4 timestamp:1903221110>
     + n. 剪贴板,附有纸夹的笔记板
 
-- liability <hot:19 timestamp:1903221115>
+- liability <hot:20 timestamp:1908081607>  
 
 - patent <hot:3 timestamp:1903221110>
 
@@ -115,8 +121,8 @@
 - essay ['ɛse] <hot:2 timestamp:1903291712>
     + n. 随笔,短文
 
-- maintainer <hot:1 timestamp:1903261022>
-    + n. 维修工,保持器
+- maintainer <hot:2 timestamp:1908181913>  
+    + n. 维修工,保持器  
 
 - hack [hæk] <hot:3 timestamp:1904111354>
     + vt. 砍
@@ -125,15 +131,19 @@
 - caption ['kæpʃən] <hot:1 timestamp:1903261138>
     + n. 标题,字幕
 
-- query ['kwɪri] <hot:3 timestamp:1904021553>
-    + n. 疑问,质问,疑问号,[计]查询
-    + vt. 询问,对……表示疑问
+- query ['kwɪri] <hot:4 timestamp:1908192054>  
+    + n. 疑问,质问,疑问号,[计]查询  
+        * Structured Query Language <timestamp:1908192055>  
+        * 结构化查询语言  
+    + vt. 询问,对……表示疑问  
 
 - tristate ['traɪ'steɪt] <hot:1 timestamp:1903281130>
     + n. 三态
 
-- provider [prə'vaɪdɚ] <hot:1 timestamp:1903281133>
-    + n. 供应者,养家者
+- provide <hot:1 timestamp:1908121920 tag:vt: double-object: for>  
+    + n. 提供  
+        * I'll provide a new position for you <pattern:simple-sentences: S + Vt + IO + DO; tense:will + V>  
+        * 我会给你提供一个新职位  
 
 - otherwise ['ʌðɚwaɪz] <hot:1 timestamp:1903281135>
     + adj. 另外的,其他方面的,原本,本来
@@ -149,10 +159,8 @@
     + n. 依赖性,相关性;管理
         * Install the connman package. wpa_supplicant, bluez, and openvpn are optional dependencies required for Wi-Fi, Bluetooth, and VPN functionality respectively.
 
-- come-with <hot:3 timestamp:1903291413>
-    + vt. 带有,伴随,
-        * ConnMan comes with the connmanctl command-line interface
-        * ConnMan 带有connmanctl命令行界面
+- come <hot:1 timestamp:1908111821 tag:contact-verb: change or result>  
+    + vt. 来
 
 - front-ends <hot:1 timestamp:1903291415>
     + n. 前端
@@ -167,8 +175,8 @@
 
 - accept <hot:1 timestamp:1904021549>
 
-- appoint [ə'pɔɪnt] <hot:3 timestamp:1904132222>
-    + vt. 任命;指定;约定
+- appoint [ə'pɔɪnt] <hot:3 timestamp:1904132222 tag:vt: oc>  
+    + vt. 任命;指定;约定  
 
 - explore <hot:2 timestamp:1904021714>
 
@@ -193,9 +201,9 @@
         * python interpreter
         * python 解释器
 
-- snack [snæk] <hot:2 timestamp:1908071549>  
+- snack [snæk] <hot:1 timestamp:1904101128>
     + n. 小吃,快餐;一份,部分
-        * + vi. 吃快餐,吃点心  
+    + vi. 吃快餐,吃点心
 
 - repair [rɪ'pɛr] <hot:1 timestamp:1904021549>
     + vi. 修理;修复
@@ -214,11 +222,11 @@
 - preferences ['prɛfrənsɪz] <hot:2 timestamp:1904231431>
     + n. 参数选择（preference的复数）;选择权
 
-- expected [ɪk'spɛktɪd] <hot:1 timestamp:1904111353>
-    + adj. 预期的;预料的
-    + v. 预期;盼望（expect的过去分词）
+- expect <hot:1 timestamp:1908122045 tag:vt: oc>  
+    + vt. 预期  
 
-- investigation <hot:1 timestamp:1908081911>  
+- investigation [ɪn,vɛstɪ'ɡeʃən] <hot:2 timestamp:1906101522>
+    + n. 调查;调查研究
 
 - persistent [pə'zɪstənt] <hot:1 timestamp:1904121123>
     + adj. 固执的,坚持的;持久稳固的
@@ -485,8 +493,8 @@
 - disappointed ['dɪsə'pɔɪntɪd] <hot:1 timestamp:1905101059>
     + adj. 失望的,沮丧的;受挫折的
 
-- readily ['rɛdɪli] <hot:1 timestamp:1905101103>
-    + adv. 容易地;乐意地;无困难地
+- read <hot:1 timestamp:1908112051 tag:vt: double-object: to>  
+    + vt. 给...读...  
 
 - basically ['besɪkli] <hot:1 timestamp:1905101105>
     + adv. 主要地,基本上
@@ -576,6 +584,28 @@
     + vt. 嗅;闻;用力吸;发觉
     + n. 吸,闻;嗤之以鼻;气味;以鼻吸气;吸气声
 
+- sublime [sublime] <hot:1 timestamp:1904132316>
+    + adj. 崇高的
+    + vt. 使…升华
+    + vi. 升华
+
+- newt [nut] <hot:1 timestamp:1904132324>
+    + n. 蝾螈;笨蛋;新手
+
+- curse [kɝs] <hot:1 timestamp:1904132337>
+    + n. 诅咒;咒骂
+    + vt. 诅咒;咒骂
+    + vi. 诅咒;咒骂
+
+- grammer ['græmə] <hot:1 timestamp:1906142200>
+    + n. 语法;语法书
+
+- tense [tens] <hot:1 timestamp:1906142203>
+    + n. 时态
+    + adj. 紧张的;拉紧的
+    + vt. 变得紧张;使拉紧
+    + vi. 拉紧,变得紧张
+
 - prune [pruːn] <hot:1 timestamp:1906121412>
     + vi. 删除;减少,
         * docker container prune
@@ -596,7 +626,7 @@
     + adj. 溢出的;[计]换码
     + v. 逃（escape的现在分词）
 
-- routine [ruː'tiːn] <hot:2 timestamp:1908081915>  
+- routine [ruː'tiːn] <hot:1 timestamp:1907021111>
     + n. [计]程序;日常工作;例行公事
     + adj. 日常的;例行的
 
@@ -608,31 +638,424 @@
     + vi. 发誓,宣誓;诅咒
     + n. 宣誓;诅咒
 
-- decent <hot:1 timestamp:1908081915>  
+- decent ['diːs(ə)nt] <hot:1 timestamp:1907040946>
+    + adj. 正派的;得体的;相当好的
 
-- antiglare ['æntiglɛə] <hot:3 timestamp:1908081914>  
+- antiglare ['æntiglɛə] <hot:1 timestamp:1907040949>
     + adj. [光]防闪光的;遮光的
 
-- reflowed <hot:1 timestamp:1908081912>  
+- reflowed ['riːfləʊ] <hot:1 timestamp:1907091354>
+    + vi. 流回;再涨
 
-- crontab <hot:2 timestamp:1908071942>  
+- crontab <hot:1 timestamp:1907251341>
     + n. 定时任务
 
-- adjacent <hot:1 timestamp:1908081904>  
+- farewell [,fɛr'wɛl] <hot:1 timestamp:1905171542>
+    + n. 告别,辞别;再见;再会
+    + adj. 告别的
 
-- crontab <hot:2 timestamp:1908071942>  
-    + n. 定时任务
+- budget ['bʌdʒɪt] <hot:1 timestamp:1905171547>
+    + n. 预算,预算费
+    + vt. 安排,预定;把…编入预算
+    + vi. 编预算,做预算
 
-- download <hot:1 timestamp:1908081939>  
+- emulate ['emjʊleɪt] <hot:1 timestamp:1905210922>
+    + vt. 仿真;模仿;尽力赶上;同…竞争
+    + n. 仿真;仿效
 
-- retain <hot:1 timestamp:1908081940>  
+- cyber ['saɪbə] <hot:1 timestamp:1905281124>
+    + adj. （与）计算机或网络（有关）的
+        * Cybersecurity
+        * 网络安全
 
-- hot <hot:1 timestamp:1908081947>  
+- welfare ['welfeə] <hot:1 timestamp:1906111336>
+    + n. 福利;幸福;福利事业;安宁
+    + adj. 福利的;接受社会救济的
 
-- emanate ['eməneɪt] <hot:1 timestamp:1908082015 tag:highfreq>  
-    + vt. 放射; 放射
-        * 过去式  
-        * emanated  
-        * 过去式  
-        * emanated <pattern:S + Vi>  
+- behalf [bɪ'hɑːf] <hot:1 timestamp:1906111337>
+    + n. 代表;利益
+
+- consulting [kən'sʌltɪŋ] <hot:1 timestamp:1906111338>
+    + adj. 咨询的,商议的;顾问的,任专职顾问的
+    + v. 咨询,请教;商议（consult的现在分词形式）
+
+- festival [ˈfestəvl] <hot:1 timestamp:1906111339>
+    + n. 节日;庆祝,纪念活动;欢乐
+    + adj. 节日的,喜庆的;快乐的
+
+- handshake ['hæn(d)ʃeɪk] <hot:1 timestamp:1906171016>
+    + n. 握手
+
+- maturity [mə'tʃʊərətɪ] <hot:1 timestamp:1906260922>
+    + n. 成熟;到期;完备
+
+- assessment [ə'sesmənt] <hot:1 timestamp:1906260923>
+    + n. 评定;估价
+
+- mindset ['maɪn(d)set] <hot:1 timestamp:1906260925>
+    + n. 心态;倾向;习惯;精神状态
+        * mindset of 'we' not 'you'
+
+
+- stop <hot:1 timestamp:1908111255>  
+    + vi. 停止,（做不及物动词时,后接动词不定式,表示停下来的目的是为了做另外一件事）
+        * We stopped to watch TV  
+        * 我们停下来去看电视  
+    + vt. 停止,（做及物动词时,后接动名词,表示停止做这件事）
+        * We stopped working  
+        * 我们停止工作  
+
+- become <hot:1 timestamp:1908111812 tag:contact-verb: change or result>  
+    + vt. 成为  
+        * The little boy became an English teacher <pattern:simple-sentences: S + Vi + SC; tense:did + V>  
+        * 小男孩成了一名英语老师  
+
+- grow <hot:1 timestamp:1908111814 tag:contact-verb: change or result>  
+    + vt. 成长;
+        * My health has grown better <pattern:simple-sentences: S + Vi + SC; tense:have/has + Ved>  
+        * 我的健康状况有所好转  
+
+- turn <hot:1 timestamp:1908111814 tag:contact-verb: change or result>  
+    + vt. 变成
+        * He turns adult <pattern:simple-sentences: S + Vi + SC; tense:does/do + V>  
+        * 他长大成人了  
+
+- go <hot:1 timestamp:1908111824 tag:contact-verb: change or result>  
+    + vt. 去  
+        * The soup has gone bad <pattern:simple-sentences: S + Vi + SC; tense:have/has + Ved>  
+        * 汤已经馊(变坏)了  
+
+- prove <hot:1 timestamp:1908111825 tag:contact-verb: change or result>  
+    + vt. 证明  
+        * The situation proves difficult <pattern:simple-sentences: S + Vi + SC; tense:does/do + V>  
+        * 形势很严峻  
+
+- see <hot:1 timestamp:1908122035 tag:vt: oc,vt: oc: (to)>  
+    + vt. 看见  
+        * I saw him play football there -> him was seen to play football there  
+        * 我看见他在那里踢球  
+
+- sound <hot:1 timestamp:1908111900 tag:contact-verb: status>  
+    + vt. 听起来  
+        * The idea sounds wonderful <pattern:simple-sentences: S + Vi + SC; tense:does/do + V>  
+        * 这个主意听起来很棒(不错)  
+
+- smell <hot:1 timestamp:1908111901 tag:contact-verb: status,vt: oc>  
+    + vt. 闻起来;闻到  
+
+- feel <hot:1 timestamp:1908111903 tag:contact-verb: status,vt: oc,vt: oc: (to)>  
+    + vt. 摸起来;感觉到  
+        * The silk feels good <pattern:simple-sentences: S + Vi + SC; tense:does/do + V>  
+        * 丝绸摸起来感觉很好  
+
+- taste <hot:1 timestamp:1908111905 tag:contact-verb: status>  
+    + vt. 尝起来  
+        * The dinner tastes delicious <pattern:simple-sentences: S + Vi + SC; tense:does/do + V>  
+        * 饭菜很美味  
+
+- appear <hot:1 timestamp:1908111906 tag:contact-verb: status>  
+
+- remain <hot:1 timestamp:1908111908 tag:contact-verb: status>  
+    + vt. 仍然是  
+        * You should remain quiet in the hospital <pattern:simple-sentences: S + Vi + SC>  
+        * 你们在医院要保持安静  
+
+- hold <hot:1 timestamp:1908111910 tag:contact-verb: status>  
+    + vt. 保持  
+
+- stay <hot:1 timestamp:1908111911 tag:contact-verb: status>  
+    + vt. 保持  
+
+- give <hot:1 timestamp:1908112043 tag:vt: double-object: to>  
+    + vt. 给  
+        * I gave him a book <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我给了他一本书  
+
+- pay <hot:1 timestamp:1908112045 tag:vt: double-object: to>  
+    + vt. 支付  
+
+- show <hot:1 timestamp:1908112046 tag:vt: double-object: to>  
+    + vt. 给...看...  
+        * Please show me your passport <pattern:simple-sentences: S + Vt + IO + DO; tense:does/do + V>  
+        * 请把护照给我看一下  
+        * Please show your passport to me <pattern:simple-sentences: S + Vt + IO + DO; tense:does/do + V>  
+        * 请把护照给我看一下  
+
+- owe <hot:1 timestamp:1908112047 tag:vt: double-object: to>  
+    + vt. 欠,亏欠  
+
+- send <hot:1 timestamp:1908112048 tag:vt: double-object: to>  
+    + vt. 寄送,发送  
+        * I sent her a letter <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我给她寄了一封信  
+        * I sent a letter to her. <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我给她发了一封信  
+        * I sent a gift to Susan <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我送给苏珊一份礼物  
+
+- bring <hot:1 timestamp:1908112048 tag:vt: double-object: to>  
+    + vt. 带...给...  
+        * I brought you a present =  I brought a present to you <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我给你带来了礼物  
+        * She brings me a boiled egg = She brings a boiled egg to me <pattern:simple-sentences: S + Vt + IO + DO; tense:does/do + V>  
+        * 她给我带来了一个煮鸡蛋  
+
+- mail <hot:1 timestamp:1908112050 tag:vt: double-object: to>  
+    + vt. 邮,寄  
+
+- offer <hot:1 timestamp:1908112050 tag:vt: double-object: to>  
+    + vt. 提供  
+
+- pass <hot:1 timestamp:1908112052 tag:vt: double-object: to>  
+    + vt. 递,传递,递给  
+        * Pass me the ruler, please <pattern:simple-sentences: S + Vt + IO + DO>  
+        * 请把尺子传给我  
+
+- leave <hot:1 timestamp:1908112053 tag:vt: double-object: to>  
+    + vt. 留...给...  
+
+- tell <hot:1 timestamp:1908112054 tag:vt: double-object: to,vt: oc>  
+    + vt. 告诉  
+
+- return <hot:1 timestamp:1908112055 tag:vt: double-object: to>  
+    + vt. 交还  
+        * I will return you the book tomorrow. <pattern:simple-sentences: S + Vt + IO + DO; tense:will + V>  
+        * 我明天还你书  
+        * I will return the book to you tomorrow <pattern:simple-sentences: S + Vt + IO + DO; tense:will + V>  
+        * 我明天还你书  
+
+- write <hot:1 timestamp:1908112056 tag:vt: double-object: to>  
+    + vt. 给...写...  
+        * My boyfirend wrote a long letter to me <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我男友写了一封长信给我  
+
+- throw <hot:1 timestamp:1908112057 tag:vt: double-object: to>  
+    + vt. 扔...给...  
+
+- allow <hot:1 timestamp:1908112058 tag:vt: double-object: to,vt: oc>  
+    + vt. 允许  
+
+- wish [[wɪʃ]] <hot:1 timestamp:1908112058 tag:vt: double-object: to,vt: oc,n: apposition-clause>  
+    + vt. 希望  
+    + n. 愿望; 命令; 渴望; 祝颂（表达这个意思时,常用复数）  
+
+- teach <hot:1 timestamp:1908112059 tag:vt: double-object: to>  
+    + vt. 教  
+        * I teach him English <pattern:simple-sentences: S + Vt + IO + DO; tense:does/do + V>  
+        * 我教他英语。 (him是间接宾语，English 是直接宾语)  
+
+- promise [['prɒmɪs]] <hot:1 timestamp:1908112100 tag:vt: double-object: to,n: apposition-clause>  
+    + vt. 承诺;允诺; 发誓; 答应; 有希望  
+    + n. 诺言; 预示; 约定; (有)希望  
+
+- grant <hot:1 timestamp:1908112104 tag:vt: double-object: to>  
+    + vt. 发放...给...  
+
+
+- rent <hot:1 timestamp:1908112108 tag:vt: double-object: to>  
+    + vt. 租赁...给...  
+
+- recommand <hot:1 timestamp:1908112108 tag:vt: double-object: to>  
+    + vt. 推荐  
+
+- make <hot:1 timestamp:1908112109 tag:vt: double-object: for,vt: oc,vt: oc: (to)>  
+    + vt. 制造;使  
+        * I made you a cake = I made a cake for you <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 我给你做了个蛋糕  
+        * Mother made Mary a new coat = Mother made a new coat for Mary <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 妈妈为玛丽做了一件新大衣  
+        * He made me drive the car -> I was made to drive the car <pattern:simple-sentences: S + Vt + O + OC>  
+        * 他让我开车  
+
+- buy <hot:1 timestamp:1908112109 tag:vt: double-object: for>  
+    + vt. 买  
+        * He bought me a new pen = He bought a new pen for me <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 他给我买了一只新笔  
+        * Her friend bought her a birthdat present. <pattern:simple-sentences: S + Vt + IO + DO; tense:did + V>  
+        * 她朋友给他买了一个生日礼物  
+
+- do <hot:1 timestamp:1908112110 tag:vt: double-object: for>  
+    + vt. 为...做...  
+
+- draw <hot:1 timestamp:1908112112 tag:vt: double-object: for>  
+    + vt. 画  
+
+- play <hot:1 timestamp:1908112112 tag:vt: double-object: for>  
+    + vt. 弹,奏  
+
+- save <hot:1 timestamp:1908112113 tag:vt: double-object: for>  
+    + vt. 节约  
+
+- cook <hot:1 timestamp:1908112114 tag:vt: double-object: for>  
+    + vt. 烹饪  
+
+- sing <hot:1 timestamp:1908112114 tag:vt: double-object: for>  
+    + vt. 唱歌  
+
+- find <hot:1 timestamp:1908112114 tag:vt: double-object: for,vt: oc>  
+    + vt. 找;发现  
+
+- build <hot:1 timestamp:1908112115 tag:vt: double-object: for>  
+    + vt. 构建  
+
+- change <hot:1 timestamp:1908112115 tag:vt: double-object: for>  
+    + vt. 改变  
+
+- choose <hot:1 timestamp:1908112115 tag:vt: double-object: for>  
+    + vt. 选择  
+
+- pick <hot:1 timestamp:1908112116 tag:vt: double-object: for>  
+    + vt. 挑选  
+
+- turn-out <hot:1 timestamp:1908122003 tag:contact-verb: change or result>  
+    + vt. 结果是  
+
+- let <hot:1 timestamp:1908122035 tag:vt: oc,vt: oc: (to)>  
+    + vt. 使,让  
+
+- elect <hot:1 timestamp:1908122037 tag:vt: oc>  
+    + vt. 选举  
+
+- hear <hot:1 timestamp:1908122039 tag:vt: oc,vt: oc: (to)>  
+    + vt. 听到  
+
+- imagine <hot:1 timestamp:1908122039 tag:vt: oc>  
+    + vt. 想象  
+
+- notice <hot:1 timestamp:1908122040 tag:vt: oc,vt: oc: (to)>  
+    + vt. 通知;注意到  
+
+- start <hot:1 timestamp:1908122041 tag:vt: oc>  
+    + vt. 使...开始  
+
+- watch <hot:1 timestamp:1908122041 tag:vt: oc,vt: oc: (to)>  
+    + vt. 注视  
+
+- believe <hot:1 timestamp:1908122042 tag:vt: oc>  
+    + vt. 相信  
+
+- call <hot:1 timestamp:1908122042 tag:vt: oc>  
+    + vt. 称  
+
+- catch <hot:1 timestamp:1908122043 tag:vt: oc>  
+    + vt. 发现  
+
+- ask <hot:1 timestamp:1908122043 tag:vt: oc>  
+    + vt. 请求  
+
+- want <hot:1 timestamp:1908122044 tag:vt: oc>  
+    + vt. 想要  
+
+- consider <hot:1 timestamp:1908122045 tag:vt: oc>  
+    + vt. 认为  
+
+- know <hot:1 timestamp:1908122045 tag:vt: oc>  
+    + vt. 知道  
+
+- think <hot:1 timestamp:1908122046 tag:vt: oc>  
+    + vt. 想  
+
+- listen-to <hot:2 timestamp:1908192113 tag:vt: oc,vt: oc: (to)>  
+    + vt. 倾听  
+
+- look-at <hot:1 timestamp:1908122047 tag:vt: oc,vt: oc: (to)>  
+    + vt. 看到  
+
+- bussiness <hot:1 timestamp:1908181915>  
+
+- avatar <hot:1 timestamp:1908181915>  
+
+- milestone <hot:1 timestamp:1908181930>  
+    + n. 里程碑  
+
+- pause [[pɔːz]] <hot:1 timestamp:1908182127>  
+    + n. 暂停; 中止; 犹豫不决  
+    + vi. 停顿; 中止  
+
+- hope [[həʊp] <hot:1 timestamp:1908191903 tag:n: apposition-clause>  
+    + n. 希望  
+    + v. 希望; 期望; 盼望  
+
+- answer [['ɑːnsə(r)]] <hot:1 timestamp:1908191907 tag:n: apposition-clause>  
+    + n. 答案; 回答; 答复  
+    + v. 回答; 答复; 接电话  
+
+- fact [[fækt]] <hot:1 timestamp:1908191909 tag:n: apposition-clause>  
+    + n. 事实; 真相; 实际  
+
+- belief [bɪ'liːf]] <hot:1 timestamp:1908191910 tag:n: apposition-clause>  
+    + n. 信念; 信仰; 相信  
+
+- news [njuːz]] <hot:1 timestamp:1908191911 tag:n: apposition-clause>  
+    + n. 新闻; 消息  
+
+- idea [[aɪ'dɪə]] <hot:1 timestamp:1908191912 tag:n: apposition-clause>  
+    + n. 主意; 想法; 印象; 意见; 看法; 观念; 感觉; 目标  
+
+- information [[ˌɪnfə'meɪʃn]] <hot:1 timestamp:1908191913 tag:n: apposition-clause>  
+    + n. 信息; 情报; 资料; 通知  
+
+- conclusion [[kən'kluːʒn]] <hot:1 timestamp:1908191914 tag:n: apposition-clause>  
+    + n. 结尾; 结论; 结束  
+
+- suggestion [sə'dʒestʃən]] <hot:1 timestamp:1908191916 tag:n: apposition-clause>  
+    + n. 建议; 意见; 有...迹象; 联想  
+
+- problem [['prɒbləm]] <hot:1 timestamp:1908191917 tag:n: apposition-clause>  
+    + n. 问题; 难题; 习题  
+    + adj. 成问题的; 难对付的  
+
+- thought [θɔːt] <hot:1 timestamp:1908191918 tag:n: apposition-clause>  
+    + n. 思想; 想法; 意向; 思念; 观念; 打算; 关心; 顾虑  
+    + v. 想,思考,考虑（动词think的过去式和过去分词）  
+
+- doubt [[daʊt]] <hot:1 timestamp:1908192105 tag:n: apposition-clause>  
+    + n. 怀疑; 疑惑; 悬而未定  
+    + vt. 怀疑; 不信任  
+    + vi. 不确定  
+
+- truth [[truːθ]] <hot:1 timestamp:1908192106 tag:n: apposition-clause>  
+    + n. 事实; 真理; 真实; 真相  
+
+- possibility [[ˌpɒsə'bɪləti]] <hot:1 timestamp:1908192107 tag:n: apposition-clause>  
+    + n. 可能; 可能性; 可能的事情; 潜在的价值  
+
+- invoice <hot:2 timestamp:1908221006>  
+    + n. 发票,单据  
+
+- concept ['kɒnsept] <hot:1 timestamp:1908201455>  
+    + n. 观念,概念  
+
+- garbage ['gɑːbɪdʒ] <hot:1 timestamp:1908201502>  
+    + n. 垃圾; 废物  
+        * Object reference count and garbage collection <timestamp:1908201502>  
+        * 对象引用计数和垃圾回收  
+
+- definition [defɪ'nɪʃ(ə)n] <hot:1 timestamp:1908201527>  
+    + n. 定义; [物] 清晰度; 解说  
+        * Function definition <timestamp:1908201527>  
+        * 函数定义  
+
+- closure ['kləʊʒə] <hot:1 timestamp:1908201543>  
+    + n. 关闭; 终止,结束  
+    + vt. 使终止  
+
+- journal ['dʒɜːn(ə)l] <hot:1 timestamp:1908211847>  
+    + n. 日报,杂志; 日记; 分类账  
+
+- pack [pæk] <hot:1 timestamp:1908221510>  
+    + n. 包装; 一群; 背包; 包裹; 一副  
+    + vt. 包装; 压紧; 捆扎; 挑选; 塞满  
+    + vi. 挤; 包装货物; 被包装; 群集  
+
+- suffer ['sʌfə] <hot:2 timestamp:1908261623>  
+    + vt. 遭受; 忍受; 经历  
+    + vi. 遭受,忍受; 受痛苦; 经验; 受损害  
+
+- annual ['ænjʊəl] <hot:1 timestamp:1908261634>  
+    + adj. 年度的; 每年的  
+        * annual leave <timestamp:1908261634>  
+    + n. 年刊,年鉴; 一年生植物  
+
+- antivirus <hot:2 timestamp:1908261635>  
 

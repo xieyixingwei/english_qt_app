@@ -42,7 +42,8 @@
         * 不不不  
         * bbb <pattern: S + Vi>  
 
-- administrate [əd'mɪnɪstreɪt] <hot:1 timestamp:1908081924>  
+- administrate [əd'mɪnɪstreɪt] <hot:2 timestamp:1908261731>  
+    + vt. 管理；经营，实施  
 
 - administration [ədmɪnɪ'streɪʃ(ə)n] <hot:1 timestamp:1908081924>  
     + n. 管理,行政
@@ -55,14 +56,22 @@
         * bbbb   
         * 啵啵啵宝宝  
 
-- advance   
+- advance [əd'vɑːns] <hot:2 timestamp:1908261742>  
+    + n. 发展；前进；增长；预付款  
+    + vt. 提出；预付；使……前进；将……提前  
+    + vi. 前进；进展；上涨  
+        * aaa <timestamp:1908261742>  
+        * 啊啊啊  
+    + adj. 预先的；先行的  
+
 - adventures
     + n. 冒险,探险,最爱电影
 - advertisement  [əd'vɜːtɪzm(ə)nt; -tɪs-]
 - advertising  ['ædvətaɪzɪŋ]
 - affairs
     + n. 事务,事件,政事
-- after-all
-    + adv. 毕竟,终究
-- after-all
-    + adv. 毕竟,终究
+- after all <hot:2 timestamp:1908261720>  
+    + adv. 毕竟,终究  
+    + n. 毕竟,终究  
+
+

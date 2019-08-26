@@ -276,30 +276,45 @@ void DialogEditWord::Add_Example_Btn_Slot()
     sent.SetTimestamp(QDateTime::currentDateTime().toString("yyMMddhhmm"));
 
     WordInterpretation interp;
-    interp.SetPos(m_ui->comb_means->currentText().trimmed());
-    interp.SetMean(m_ui->ledit_mean->text().remove(QRegularExpression("[a-zA-Z]+\\.")).replace("；", "; ").replace("，",",").trimmed().split(";"));
+    interp.SetPos(m_ui->comb_means->currentText());
     interp.AddExample(sent);
 
-    QList<WordInterpretation> interpretations = WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems().join("\n"));
+    QList<WordInterpretation> interps;
+    interps << interp;
 
-    int i = 0;
-    for(i = 0; i < interpretations.count(); i++)
+    if(!m_ui->ledit_mean->text().trimmed().isEmpty())
     {
-        if(interp.GetPos() == interpretations[i].GetPos())
+        QStringList means = m_ui->ledit_mean->text().split("\n");
+        for(int i = 0; i < means.count(); i++)
         {
-            interpretations[i].AddMean(interp.GetMean());
-            interpretations[i].AddExample(interp.GetExample());
-            break;
+            WordInterpretation interp(QStringList(means.at(i)));
+            interps << interp;
         }
     }
 
-    if(i == interpretations.count())
+    QList<WordInterpretation> interpretations = WordInterpretation::WordInterpretationList(m_ui->lwdg_interpretation->TextItems().join("\n"));
+
+    for(int k = 0; k < interps.count(); k++)
     {
-        interpretations << interp;
+        int i = 0;
+        for(i = 0; i < interpretations.count(); i++)
+        {
+            if(interps.at(k).GetPos() == interpretations[i].GetPos())
+            {
+                interpretations[i].AddMean(interps.at(k).GetMean());
+                interpretations[i].AddExample(interps.at(k).GetExample());
+                break;
+            }
+        }
+
+        if(i == interpretations.count())
+        {
+            interpretations << interps.at(k);
+        }
     }
 
     QString display;
-    for(i = 0; i < interpretations.count(); i++)
+    for(int i = 0; i < interpretations.count(); i++)
     {
         display += interpretations[i].ToDisplayString(0);
     }

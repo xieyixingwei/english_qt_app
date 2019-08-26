@@ -297,32 +297,53 @@ QList<SearchResult *> Search::SearchInEssays(const QString &essayfile, const QSt
 
 void Search::FilterSentencesAccordingTimeStamp(const QStringList &files, const QString &savefile, int count)
 {
-    Sort<SortTimeStamp> sortvector;
+    Sort<SortTimeStamp> *sortvector = new Sort<SortTimeStamp>;
 
     for(int k = 0; k < files.count(); k++)
     {
-        QFileInfo fileinfo(files[k]);
-        if(!fileinfo.fileName().contains("sentence"))
-        {
-            continue;
-        }
-
         TextEdit text(files[k]);
-        while(1)
+        QFileInfo fileinfo(files[k]);
+        if(fileinfo.fileName().contains("sentence"))
         {
-            QStringList sentenceTexts = text.FindSentences();
-            if(sentenceTexts.isEmpty())
+            while(1)
             {
-                break;
-            }
+                QStringList sentenceTexts = text.FindSentences();
+                if(sentenceTexts.isEmpty())
+                {
+                    break;
+                }
 
-            sortvector.Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+                sortvector->Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+            }
+        }
+        else if(fileinfo.fileName().contains("word"))
+        {
+            while(1)
+            {
+                QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+                if(wordTexts.isEmpty())
+                {
+                    break;
+                }
+
+                Word wd(wordTexts);
+
+                const QList<WordInterpretation> inters = wd.GetInerpretions();
+                for(int i = 0; i < inters.count(); i++)
+                {
+                    QList<Sentence> sentences = inters[i].GetExample();
+                    for(int k = 0; k < sentences.count(); k++)
+                    {
+                        sortvector->Append(SortTimeStamp(sentences[k].ToRecordString()));
+                    }
+                }
+            }
         }
     }
 
     TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
     int i = 0;
-    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+    QVector<SortTimeStamp> *vector = sortvector->SortItems();
 
     for(QVector<SortTimeStamp>::iterator it = vector->begin();
         it != vector->end(); it++)
@@ -333,35 +354,58 @@ void Search::FilterSentencesAccordingTimeStamp(const QStringList &files, const Q
             break;
         }
     }
+
+    delete sortvector;
 }
 
 void Search::FilterSentencesAccordingTimeStamp(const QStringList &files, const QString &savefile, const QDateTime &begin, const QDateTime &end)
 {
-    Sort<SortTimeStamp> sortvector;
+    Sort<SortTimeStamp> *sortvector = new Sort<SortTimeStamp>;
 
     for(int k = 0; k < files.count(); k++)
     {
-        QFileInfo fileinfo(files[k]);
-        if(!fileinfo.fileName().contains("sentence"))
-        {
-            continue;
-        }
-
         TextEdit text(files[k]);
-        while(1)
+        QFileInfo fileinfo(files[k]);
+        if(fileinfo.fileName().contains("sentence"))
         {
-            QStringList sentenceTexts = text.FindSentences();
-            if(sentenceTexts.isEmpty())
+            while(1)
             {
-                break;
-            }
+                QStringList sentenceTexts = text.FindSentences();
+                if(sentenceTexts.isEmpty())
+                {
+                    break;
+                }
 
-            sortvector.Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+                sortvector->Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+            }
+        }
+        else if(fileinfo.fileName().contains("word"))
+        {
+            while(1)
+            {
+                QStringList wordTexts = text.Find(QRegularExpression("^[ ]*-.*"), QRegularExpression("^[ ]*-.*"));
+                if(wordTexts.isEmpty())
+                {
+                    break;
+                }
+
+                Word wd(wordTexts);
+
+                const QList<WordInterpretation> inters = wd.GetInerpretions();
+                for(int i = 0; i < inters.count(); i++)
+                {
+                    QList<Sentence> sentences = inters[i].GetExample();
+                    for(int k = 0; k < sentences.count(); k++)
+                    {
+                        sortvector->Append(SortTimeStamp(sentences[k].ToRecordString()));
+                    }
+                }
+            }
         }
     }
 
     TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
-    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+    QVector<SortTimeStamp> *vector = sortvector->SortItems();
 
     for(QVector<SortTimeStamp>::iterator it = vector->begin();
         it != vector->end(); it++)
@@ -371,11 +415,13 @@ void Search::FilterSentencesAccordingTimeStamp(const QStringList &files, const Q
             text << (*it).Text();
         }
     }
+
+    delete sortvector;
 }
 
 void Search::FilterSentencesAccordingTag(const QStringList &files, const QString &savefile, const QString &tag)
 {
-    Sort<SortTimeStamp> sortvector;
+    Sort<SortTimeStamp> *sortvector = new Sort<SortTimeStamp>;
 
     for(int k = 0; k < files.count(); k++)
     {
@@ -394,7 +440,7 @@ void Search::FilterSentencesAccordingTag(const QStringList &files, const QString
 
                 if(sentenceTexts.join("\n").contains(tag))
                 {
-                    sortvector.Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
+                    sortvector->Append(SortTimeStamp(sentenceTexts.join("\n") + "\n"));
                 }
             }
         }
@@ -418,7 +464,7 @@ void Search::FilterSentencesAccordingTag(const QStringList &files, const QString
                     {
                         if(sentences[k].ToRecordString().contains(tag))
                         {
-                            sortvector.Append(SortTimeStamp(sentences[k].ToRecordString()));
+                            sortvector->Append(SortTimeStamp(sentences[k].ToRecordString()));
                         }
                     }
                 }
@@ -427,10 +473,12 @@ void Search::FilterSentencesAccordingTag(const QStringList &files, const QString
     }
 
     TextEdit text(savefile, QIODevice::ReadWrite | QIODevice::Truncate | QIODevice::Text);
-    QVector<SortTimeStamp> *vector = sortvector.SortItems();
+    QVector<SortTimeStamp> *vector = sortvector->SortItems();
     for(QVector<SortTimeStamp>::iterator it = vector->begin();
         it != vector->end(); it++)
     {
         text << (*it).Text();
     }
+
+    delete sortvector;
 }
