@@ -29,15 +29,27 @@ QList<SearchResult *> Search::SearchTarget(const QStringList &filter, const QStr
         QFileInfo fileinfo(pathfiles[i]);
         if(fileinfo.fileName().contains("word"))
         {
-            results.append(SearchInWords(pathfiles[i], keyword));
+            QList<SearchResult *> searched = SearchInWords(pathfiles[i], keyword);
+            if(searched.count() > 0)
+            {
+                results += searched;
+            }
         }
         else if(fileinfo.fileName().contains("sentence"))
         {
-            results.append(SearchInSentences(pathfiles[i], keyword));
+            QList<SearchResult *> searched = SearchInSentences(pathfiles[i], keyword);
+            if(searched.count() > 0)
+            {
+                results += searched;
+            }
         }
         else
         {
-            results.append(SearchInEssays(pathfiles[i], keyword));
+            QList<SearchResult *> searched = SearchInEssays(pathfiles[i], keyword);
+            if(searched.count() > 0)
+            {
+                results += searched;
+            }
         }
     }
 

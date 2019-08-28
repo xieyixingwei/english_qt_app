@@ -118,7 +118,6 @@ void MainWindow::Search_Btn_Slot()
     QString keyWord = m_ui->ledit_input->text().trimmed().toLower();
     if(keyWord.isEmpty())
     {
-        m_results.clear();
         return;
     }
 
@@ -128,6 +127,13 @@ void MainWindow::Search_Btn_Slot()
     m_highlighter->AddRule(QRegularExpression(keyWord), fmt_word);
 
     Search search;
+
+    for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)
+    {
+        delete (*it);
+    }
+    m_results.clear();
+
     m_results = search.SearchTarget(Settings::ToStringList(SETS.GetGroup(GROUP_SEARCH_FILES)), keyWord);
 
     for(QList<SearchResult *>::iterator it = m_results.begin(); it != m_results.end(); it++)

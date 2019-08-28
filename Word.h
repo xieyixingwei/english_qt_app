@@ -47,7 +47,7 @@ class Word : public SearchResult
 public:
     Word(const QStringList &lines) : m_mediaplayer(new QMediaPlayer) { Parse(lines); }
     Word(const Word & obj);
-    Word() { }
+    Word() : m_mediaplayer(new QMediaPlayer) { }
     ~Word();
 
     virtual E_ResultType Type() { return E_TYPE_WORD; }
